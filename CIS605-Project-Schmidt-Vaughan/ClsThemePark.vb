@@ -11,7 +11,12 @@ Option Strict On        'Must perform explicit data type conversions
 'Tier:                  Business Logic
 'Exceptions:            TBD
 'Exception-Handling:    TBD
-'Events:                TBD        
+'Events:                The following events are defined:
+'                           -ThemePark_CustomerAdded
+'                           -ThemePark_FeatureAdded
+'                           -ThemePark_PassbookAdded
+'                           -ThemePark_PassbookFeatureAdded
+'                           -ThemePark_UsedFeatureAdded
 'Event-Handling:        TBD
 #End Region 'Class / File Comment Header block
 
@@ -246,61 +251,69 @@ Public Class ThemePark
     ''' <summary>
     ''' Creates a new customer object, increases customer count
     ''' </summary>
-    Public Sub addCustomer(ByVal pCustID As String,
-                              ByVal pCustName As String)
+    Public Function addCustomer(ByVal pCustID As String,
+                              ByVal pCustName As String) _
+        As Customer
 
         ' Call the private function to do the work
-        _addCustomer(pCustID, pCustName)
+        Return (_addCustomer(pCustID, pCustName))
 
-    End Sub 'addCustomer()
+    End Function 'addCustomer()
 
     ''' <summary>
     ''' Creates a new feature object, increases feature count
     ''' </summary>
-    Public Sub addFeature(ByVal pFeatureID As String,
+    Public Function addFeature(ByVal pFeatureID As String,
                           ByVal pFeatureName As String,
                           ByVal pFeatureUOM As String,
                           ByVal pFeatureAdultPrice As Decimal,
-                          ByVal pFeatureChildPrice As Decimal)
+                          ByVal pFeatureChildPrice As Decimal) _
+        As Feature
 
         ' Call the private function to do the work
-        _addFeature(pFeatureID, pFeatureName, pFeatureUOM, pFeatureAdultPrice, pFeatureChildPrice)
+        Return (_addFeature(pFeatureID, pFeatureName, pFeatureUOM, pFeatureAdultPrice, pFeatureChildPrice))
 
-    End Sub 'addFeature()
+    End Function 'addFeature()
 
     ''' <summary>
     ''' Creates a new Passbook object, increases passbook count
     ''' </summary>
-    Public Sub addPassbook(ByVal pPassbookID As String,
+    Public Function addPassbook(ByVal pPassbookID As String,
                            ByVal pPassbookOwner As Customer,
                            ByVal pPassbookDatePurch As Date,
                            ByVal pPassbookVisitorName As String,
-                           ByVal pPassbookVisitorBirthdate As Date)
+                           ByVal pPassbookVisitorBirthdate As Date) _
+        As Passbook
 
         ' Call the private function to do the work
-        _addPassbook(pPassbookID, pPassbookOwner, pPassbookDatePurch, pPassbookVisitorName, pPassbookVisitorBirthdate)
+        Return (_addPassbook(pPassbookID,
+                             pPassbookOwner,
+                             pPassbookDatePurch,
+                             pPassbookVisitorName,
+                             pPassbookVisitorBirthdate))
 
-    End Sub 'addPassbook()
+    End Function 'addPassbook()
 
     ''' <summary>
     ''' Creates a new PassbookFeature object, increases passbookFeature count
     ''' </summary>
-    Public Sub addPassbookFeature(ByVal pPassbookFeatureID As String,
+    Public Function addPassbookFeature(ByVal pPassbookFeatureID As String,
                                   ByVal pQtyPurchased As Decimal,
                                   ByVal pPassbookFeatureAmt As Decimal,
                                   ByVal pPassbook As Passbook,
                                   ByVal pFeature As Feature,
-                                  ByVal pQtyRemaining As Decimal)
+                                  ByVal pQtyRemaining As Decimal) _
+        As PassbookFeature
 
         ' Call the private function to do the work
-        _addPassbookFeature(pPassbookFeatureID,
+        Return (_addPassbookFeature(pPassbookFeatureID,
                             pQtyPurchased,
                             pPassbookFeatureAmt,
                             pPassbook,
                             pFeature,
-                            pQtyRemaining)
+                            pQtyRemaining))
 
-    End Sub 'addPassbook()
+    End Function 'addPassbook()
 
     ''' <summary>
     ''' Creates a new PassbookUsedFeature object, increases passbookFeature count
@@ -324,8 +337,9 @@ Public Class ThemePark
     ''' <summary>
     ''' Creates a new customer object, increases customer count
     ''' </summary>
-    Private Sub _addCustomer(ByVal pCustID As String,
-                             ByVal pCustName As String)
+    Private Function _addCustomer(ByVal pCustID As String,
+                                  ByVal pCustName As String) _
+        As Customer
 
         ' Call the specialty constructor
         mNewCustomer = New Customer(pCustID, pCustName)
@@ -333,16 +347,27 @@ Public Class ThemePark
         ' Increase the customer count
         _numCustomers += 1
 
-    End Sub '_addCustomer()
+        ' Raise event
+        RaiseEvent ThemePark_CustomerAdded(
+            Me,
+            New ThemePark_EventArgs_CustomerAdded(
+                mNewCustomer
+                )
+            ) 'RaiseEvent
+
+        Return mNewCustomer
+
+    End Function '_addCustomer()
 
     ''' <summary>
     ''' Creates a new feature object, increases feature count
     ''' </summary>
-    Private Sub _addFeature(ByVal pFeatureID As String,
-                            ByVal pFeatureName As String,
-                            ByVal pFeatureUOM As String,
-                            ByVal pFeatureAdultPrice As Decimal,
-                            ByVal pFeatureChildPrice As Decimal)
+    Private Function _addFeature(ByVal pFeatureID As String,
+                                 ByVal pFeatureName As String,
+                                 ByVal pFeatureUOM As String,
+                                 ByVal pFeatureAdultPrice As Decimal,
+                                 ByVal pFeatureChildPrice As Decimal) _
+        As Feature
 
         ' Call the specialty constructor
         mNewFeature = New Feature(pFeatureID,
@@ -354,16 +379,27 @@ Public Class ThemePark
         ' Increase the Feature count
         _numFeatures += 1
 
-    End Sub '_addFeature()
+        ' Raise event
+        RaiseEvent ThemePark_FeatureAdded(
+            Me,
+            New ThemePark_EventArgs_FeatureAdded(
+                mNewFeature
+                )
+            ) 'RaiseEvent
+
+        Return mNewFeature
+
+    End Function '_addFeature()
 
     ''' <summary>
     ''' Creates a new Passbook object, increases passbook count
     ''' </summary>
-    Private Sub _addPassbook(ByVal pPassbookID As String,
-                             ByVal pPassbookOwner As Customer,
-                             ByVal pPassbookDatePurch As Date,
-                             ByVal pPassbookVisitorName As String,
-                             ByVal pPassbookVisitorBirthdate As Date)
+    Private Function _addPassbook(ByVal pPassbookID As String,
+                                  ByVal pPassbookOwner As Customer,
+                                  ByVal pPassbookDatePurch As Date,
+                                  ByVal pPassbookVisitorName As String,
+                                  ByVal pPassbookVisitorBirthdate As Date) _
+        As Passbook
 
         ' Call the specialty constructor
         mNewPassbook = New Passbook(pPassbookID,
@@ -372,20 +408,31 @@ Public Class ThemePark
                                     pPassbookVisitorName,
                                     pPassbookVisitorBirthdate)
 
-        ' Increase the Feature count
+        ' Increase the Passbook count
         _numPassbooks += 1
 
-    End Sub '_addPassbook()
+        ' Raise event
+        RaiseEvent ThemePark_PassbookAdded(
+            Me,
+            New ThemePark_EventArgs_PassbookAdded(
+                mNewPassbook
+                )
+            ) 'RaiseEvent
+
+        Return mNewPassbook
+
+    End Function '_addPassbook()
 
     ''' <summary>
     ''' Creates a new PassbookFeature object, increases passbookFeature count
     ''' </summary>
-    Private Sub _addPassbookFeature(ByVal pPassbookFeatureID As String,
-                                    ByVal pQtyPurchased As Decimal,
-                                    ByVal pPassbookFeatureAmt As Decimal,
-                                    ByVal pPassbook As Passbook,
-                                    ByVal pFeature As Feature,
-                                    ByVal pQtyRemaining As Decimal)
+    Private Function _addPassbookFeature(ByVal pPassbookFeatureID As String,
+                                         ByVal pQtyPurchased As Decimal,
+                                         ByVal pPassbookFeatureAmt As Decimal,
+                                         ByVal pPassbook As Passbook,
+                                         ByVal pFeature As Feature,
+                                         ByVal pQtyRemaining As Decimal) _
+        As PassbookFeature
 
         ' Call the specialty constructor
         mNewPassbookFeature = New PassbookFeature(pPassbookFeatureID,
@@ -398,7 +445,18 @@ Public Class ThemePark
         ' Increase the Feature count
         _numPassbookFeatures += 1
 
-    End Sub '_addPassbookFeature()
+        ' Raise event
+        RaiseEvent ThemePark_PassbookFeatureAdded(
+            Me,
+            New ThemePark_EventArgs_PassbookFeatureAdded(
+                mNewPassbookFeature
+                )
+            ) 'RaiseEvent
+
+        ' Return Ref to Object
+        Return mNewPassbookFeature
+
+    End Function '_addPassbookFeature()
 
     ''' <summary>
     ''' Creates a new UsedFeature object, increases passbookFeature count
@@ -418,6 +476,14 @@ Public Class ThemePark
 
         ' Increase the Feature count
         _numUsedFeatures += 1
+
+        ' Raise event
+        RaiseEvent ThemePark_UsedFeatureAdded(
+            Me,
+            New ThemePark_EventArgs_UsedFeatureAdded(
+                mNewUsedFeature
+                )
+            ) 'RaiseEvent
 
     End Sub '_addUsedFeature()
 
@@ -467,8 +533,32 @@ Public Class ThemePark
     'Events
     '******************************************************************
 
-    'No Events are currently defined.
     'These are all public.
+
+    Public Event ThemePark_CustomerAdded(
+        ByVal sender As System.Object,
+        ByVal e As System.EventArgs
+        )
+
+    Public Event ThemePark_FeatureAdded(
+        ByVal sender As System.Object,
+        ByVal e As System.EventArgs
+        )
+
+    Public Event ThemePark_PassbookAdded(
+        ByVal sender As System.Object,
+        ByVal e As System.EventArgs
+        )
+
+    Public Event ThemePark_UsedFeatureAdded(
+        ByVal sender As System.Object,
+        ByVal e As System.EventArgs
+        )
+
+    Public Event ThemePark_PassbookFeatureAdded(
+        ByVal sender As System.Object,
+        ByVal e As System.EventArgs
+        )
 
 #End Region 'Events
 

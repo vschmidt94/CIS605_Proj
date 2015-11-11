@@ -32,7 +32,7 @@ Public Class ThemePark_EventArgs_CustomerAdded
 
     '********** Module-level variables
 
-    Private mTheCustomer As Customer
+    Private Property mTheCustomer As Customer
 
 #End Region 'Attributes
 

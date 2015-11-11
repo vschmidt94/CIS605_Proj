@@ -28,11 +28,11 @@ Partial Class FrmMain
         Me.tabDashboard = New System.Windows.Forms.TabPage()
         Me.lstUsedFeatureTabDashboard = New System.Windows.Forms.ListBox()
         Me.lblUsedFeatureCountTabDashboard = New System.Windows.Forms.Label()
-        Me.txtUsedFeatureCountTabDashboard = New System.Windows.Forms.TextBox()
+        Me.txtNumUsedFeatureTabDashboard = New System.Windows.Forms.TextBox()
         Me.lblUsedFeatureTabDashboard = New System.Windows.Forms.Label()
         Me.lstPassbookFeatureTabDashboard = New System.Windows.Forms.ListBox()
         Me.lblPassbookFeatureCountTabDashboard = New System.Windows.Forms.Label()
-        Me.txtPassbookFeatureCountTabDashboard = New System.Windows.Forms.TextBox()
+        Me.txtNumPassbookFeatureTabDashboard = New System.Windows.Forms.TextBox()
         Me.lblPassbookFeatureTabDashboard = New System.Windows.Forms.Label()
         Me.lstFeaturesTabDashboard = New System.Windows.Forms.ListBox()
         Me.lblFeatureCountTabDashboard = New System.Windows.Forms.Label()
@@ -61,6 +61,8 @@ Partial Class FrmMain
         Me.lblAddCustNameTabNewCustomer = New System.Windows.Forms.Label()
         Me.lblAddCustIDTabNewCustomer = New System.Windows.Forms.Label()
         Me.tabPurchasePassbook = New System.Windows.Forms.TabPage()
+        Me.txtCustDetailsTabBuyPassbook = New System.Windows.Forms.TextBox()
+        Me.lblSelectedCustTabBuyPassbook = New System.Windows.Forms.Label()
         Me.dtpPassbookUserBirthdateTabPurchasePassbook = New System.Windows.Forms.DateTimePicker()
         Me.lblPurchForBirthdateTabPurchasePassbook = New System.Windows.Forms.Label()
         Me.lblPassbookForTabPurchasePassbook = New System.Windows.Forms.TextBox()
@@ -75,13 +77,17 @@ Partial Class FrmMain
         Me.lblPurchasePassbookTabPurchasePassbook = New System.Windows.Forms.Label()
         Me.cbxLifeInsuranceTabPurchasePassbook = New System.Windows.Forms.CheckBox()
         Me.tabBuyFeature = New System.Windows.Forms.TabPage()
+        Me.lblFeatureDetailsTabBuyFeature = New System.Windows.Forms.Label()
+        Me.lblPassbookDetailsTabBuyFeature = New System.Windows.Forms.Label()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.txtTotalCostTabBuyFeature = New System.Windows.Forms.TextBox()
         Me.lblTotalCostTabBuyFeature = New System.Windows.Forms.Label()
         Me.numQtyTabBuyFeature = New System.Windows.Forms.NumericUpDown()
         Me.lblQtyToPurchaseTabBuyFeature = New System.Windows.Forms.Label()
         Me.txtFeatureUOM = New System.Windows.Forms.TextBox()
         Me.txtFeaturePricePerUnitTabBuyFeature = New System.Windows.Forms.TextBox()
-        Me.cmbFeatureSelectTabBuyFeature = New System.Windows.Forms.ComboBox()
+        Me.cboFeatureSelectTabBuyFeature = New System.Windows.Forms.ComboBox()
         Me.lblUOMTabBuyFeature = New System.Windows.Forms.Label()
         Me.chkIsChildTabBuyFeature = New System.Windows.Forms.CheckBox()
         Me.lblFeaturePriceEaTabBuyFeature = New System.Windows.Forms.Label()
@@ -120,7 +126,7 @@ Partial Class FrmMain
         Me.txtRegisteredOwnerTabUpdatePassbook = New System.Windows.Forms.TextBox()
         Me.lblUserTabUpdatePassbook = New System.Windows.Forms.Label()
         Me.lblOwnerTabUpdatePassbook = New System.Windows.Forms.Label()
-        Me.cmbPassbookTabUpdatePassbook = New System.Windows.Forms.ComboBox()
+        Me.cboPassbookTabUpdatePassbook = New System.Windows.Forms.ComboBox()
         Me.lblSelectBookToUpdateTabUpdatePassbook = New System.Windows.Forms.Label()
         Me.lblUpdatePassbookTabUpdatePassbook = New System.Windows.Forms.Label()
         Me.picLogoTabUpdatePassbook = New System.Windows.Forms.PictureBox()
@@ -144,34 +150,28 @@ Partial Class FrmMain
         Me.lblUsedQtyTabPostUsedFeature = New System.Windows.Forms.Label()
         Me.lblRemainQtyTabPostUsedFeature = New System.Windows.Forms.Label()
         Me.btnUpdateTabPostUsedFeature = New System.Windows.Forms.Button()
-        Me.cmbFeatureSelectorTabPostUsedFeature = New System.Windows.Forms.ComboBox()
+        Me.cboFeatureSelectorTabPostUsedFeature = New System.Windows.Forms.ComboBox()
         Me.lblSelectFeatureTabPostUsedFeature = New System.Windows.Forms.Label()
         Me.lblPassbookUserTabPostUsedFeature = New System.Windows.Forms.Label()
         Me.lblPassbookOwnerTabPostUsedFeature = New System.Windows.Forms.Label()
         Me.txtPassbookUserTabPostUsedFeature = New System.Windows.Forms.TextBox()
-        Me.cmbPassbookIDTabPostUsedFeature = New System.Windows.Forms.ComboBox()
+        Me.cboPassbookIDTabPostUsedFeature = New System.Windows.Forms.ComboBox()
         Me.lblPassbookIDTabPostUsedFeature = New System.Windows.Forms.Label()
         Me.txtPassbookOwnerTabPostUsedFeature = New System.Windows.Forms.TextBox()
         Me.lblPostUsedFeatureTabPostUsedFeature = New System.Windows.Forms.Label()
         Me.picLogoTabPostUsedFeature = New System.Windows.Forms.PictureBox()
+        Me.tabLog = New System.Windows.Forms.TabPage()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.lblTrxLogTabLog = New System.Windows.Forms.Label()
+        Me.txtTrxLogTabLog = New System.Windows.Forms.TextBox()
         Me.mnuTopMenu = New System.Windows.Forms.MenuStrip()
         Me.mniHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.mniExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.lblChooseRole = New System.Windows.Forms.Label()
-        Me.cmbRoleSelector = New System.Windows.Forms.ComboBox()
+        Me.cboRoleSelector = New System.Windows.Forms.ComboBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnProcessTestData = New System.Windows.Forms.Button()
-        Me.tabLog = New System.Windows.Forms.TabPage()
-        Me.txtTrxLogTabLog = New System.Windows.Forms.TextBox()
-        Me.lblTrxLogTabLog = New System.Windows.Forms.Label()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.lblSelectedCustTabBuyPassbook = New System.Windows.Forms.Label()
-        Me.txtCustDetailsTabBuyPassbook = New System.Windows.Forms.TextBox()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.lblPassbookDetailsTabBuyFeature = New System.Windows.Forms.Label()
-        Me.lblFeatureDetailsTabBuyFeature = New System.Windows.Forms.Label()
         Me.tbcMainActivities.SuspendLayout()
         Me.tabDashboard.SuspendLayout()
         CType(Me.picDashLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -190,9 +190,9 @@ Partial Class FrmMain
         CType(Me.picLogoTabDefineFeature, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPostUsedFeature.SuspendLayout()
         CType(Me.picLogoTabPostUsedFeature, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.mnuTopMenu.SuspendLayout()
         Me.tabLog.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.mnuTopMenu.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblCretaceousPark
@@ -227,11 +227,11 @@ Partial Class FrmMain
         '
         Me.tabDashboard.Controls.Add(Me.lstUsedFeatureTabDashboard)
         Me.tabDashboard.Controls.Add(Me.lblUsedFeatureCountTabDashboard)
-        Me.tabDashboard.Controls.Add(Me.txtUsedFeatureCountTabDashboard)
+        Me.tabDashboard.Controls.Add(Me.txtNumUsedFeatureTabDashboard)
         Me.tabDashboard.Controls.Add(Me.lblUsedFeatureTabDashboard)
         Me.tabDashboard.Controls.Add(Me.lstPassbookFeatureTabDashboard)
         Me.tabDashboard.Controls.Add(Me.lblPassbookFeatureCountTabDashboard)
-        Me.tabDashboard.Controls.Add(Me.txtPassbookFeatureCountTabDashboard)
+        Me.tabDashboard.Controls.Add(Me.txtNumPassbookFeatureTabDashboard)
         Me.tabDashboard.Controls.Add(Me.lblPassbookFeatureTabDashboard)
         Me.tabDashboard.Controls.Add(Me.lstFeaturesTabDashboard)
         Me.tabDashboard.Controls.Add(Me.lblFeatureCountTabDashboard)
@@ -276,14 +276,14 @@ Partial Class FrmMain
         Me.lblUsedFeatureCountTabDashboard.TabIndex = 29
         Me.lblUsedFeatureCountTabDashboard.Text = "Count"
         '
-        'txtUsedFeatureCountTabDashboard
+        'txtNumUsedFeatureTabDashboard
         '
-        Me.txtUsedFeatureCountTabDashboard.Location = New System.Drawing.Point(518, 297)
-        Me.txtUsedFeatureCountTabDashboard.Name = "txtUsedFeatureCountTabDashboard"
-        Me.txtUsedFeatureCountTabDashboard.ReadOnly = True
-        Me.txtUsedFeatureCountTabDashboard.Size = New System.Drawing.Size(52, 20)
-        Me.txtUsedFeatureCountTabDashboard.TabIndex = 28
-        Me.txtUsedFeatureCountTabDashboard.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.txtNumUsedFeatureTabDashboard.Location = New System.Drawing.Point(518, 297)
+        Me.txtNumUsedFeatureTabDashboard.Name = "txtNumUsedFeatureTabDashboard"
+        Me.txtNumUsedFeatureTabDashboard.ReadOnly = True
+        Me.txtNumUsedFeatureTabDashboard.Size = New System.Drawing.Size(52, 20)
+        Me.txtNumUsedFeatureTabDashboard.TabIndex = 28
+        Me.txtNumUsedFeatureTabDashboard.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'lblUsedFeatureTabDashboard
         '
@@ -311,14 +311,14 @@ Partial Class FrmMain
         Me.lblPassbookFeatureCountTabDashboard.TabIndex = 25
         Me.lblPassbookFeatureCountTabDashboard.Text = "Count"
         '
-        'txtPassbookFeatureCountTabDashboard
+        'txtNumPassbookFeatureTabDashboard
         '
-        Me.txtPassbookFeatureCountTabDashboard.Location = New System.Drawing.Point(401, 297)
-        Me.txtPassbookFeatureCountTabDashboard.Name = "txtPassbookFeatureCountTabDashboard"
-        Me.txtPassbookFeatureCountTabDashboard.ReadOnly = True
-        Me.txtPassbookFeatureCountTabDashboard.Size = New System.Drawing.Size(52, 20)
-        Me.txtPassbookFeatureCountTabDashboard.TabIndex = 24
-        Me.txtPassbookFeatureCountTabDashboard.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.txtNumPassbookFeatureTabDashboard.Location = New System.Drawing.Point(401, 297)
+        Me.txtNumPassbookFeatureTabDashboard.Name = "txtNumPassbookFeatureTabDashboard"
+        Me.txtNumPassbookFeatureTabDashboard.ReadOnly = True
+        Me.txtNumPassbookFeatureTabDashboard.Size = New System.Drawing.Size(52, 20)
+        Me.txtNumPassbookFeatureTabDashboard.TabIndex = 24
+        Me.txtNumPassbookFeatureTabDashboard.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'lblPassbookFeatureTabDashboard
         '
@@ -602,6 +602,25 @@ Partial Class FrmMain
         Me.ToolTip1.SetToolTip(Me.tabPurchasePassbook, "Purchase a new park passbook here!")
         Me.tabPurchasePassbook.UseVisualStyleBackColor = True
         '
+        'txtCustDetailsTabBuyPassbook
+        '
+        Me.txtCustDetailsTabBuyPassbook.Location = New System.Drawing.Point(15, 311)
+        Me.txtCustDetailsTabBuyPassbook.Multiline = True
+        Me.txtCustDetailsTabBuyPassbook.Name = "txtCustDetailsTabBuyPassbook"
+        Me.txtCustDetailsTabBuyPassbook.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.txtCustDetailsTabBuyPassbook.Size = New System.Drawing.Size(443, 140)
+        Me.txtCustDetailsTabBuyPassbook.TabIndex = 19
+        Me.txtCustDetailsTabBuyPassbook.WordWrap = False
+        '
+        'lblSelectedCustTabBuyPassbook
+        '
+        Me.lblSelectedCustTabBuyPassbook.AutoSize = True
+        Me.lblSelectedCustTabBuyPassbook.Location = New System.Drawing.Point(9, 287)
+        Me.lblSelectedCustTabBuyPassbook.Name = "lblSelectedCustTabBuyPassbook"
+        Me.lblSelectedCustTabBuyPassbook.Size = New System.Drawing.Size(134, 13)
+        Me.lblSelectedCustTabBuyPassbook.TabIndex = 18
+        Me.lblSelectedCustTabBuyPassbook.Text = "Selected Customer Details:"
+        '
         'dtpPassbookUserBirthdateTabPurchasePassbook
         '
         Me.dtpPassbookUserBirthdateTabPurchasePassbook.Location = New System.Drawing.Point(105, 123)
@@ -736,7 +755,7 @@ Partial Class FrmMain
         Me.tabBuyFeature.Controls.Add(Me.lblQtyToPurchaseTabBuyFeature)
         Me.tabBuyFeature.Controls.Add(Me.txtFeatureUOM)
         Me.tabBuyFeature.Controls.Add(Me.txtFeaturePricePerUnitTabBuyFeature)
-        Me.tabBuyFeature.Controls.Add(Me.cmbFeatureSelectTabBuyFeature)
+        Me.tabBuyFeature.Controls.Add(Me.cboFeatureSelectTabBuyFeature)
         Me.tabBuyFeature.Controls.Add(Me.lblUOMTabBuyFeature)
         Me.tabBuyFeature.Controls.Add(Me.chkIsChildTabBuyFeature)
         Me.tabBuyFeature.Controls.Add(Me.lblFeaturePriceEaTabBuyFeature)
@@ -759,6 +778,46 @@ Partial Class FrmMain
         Me.tabBuyFeature.TabIndex = 7
         Me.tabBuyFeature.Text = "Buy Feature"
         Me.tabBuyFeature.UseVisualStyleBackColor = True
+        '
+        'lblFeatureDetailsTabBuyFeature
+        '
+        Me.lblFeatureDetailsTabBuyFeature.AutoSize = True
+        Me.lblFeatureDetailsTabBuyFeature.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFeatureDetailsTabBuyFeature.Location = New System.Drawing.Point(20, 169)
+        Me.lblFeatureDetailsTabBuyFeature.Name = "lblFeatureDetailsTabBuyFeature"
+        Me.lblFeatureDetailsTabBuyFeature.Size = New System.Drawing.Size(106, 13)
+        Me.lblFeatureDetailsTabBuyFeature.TabIndex = 34
+        Me.lblFeatureDetailsTabBuyFeature.Text = "Feature toString Info:"
+        '
+        'lblPassbookDetailsTabBuyFeature
+        '
+        Me.lblPassbookDetailsTabBuyFeature.AutoSize = True
+        Me.lblPassbookDetailsTabBuyFeature.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPassbookDetailsTabBuyFeature.Location = New System.Drawing.Point(313, 11)
+        Me.lblPassbookDetailsTabBuyFeature.Name = "lblPassbookDetailsTabBuyFeature"
+        Me.lblPassbookDetailsTabBuyFeature.Size = New System.Drawing.Size(114, 13)
+        Me.lblPassbookDetailsTabBuyFeature.TabIndex = 33
+        Me.lblPassbookDetailsTabBuyFeature.Text = "Passbook toString Info"
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(132, 166)
+        Me.TextBox2.Multiline = True
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TextBox2.Size = New System.Drawing.Size(517, 82)
+        Me.TextBox2.TabIndex = 32
+        Me.TextBox2.WordWrap = False
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(316, 28)
+        Me.TextBox1.Multiline = True
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TextBox1.Size = New System.Drawing.Size(336, 71)
+        Me.TextBox1.TabIndex = 31
+        Me.TextBox1.WordWrap = False
         '
         'txtTotalCostTabBuyFeature
         '
@@ -831,14 +890,14 @@ Partial Class FrmMain
         '
         'cmbFeatureSelectTabBuyFeature
         '
-        Me.cmbFeatureSelectTabBuyFeature.FormattingEnabled = True
-        Me.cmbFeatureSelectTabBuyFeature.Items.AddRange(New Object() {"TODO: Populate this with real data", "These are examples only !!", "Meal - Lunch", "Meal - Dinner"})
-        Me.cmbFeatureSelectTabBuyFeature.Location = New System.Drawing.Point(20, 141)
-        Me.cmbFeatureSelectTabBuyFeature.Name = "cmbFeatureSelectTabBuyFeature"
-        Me.cmbFeatureSelectTabBuyFeature.Size = New System.Drawing.Size(292, 21)
-        Me.cmbFeatureSelectTabBuyFeature.TabIndex = 1
-        Me.cmbFeatureSelectTabBuyFeature.Text = "Select Feature"
-        Me.ToolTip1.SetToolTip(Me.cmbFeatureSelectTabBuyFeature, "Choose the desired Feature to purchase from the selection box.")
+        Me.cboFeatureSelectTabBuyFeature.FormattingEnabled = True
+        Me.cboFeatureSelectTabBuyFeature.Items.AddRange(New Object() {"TODO: Populate this with real data", "These are examples only !!", "Meal - Lunch", "Meal - Dinner"})
+        Me.cboFeatureSelectTabBuyFeature.Location = New System.Drawing.Point(20, 141)
+        Me.cboFeatureSelectTabBuyFeature.Name = "cmbFeatureSelectTabBuyFeature"
+        Me.cboFeatureSelectTabBuyFeature.Size = New System.Drawing.Size(292, 21)
+        Me.cboFeatureSelectTabBuyFeature.TabIndex = 1
+        Me.cboFeatureSelectTabBuyFeature.Text = "Select Feature"
+        Me.ToolTip1.SetToolTip(Me.cboFeatureSelectTabBuyFeature, "Choose the desired Feature to purchase from the selection box.")
         '
         'lblUOMTabBuyFeature
         '
@@ -1012,7 +1071,7 @@ Partial Class FrmMain
         Me.tabUpdatePassbook.Controls.Add(Me.txtRegisteredOwnerTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.lblUserTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.lblOwnerTabUpdatePassbook)
-        Me.tabUpdatePassbook.Controls.Add(Me.cmbPassbookTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.cboPassbookTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.lblSelectBookToUpdateTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.lblUpdatePassbookTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.picLogoTabUpdatePassbook)
@@ -1206,11 +1265,11 @@ Partial Class FrmMain
         '
         'cmbPassbookTabUpdatePassbook
         '
-        Me.cmbPassbookTabUpdatePassbook.FormattingEnabled = True
-        Me.cmbPassbookTabUpdatePassbook.Location = New System.Drawing.Point(153, 31)
-        Me.cmbPassbookTabUpdatePassbook.Name = "cmbPassbookTabUpdatePassbook"
-        Me.cmbPassbookTabUpdatePassbook.Size = New System.Drawing.Size(122, 21)
-        Me.cmbPassbookTabUpdatePassbook.TabIndex = 0
+        Me.cboPassbookTabUpdatePassbook.FormattingEnabled = True
+        Me.cboPassbookTabUpdatePassbook.Location = New System.Drawing.Point(153, 31)
+        Me.cboPassbookTabUpdatePassbook.Name = "cmbPassbookTabUpdatePassbook"
+        Me.cboPassbookTabUpdatePassbook.Size = New System.Drawing.Size(122, 21)
+        Me.cboPassbookTabUpdatePassbook.TabIndex = 0
         '
         'lblSelectBookToUpdateTabUpdatePassbook
         '
@@ -1392,12 +1451,12 @@ Partial Class FrmMain
         Me.tabPostUsedFeature.Controls.Add(Me.lblUsedQtyTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.lblRemainQtyTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.btnUpdateTabPostUsedFeature)
-        Me.tabPostUsedFeature.Controls.Add(Me.cmbFeatureSelectorTabPostUsedFeature)
+        Me.tabPostUsedFeature.Controls.Add(Me.cboFeatureSelectorTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.lblSelectFeatureTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.lblPassbookUserTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.lblPassbookOwnerTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.txtPassbookUserTabPostUsedFeature)
-        Me.tabPostUsedFeature.Controls.Add(Me.cmbPassbookIDTabPostUsedFeature)
+        Me.tabPostUsedFeature.Controls.Add(Me.cboPassbookIDTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.lblPassbookIDTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.txtPassbookOwnerTabPostUsedFeature)
         Me.tabPostUsedFeature.Controls.Add(Me.lblPostUsedFeatureTabPostUsedFeature)
@@ -1460,14 +1519,14 @@ Partial Class FrmMain
         '
         'cmbFeatureSelectorTabPostUsedFeature
         '
-        Me.cmbFeatureSelectorTabPostUsedFeature.FormattingEnabled = True
-        Me.cmbFeatureSelectorTabPostUsedFeature.Items.AddRange(New Object() {"TODO: Populate Collection with Features"})
-        Me.cmbFeatureSelectorTabPostUsedFeature.Location = New System.Drawing.Point(9, 164)
-        Me.cmbFeatureSelectorTabPostUsedFeature.Name = "cmbFeatureSelectorTabPostUsedFeature"
-        Me.cmbFeatureSelectorTabPostUsedFeature.Size = New System.Drawing.Size(323, 21)
-        Me.cmbFeatureSelectorTabPostUsedFeature.TabIndex = 18
-        Me.cmbFeatureSelectorTabPostUsedFeature.Text = "Select Feature"
-        Me.ToolTip1.SetToolTip(Me.cmbFeatureSelectorTabPostUsedFeature, "Select the Passbook feature to be updated.")
+        Me.cboFeatureSelectorTabPostUsedFeature.FormattingEnabled = True
+        Me.cboFeatureSelectorTabPostUsedFeature.Items.AddRange(New Object() {"TODO: Populate Collection with Features"})
+        Me.cboFeatureSelectorTabPostUsedFeature.Location = New System.Drawing.Point(9, 164)
+        Me.cboFeatureSelectorTabPostUsedFeature.Name = "cmbFeatureSelectorTabPostUsedFeature"
+        Me.cboFeatureSelectorTabPostUsedFeature.Size = New System.Drawing.Size(323, 21)
+        Me.cboFeatureSelectorTabPostUsedFeature.TabIndex = 18
+        Me.cboFeatureSelectorTabPostUsedFeature.Text = "Select Feature"
+        Me.ToolTip1.SetToolTip(Me.cboFeatureSelectorTabPostUsedFeature, "Select the Passbook feature to be updated.")
         '
         'lblSelectFeatureTabPostUsedFeature
         '
@@ -1509,11 +1568,11 @@ Partial Class FrmMain
         '
         'cmbPassbookIDTabPostUsedFeature
         '
-        Me.cmbPassbookIDTabPostUsedFeature.FormattingEnabled = True
-        Me.cmbPassbookIDTabPostUsedFeature.Location = New System.Drawing.Point(116, 37)
-        Me.cmbPassbookIDTabPostUsedFeature.Name = "cmbPassbookIDTabPostUsedFeature"
-        Me.cmbPassbookIDTabPostUsedFeature.Size = New System.Drawing.Size(121, 21)
-        Me.cmbPassbookIDTabPostUsedFeature.TabIndex = 13
+        Me.cboPassbookIDTabPostUsedFeature.FormattingEnabled = True
+        Me.cboPassbookIDTabPostUsedFeature.Location = New System.Drawing.Point(116, 37)
+        Me.cboPassbookIDTabPostUsedFeature.Name = "cmbPassbookIDTabPostUsedFeature"
+        Me.cboPassbookIDTabPostUsedFeature.Size = New System.Drawing.Size(121, 21)
+        Me.cboPassbookIDTabPostUsedFeature.TabIndex = 13
         '
         'lblPassbookIDTabPostUsedFeature
         '
@@ -1556,6 +1615,48 @@ Partial Class FrmMain
         Me.picLogoTabPostUsedFeature.TabIndex = 9
         Me.picLogoTabPostUsedFeature.TabStop = False
         '
+        'tabLog
+        '
+        Me.tabLog.Controls.Add(Me.PictureBox1)
+        Me.tabLog.Controls.Add(Me.lblTrxLogTabLog)
+        Me.tabLog.Controls.Add(Me.txtTrxLogTabLog)
+        Me.tabLog.Location = New System.Drawing.Point(4, 22)
+        Me.tabLog.Name = "tabLog"
+        Me.tabLog.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabLog.Size = New System.Drawing.Size(664, 482)
+        Me.tabLog.TabIndex = 8
+        Me.tabLog.Text = "Log"
+        Me.tabLog.UseVisualStyleBackColor = True
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.CIS605_Project_Schmidt_Vaughan.My.Resources.Resources.cretaceous_logo
+        Me.PictureBox1.Location = New System.Drawing.Point(539, 393)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(121, 83)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 7
+        Me.PictureBox1.TabStop = False
+        '
+        'lblTrxLogTabLog
+        '
+        Me.lblTrxLogTabLog.AutoSize = True
+        Me.lblTrxLogTabLog.Location = New System.Drawing.Point(7, 7)
+        Me.lblTrxLogTabLog.Name = "lblTrxLogTabLog"
+        Me.lblTrxLogTabLog.Size = New System.Drawing.Size(87, 13)
+        Me.lblTrxLogTabLog.TabIndex = 1
+        Me.lblTrxLogTabLog.Text = "Transaction Log:"
+        '
+        'txtTrxLogTabLog
+        '
+        Me.txtTrxLogTabLog.Location = New System.Drawing.Point(7, 23)
+        Me.txtTrxLogTabLog.Multiline = True
+        Me.txtTrxLogTabLog.Name = "txtTrxLogTabLog"
+        Me.txtTrxLogTabLog.ReadOnly = True
+        Me.txtTrxLogTabLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.txtTrxLogTabLog.Size = New System.Drawing.Size(651, 353)
+        Me.txtTrxLogTabLog.TabIndex = 0
+        '
         'mnuTopMenu
         '
         Me.mnuTopMenu.BackColor = System.Drawing.SystemColors.ActiveCaption
@@ -1589,13 +1690,13 @@ Partial Class FrmMain
         '
         'cmbRoleSelector
         '
-        Me.cmbRoleSelector.FormattingEnabled = True
-        Me.cmbRoleSelector.Items.AddRange(New Object() {"Customer", "Sales Representative", "Sales Manager", "Service Operator"})
-        Me.cmbRoleSelector.Location = New System.Drawing.Point(559, 55)
-        Me.cmbRoleSelector.Name = "cmbRoleSelector"
-        Me.cmbRoleSelector.Size = New System.Drawing.Size(121, 21)
-        Me.cmbRoleSelector.TabIndex = 0
-        Me.cmbRoleSelector.Text = "Role"
+        Me.cboRoleSelector.FormattingEnabled = True
+        Me.cboRoleSelector.Items.AddRange(New Object() {"Customer", "Sales Representative", "Sales Manager", "Service Operator"})
+        Me.cboRoleSelector.Location = New System.Drawing.Point(559, 55)
+        Me.cboRoleSelector.Name = "cmbRoleSelector"
+        Me.cboRoleSelector.Size = New System.Drawing.Size(121, 21)
+        Me.cboRoleSelector.TabIndex = 0
+        Me.cboRoleSelector.Text = "Role"
         '
         'btnExit
         '
@@ -1617,107 +1718,6 @@ Partial Class FrmMain
         Me.ToolTip1.SetToolTip(Me.btnProcessTestData, "For testing only. This button will launch a hard-coded test suite. ")
         Me.btnProcessTestData.UseVisualStyleBackColor = True
         '
-        'tabLog
-        '
-        Me.tabLog.Controls.Add(Me.PictureBox1)
-        Me.tabLog.Controls.Add(Me.lblTrxLogTabLog)
-        Me.tabLog.Controls.Add(Me.txtTrxLogTabLog)
-        Me.tabLog.Location = New System.Drawing.Point(4, 22)
-        Me.tabLog.Name = "tabLog"
-        Me.tabLog.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabLog.Size = New System.Drawing.Size(664, 482)
-        Me.tabLog.TabIndex = 8
-        Me.tabLog.Text = "Log"
-        Me.tabLog.UseVisualStyleBackColor = True
-        '
-        'txtTrxLogTabLog
-        '
-        Me.txtTrxLogTabLog.Location = New System.Drawing.Point(7, 23)
-        Me.txtTrxLogTabLog.Multiline = True
-        Me.txtTrxLogTabLog.Name = "txtTrxLogTabLog"
-        Me.txtTrxLogTabLog.ReadOnly = True
-        Me.txtTrxLogTabLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtTrxLogTabLog.Size = New System.Drawing.Size(651, 353)
-        Me.txtTrxLogTabLog.TabIndex = 0
-        '
-        'lblTrxLogTabLog
-        '
-        Me.lblTrxLogTabLog.AutoSize = True
-        Me.lblTrxLogTabLog.Location = New System.Drawing.Point(7, 7)
-        Me.lblTrxLogTabLog.Name = "lblTrxLogTabLog"
-        Me.lblTrxLogTabLog.Size = New System.Drawing.Size(87, 13)
-        Me.lblTrxLogTabLog.TabIndex = 1
-        Me.lblTrxLogTabLog.Text = "Transaction Log:"
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = Global.CIS605_Project_Schmidt_Vaughan.My.Resources.Resources.cretaceous_logo
-        Me.PictureBox1.Location = New System.Drawing.Point(539, 393)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(121, 83)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1.TabIndex = 7
-        Me.PictureBox1.TabStop = False
-        '
-        'lblSelectedCustTabBuyPassbook
-        '
-        Me.lblSelectedCustTabBuyPassbook.AutoSize = True
-        Me.lblSelectedCustTabBuyPassbook.Location = New System.Drawing.Point(9, 287)
-        Me.lblSelectedCustTabBuyPassbook.Name = "lblSelectedCustTabBuyPassbook"
-        Me.lblSelectedCustTabBuyPassbook.Size = New System.Drawing.Size(134, 13)
-        Me.lblSelectedCustTabBuyPassbook.TabIndex = 18
-        Me.lblSelectedCustTabBuyPassbook.Text = "Selected Customer Details:"
-        '
-        'txtCustDetailsTabBuyPassbook
-        '
-        Me.txtCustDetailsTabBuyPassbook.Location = New System.Drawing.Point(15, 311)
-        Me.txtCustDetailsTabBuyPassbook.Multiline = True
-        Me.txtCustDetailsTabBuyPassbook.Name = "txtCustDetailsTabBuyPassbook"
-        Me.txtCustDetailsTabBuyPassbook.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtCustDetailsTabBuyPassbook.Size = New System.Drawing.Size(443, 140)
-        Me.txtCustDetailsTabBuyPassbook.TabIndex = 19
-        Me.txtCustDetailsTabBuyPassbook.WordWrap = False
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(316, 28)
-        Me.TextBox1.Multiline = True
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox1.Size = New System.Drawing.Size(336, 71)
-        Me.TextBox1.TabIndex = 31
-        Me.TextBox1.WordWrap = False
-        '
-        'TextBox2
-        '
-        Me.TextBox2.Location = New System.Drawing.Point(132, 166)
-        Me.TextBox2.Multiline = True
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox2.Size = New System.Drawing.Size(517, 82)
-        Me.TextBox2.TabIndex = 32
-        Me.TextBox2.WordWrap = False
-        '
-        'lblPassbookDetailsTabBuyFeature
-        '
-        Me.lblPassbookDetailsTabBuyFeature.AutoSize = True
-        Me.lblPassbookDetailsTabBuyFeature.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPassbookDetailsTabBuyFeature.Location = New System.Drawing.Point(313, 11)
-        Me.lblPassbookDetailsTabBuyFeature.Name = "lblPassbookDetailsTabBuyFeature"
-        Me.lblPassbookDetailsTabBuyFeature.Size = New System.Drawing.Size(114, 13)
-        Me.lblPassbookDetailsTabBuyFeature.TabIndex = 33
-        Me.lblPassbookDetailsTabBuyFeature.Text = "Passbook toString Info"
-        '
-        'lblFeatureDetailsTabBuyFeature
-        '
-        Me.lblFeatureDetailsTabBuyFeature.AutoSize = True
-        Me.lblFeatureDetailsTabBuyFeature.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblFeatureDetailsTabBuyFeature.Location = New System.Drawing.Point(20, 169)
-        Me.lblFeatureDetailsTabBuyFeature.Name = "lblFeatureDetailsTabBuyFeature"
-        Me.lblFeatureDetailsTabBuyFeature.Size = New System.Drawing.Size(106, 13)
-        Me.lblFeatureDetailsTabBuyFeature.TabIndex = 34
-        Me.lblFeatureDetailsTabBuyFeature.Text = "Feature toString Info:"
-        '
         'FrmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1725,7 +1725,7 @@ Partial Class FrmMain
         Me.ClientSize = New System.Drawing.Size(705, 631)
         Me.Controls.Add(Me.btnProcessTestData)
         Me.Controls.Add(Me.btnExit)
-        Me.Controls.Add(Me.cmbRoleSelector)
+        Me.Controls.Add(Me.cboRoleSelector)
         Me.Controls.Add(Me.lblChooseRole)
         Me.Controls.Add(Me.tbcMainActivities)
         Me.Controls.Add(Me.lblCretaceousPark)
@@ -1758,11 +1758,11 @@ Partial Class FrmMain
         Me.tabPostUsedFeature.ResumeLayout(False)
         Me.tabPostUsedFeature.PerformLayout()
         CType(Me.picLogoTabPostUsedFeature, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.mnuTopMenu.ResumeLayout(False)
-        Me.mnuTopMenu.PerformLayout()
         Me.tabLog.ResumeLayout(False)
         Me.tabLog.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.mnuTopMenu.ResumeLayout(False)
+        Me.mnuTopMenu.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1779,7 +1779,7 @@ Partial Class FrmMain
     Friend WithEvents tabUpdatePassbook As TabPage
     Friend WithEvents tabDefineFeature As TabPage
     Friend WithEvents tabPostUsedFeature As TabPage
-    Friend WithEvents cmbRoleSelector As ComboBox
+    Friend WithEvents cboRoleSelector As ComboBox
     Friend WithEvents lblFeatureAdultPriceTabDefineFeature As Label
     Friend WithEvents lblNewFeatureUOMTabDefineFeature As Label
     Friend WithEvents lblNewFeatureNameTabDefineFeature As Label
@@ -1828,7 +1828,7 @@ Partial Class FrmMain
     Friend WithEvents lblQtyToPurchaseTabBuyFeature As Label
     Friend WithEvents txtFeatureUOM As TextBox
     Friend WithEvents txtFeaturePricePerUnitTabBuyFeature As TextBox
-    Friend WithEvents cmbFeatureSelectTabBuyFeature As ComboBox
+    Friend WithEvents cboFeatureSelectTabBuyFeature As ComboBox
     Friend WithEvents lblUOMTabBuyFeature As Label
     Friend WithEvents chkIsChildTabBuyFeature As CheckBox
     Friend WithEvents lblFeaturePriceEaTabBuyFeature As Label
@@ -1851,7 +1851,7 @@ Partial Class FrmMain
     Friend WithEvents txtRegisteredOwnerTabUpdatePassbook As TextBox
     Friend WithEvents lblUserTabUpdatePassbook As Label
     Friend WithEvents lblOwnerTabUpdatePassbook As Label
-    Friend WithEvents cmbPassbookTabUpdatePassbook As ComboBox
+    Friend WithEvents cboPassbookTabUpdatePassbook As ComboBox
     Friend WithEvents lblSelectBookToUpdateTabUpdatePassbook As Label
     Friend WithEvents lblUpdatePassbookTabUpdatePassbook As Label
     Friend WithEvents txtCostChangeTabUpdatePassbook As TextBox
@@ -1876,12 +1876,12 @@ Partial Class FrmMain
     Friend WithEvents lblUsedQtyTabPostUsedFeature As Label
     Friend WithEvents lblRemainQtyTabPostUsedFeature As Label
     Friend WithEvents btnUpdateTabPostUsedFeature As Button
-    Friend WithEvents cmbFeatureSelectorTabPostUsedFeature As ComboBox
+    Friend WithEvents cboFeatureSelectorTabPostUsedFeature As ComboBox
     Friend WithEvents lblSelectFeatureTabPostUsedFeature As Label
     Friend WithEvents lblPassbookUserTabPostUsedFeature As Label
     Friend WithEvents lblPassbookOwnerTabPostUsedFeature As Label
     Friend WithEvents txtPassbookUserTabPostUsedFeature As TextBox
-    Friend WithEvents cmbPassbookIDTabPostUsedFeature As ComboBox
+    Friend WithEvents cboPassbookIDTabPostUsedFeature As ComboBox
     Friend WithEvents lblPassbookIDTabPostUsedFeature As Label
     Friend WithEvents txtPassbookOwnerTabPostUsedFeature As TextBox
     Friend WithEvents lblPostUsedFeatureTabPostUsedFeature As Label
@@ -1901,11 +1901,11 @@ Partial Class FrmMain
     Friend WithEvents lstPassbooksTabDashboard As ListBox
     Friend WithEvents lstUsedFeatureTabDashboard As ListBox
     Friend WithEvents lblUsedFeatureCountTabDashboard As Label
-    Friend WithEvents txtUsedFeatureCountTabDashboard As TextBox
+    Friend WithEvents txtNumUsedFeatureTabDashboard As TextBox
     Friend WithEvents lblUsedFeatureTabDashboard As Label
     Friend WithEvents lstPassbookFeatureTabDashboard As ListBox
     Friend WithEvents lblPassbookFeatureCountTabDashboard As Label
-    Friend WithEvents txtPassbookFeatureCountTabDashboard As TextBox
+    Friend WithEvents txtNumPassbookFeatureTabDashboard As TextBox
     Friend WithEvents lblPassbookFeatureTabDashboard As Label
     Friend WithEvents tabLog As TabPage
     Friend WithEvents PictureBox1 As PictureBox
