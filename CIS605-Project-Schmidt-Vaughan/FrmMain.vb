@@ -108,10 +108,8 @@ Public Class FrmMain
         mThemePark = New ThemePark()
 
         'Log the initializtion
-
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
             & " - ThemePark Object initialized"
-
 
     End Sub '_initializeBusinessLogic()
 
@@ -136,13 +134,14 @@ Public Class FrmMain
         cboFeatureSelectTabBuyFeature.Items.Clear()
         cboPassbookIDTabPostUsedFeature.Items.Clear()
         cboPassbookTabUpdatePassbook.Items.Clear()
-        cboRoleSelector.Items.Clear()
 
         'Log the initialization
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
-            & " - User Interface Intialized"
+            & " - User Interface Intialized" _
+            & vbCrLf
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
-            & " - Dashboard initial population complete"
+            & " - Dashboard initial population complete" _
+            & vbCrLf
 
     End Sub '_initalizeUserInterface()
 
@@ -169,7 +168,7 @@ Public Class FrmMain
             sender As Object,
             e As EventArgs
             ) _
-        Handles cboRoleSelector.SelectedIndexChanged
+
 
         'TODO: Highlight tab pages appropriate to user role /
         '      lock out pages not appropriate to user role.
@@ -338,11 +337,15 @@ Public Class FrmMain
         Dim pbf08 As PassbookFeature
         Dim pbf09 As PassbookFeature
         Dim pbf10 As PassbookFeature
-        Dim usedFeature As UsedFeature
+        Dim uf01 As UsedFeature
+        Dim uf02 As UsedFeature
+        Dim uf03 As UsedFeature
+        Dim uf04 As UsedFeature
 
         'Log a message that test data is being loaded
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
-            & " - LOADING TEST DATA STARTED"
+            & " - LOADING TEST DATA STARTED" _
+            & vbCrLf
 
         'Create Theme Park, ID "CIS605 Theme Park"
         'Using the theme park already created - disregard this testing entry !!
@@ -355,7 +358,7 @@ Public Class FrmMain
         featureF02 = mThemePark.addFeature("F02", "Early Entry Pass", "Day", 10, 5)
 
         'Create Feature, ID “F03”, Description “Meal Plan”, Units “Meal”, Adult Price $30, Child Price $20
-        featureF03 = mThemePark.addFeature("F02", "Meal Plan", "Meal", 30, 20)
+        featureF03 = mThemePark.addFeature("F03", "Meal Plan", "Meal", 30, 20)
 
         'Create Customer, ID “C01”, Name “CName01”
         customerC01 = mThemePark.addCustomer("C01", "CName01")
@@ -415,10 +418,21 @@ Public Class FrmMain
         pbf10 = mThemePark.addPassbookFeature("PBF10", 3, 160, passbookPB04, featureF01, 1)
 
         'Use Feature (i.e. Create UsedFeature), ID “UF01”, PBFeature “PBF01” reference, DateUsed 10/20/2015, LocationUsed “Epcot Center”, QtyUsed 1
+        uf01 = mThemePark.addUsedFeature("UF01", pbf01, #10/20/2015#, "Epcot Center", 1)
+
         'Use Feature(i.e.Create UsedFeature), ID “UF02”, PBFeature “PBF02” reference, DateUsed 20/20/2015, LocationUsed “West Parking”, QtyUsed 1
+        'NOTE: I'm considering hte 20/20/2015 a typo as all the other are exact same date
+        uf02 = mThemePark.addUsedFeature("UF02", pbf02, #10/20/2015#, "West Parking", 1)
+
         'Use Feature (i.e. Create UsedFeature), ID “UF03”, PBFeature “PBF03” reference, DateUsed 10/20/2015, LocationUsed “France”, QtyUsed 2
+        uf01 = mThemePark.addUsedFeature("UF03", pbf03, #10/20/2015#, "France", 2)
+
         'Use Feature (i.e. Create UsedFeature), ID “UF04”, PBFeature “PBF03” reference, DateUsed 10/20/2015, LocationUsed “American Pavilion”, QtyUsed 1
+        uf01 = mThemePark.addUsedFeature("UF04", pbf03, #10/20/2015#, "American Pavilion", 1)
+
         'Update Passbook Feature, PBFeatureID “PBF03”, DateUpdated 10/21/2015, QtyUpdated 1
+        ' NOTE: Ideally this sends the feaure ID, but until we have storage of objects, sending reference
+        mThemePark.updatePassbookFeature(pbf03, #10/21/2015#, 1)
 
     End Sub
 
@@ -511,7 +525,8 @@ Public Class FrmMain
         'Add to the log
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
             & " - New Customer Added: " _
-            & theCustomer.ToString
+            & theCustomer.ToString _
+            & vbCrLf
 
     End Sub '_customerAdded()
 
@@ -555,9 +570,47 @@ Public Class FrmMain
         'Add to the transaction log
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
             & " - New Feature Added: " _
-            & theFeature.ToString
+            & theFeature.ToString _
+            & vbCrLf
 
     End Sub '_featureAdded()
+
+    ''' <summary>
+    ''' Handles processing when a ThemePark_UsedFeatureAdded event is raised
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub _usedFeatureAdded(
+            ByVal sender As System.Object,
+            ByVal e As System.EventArgs) _
+        Handles _
+            mThemePark.ThemePark_UsedFeatureAdded
+
+        'Declare variables
+        Dim theThemePark_EventArgs_UsedFeatureAdded As _
+            ThemePark_EventArgs_UsedFeatureAdded
+        Dim theUsedFeature As UsedFeature
+
+        'Get / Validate data
+        theThemePark_EventArgs_UsedFeatureAdded =
+            CType(
+                e,
+                ThemePark_EventArgs_UsedFeatureAdded
+                )
+        theUsedFeature = theThemePark_EventArgs_UsedFeatureAdded.usedFeature
+
+        'Do processing
+        'Update Dashboard & Feature Count with Newest Information
+        lstUsedFeatureTabDashboard.Items.Add(theUsedFeature.usedFeatureID.ToString)
+        txtNumFeaturesTabDashboard.Text = mThemePark.numUsedFeatures.ToString
+
+        'Add to the transaction log
+        txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
+            & " - Used Feature Added: " _
+            & theUsedFeature.ToString _
+            & vbCrLf
+
+    End Sub '_usedFeatureAdded()
 
     ''' <summary>
     ''' Event Handler for ThemePark_PassbookAdded Event
@@ -598,7 +651,8 @@ Public Class FrmMain
         'Add to the log
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
             & " - New Passbook Added: " _
-            & thePassbook.ToString
+            & thePassbook.ToString _
+            & vbCrLf
 
     End Sub '_passbookAdded()
 
@@ -639,7 +693,8 @@ Public Class FrmMain
         'Add to the log
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
             & " - New Passbook Feature Added: " _
-            & thePassbookFeature.ToString
+            & thePassbookFeature.ToString _
+            & vbCrLf
 
     End Sub '_passbookFeatureAdded()
 

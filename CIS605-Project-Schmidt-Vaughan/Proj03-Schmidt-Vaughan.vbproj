@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClsThemePark_EventArgs_CustomerAdded.vb" />
+    <Compile Include="ClsThemePark_EventArgs_PassbookFeatureUpdated.vb" />
     <Compile Include="ClsThemePark_EventArgs_PassbookAdded.vb" />
     <Compile Include="ClsThemePark_EventArgs_FeatureAdded.vb" />
     <Compile Include="ClsPassbookFeature.vb" />

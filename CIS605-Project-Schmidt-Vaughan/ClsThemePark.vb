@@ -313,25 +313,41 @@ Public Class ThemePark
                             pFeature,
                             pQtyRemaining))
 
-    End Function 'addPassbook()
+    End Function 'addPassbookFeature()
 
     ''' <summary>
     ''' Creates a new PassbookUsedFeature object, increases passbookFeature count
     ''' </summary>
-    Public Sub addUsedFeature(ByVal pUsedFeatureID As String,
+    Public Function addUsedFeature(ByVal pUsedFeatureID As String,
                               ByVal pUsedPassbookFeature As PassbookFeature,
                               ByVal pUsedDate As Date,
                               ByVal pUsedLocation As String,
-                              ByVal pQtyUsed As Decimal)
+                              ByVal pQtyUsed As Decimal) _
+        As UsedFeature
 
         ' Call the private function to do the work
-        _addUsedFeature(pUsedFeatureID,
+        Return (_addUsedFeature(pUsedFeatureID,
                         pUsedPassbookFeature,
                         pUsedDate,
                         pUsedLocation,
-                        pQtyUsed)
+                        pQtyUsed))
 
-    End Sub 'addPassbook()
+    End Function 'addUsedFeature()
+
+    ''' <summary>
+    ''' Updates a new PassbookFeature object, increases passbookFeature count
+    ''' </summary>
+    Public Function updatePassbookFeature(ByVal pPassbookFeature As PassbookFeature,
+                                          ByVal pDateUpdated As Date,
+                                          ByVal pUpdatedQty As Decimal) _
+            As PassbookFeature
+
+        ' Call the private function to do the work
+        Return (_updatePassbookFeature(pPassbookFeature,
+                            pDateUpdated,
+                            pUpdatedQty))
+
+    End Function 'updatePassbookFeature()
 
     '********** Private Non-Shared Behavioral Methods
     ''' <summary>
@@ -461,11 +477,12 @@ Public Class ThemePark
     ''' <summary>
     ''' Creates a new UsedFeature object, increases passbookFeature count
     ''' </summary>
-    Private Sub _addUsedFeature(ByVal pUsedFeatureID As String,
-                                ByVal pUsedPassbookFeature As PassbookFeature,
-                                ByVal pUsedDate As Date,
-                                ByVal pUsedLocation As String,
-                                ByVal pQtyUsed As Decimal)
+    Private Function _addUsedFeature(ByVal pUsedFeatureID As String,
+                                     ByVal pUsedPassbookFeature As PassbookFeature,
+                                     ByVal pUsedDate As Date,
+                                     ByVal pUsedLocation As String,
+                                     ByVal pQtyUsed As Decimal) _
+        As UsedFeature
 
         ' Call the specialty constructor
         mNewUsedFeature = New UsedFeature(pUsedFeatureID,
@@ -485,7 +502,9 @@ Public Class ThemePark
                 )
             ) 'RaiseEvent
 
-    End Sub '_addUsedFeature()
+        Return mNewUsedFeature
+
+    End Function '_addUsedFeature()
 
     ''' <summary>
     ''' Returns a Theme Park object in String form.
@@ -505,6 +524,30 @@ Public Class ThemePark
         Return tmpString
 
     End Function '_toString()
+
+    ''' <summary>
+    ''' Updates a new PassbookFeature object, increases passbookFeature count
+    ''' </summary>
+    Public Function _updatePassbookFeature(ByVal pPassbookFeature As PassbookFeature,
+                                           ByVal pUpdatedDate As Date,
+                                           ByVal pUpdatedQty As Decimal) _
+        As PassbookFeature
+
+        'update the feature in the selected passbook feature
+        pPassbookFeature.passbookFeatureAmt = pPassbookFeature.passbookFeatureAmt + pUpdatedQty
+
+        'Raise event
+        RaiseEvent ThemePark_PassbookFeatureUpdated(
+            Me,
+            New ThemePark_EventArgs_PassbookFeatureUpdated(
+                pPassbookFeature
+                )
+            ) 'Raise Event
+
+        'return the modified passbook feature object
+        Return (pPassbookFeature)
+
+    End Function 'updatePassbookFeature()
 
 #End Region 'Behavioral Methods
 
@@ -560,7 +603,13 @@ Public Class ThemePark
         ByVal e As System.EventArgs
         )
 
+    Public Event ThemePark_PassbookFeatureUpdated(
+        ByVal sender As System.Object,
+        ByVal e As System.EventArgs
+        )
+
 #End Region 'Events
 
 End Class 'ClsThemePark
+
 

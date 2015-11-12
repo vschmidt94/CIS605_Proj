@@ -91,7 +91,7 @@ Public Class UsedFeature
     '********** Public Get/Set Methods
     '             - call private get/set methods to implement
 
-    Private Property usedFeatureID() As String
+    Public Property usedFeatureID() As String
         Get
             Return _usedFeatureID
         End Get
@@ -100,7 +100,7 @@ Public Class UsedFeature
         End Set
     End Property 'usedFeatureID()
 
-    Private Property usedPassbookFeature() As PassbookFeature
+    Public Property usedPassbookFeature() As PassbookFeature
         Get
             Return _usedPassbookFeature
         End Get
@@ -109,7 +109,7 @@ Public Class UsedFeature
         End Set
     End Property 'usedPassbookFeature()
 
-    Private Property usedDate() As Date
+    Public Property usedDate() As Date
         Get
             Return _usedDate
         End Get
@@ -118,7 +118,7 @@ Public Class UsedFeature
         End Set
     End Property 'usedDate()
 
-    Private Property usedLocation() As String
+    Public Property usedLocation() As String
         Get
             Return _usedLocation
         End Get

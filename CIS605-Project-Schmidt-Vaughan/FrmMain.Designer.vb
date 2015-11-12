@@ -167,8 +167,6 @@ Partial Class FrmMain
         Me.mnuTopMenu = New System.Windows.Forms.MenuStrip()
         Me.mniHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.mniExit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.lblChooseRole = New System.Windows.Forms.Label()
-        Me.cboRoleSelector = New System.Windows.Forms.ComboBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnProcessTestData = New System.Windows.Forms.Button()
@@ -888,12 +886,12 @@ Partial Class FrmMain
         Me.txtFeaturePricePerUnitTabBuyFeature.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ToolTip1.SetToolTip(Me.txtFeaturePricePerUnitTabBuyFeature, "The price of the feature per the listed Unit of Measure")
         '
-        'cmbFeatureSelectTabBuyFeature
+        'cboFeatureSelectTabBuyFeature
         '
         Me.cboFeatureSelectTabBuyFeature.FormattingEnabled = True
         Me.cboFeatureSelectTabBuyFeature.Items.AddRange(New Object() {"TODO: Populate this with real data", "These are examples only !!", "Meal - Lunch", "Meal - Dinner"})
         Me.cboFeatureSelectTabBuyFeature.Location = New System.Drawing.Point(20, 141)
-        Me.cboFeatureSelectTabBuyFeature.Name = "cmbFeatureSelectTabBuyFeature"
+        Me.cboFeatureSelectTabBuyFeature.Name = "cboFeatureSelectTabBuyFeature"
         Me.cboFeatureSelectTabBuyFeature.Size = New System.Drawing.Size(292, 21)
         Me.cboFeatureSelectTabBuyFeature.TabIndex = 1
         Me.cboFeatureSelectTabBuyFeature.Text = "Select Feature"
@@ -1263,11 +1261,11 @@ Partial Class FrmMain
         Me.lblOwnerTabUpdatePassbook.TabIndex = 12
         Me.lblOwnerTabUpdatePassbook.Text = "Passbook Owner:"
         '
-        'cmbPassbookTabUpdatePassbook
+        'cboPassbookTabUpdatePassbook
         '
         Me.cboPassbookTabUpdatePassbook.FormattingEnabled = True
         Me.cboPassbookTabUpdatePassbook.Location = New System.Drawing.Point(153, 31)
-        Me.cboPassbookTabUpdatePassbook.Name = "cmbPassbookTabUpdatePassbook"
+        Me.cboPassbookTabUpdatePassbook.Name = "cboPassbookTabUpdatePassbook"
         Me.cboPassbookTabUpdatePassbook.Size = New System.Drawing.Size(122, 21)
         Me.cboPassbookTabUpdatePassbook.TabIndex = 0
         '
@@ -1517,12 +1515,12 @@ Partial Class FrmMain
         Me.btnUpdateTabPostUsedFeature.Text = "Update Passbook"
         Me.btnUpdateTabPostUsedFeature.UseVisualStyleBackColor = True
         '
-        'cmbFeatureSelectorTabPostUsedFeature
+        'cboFeatureSelectorTabPostUsedFeature
         '
         Me.cboFeatureSelectorTabPostUsedFeature.FormattingEnabled = True
         Me.cboFeatureSelectorTabPostUsedFeature.Items.AddRange(New Object() {"TODO: Populate Collection with Features"})
         Me.cboFeatureSelectorTabPostUsedFeature.Location = New System.Drawing.Point(9, 164)
-        Me.cboFeatureSelectorTabPostUsedFeature.Name = "cmbFeatureSelectorTabPostUsedFeature"
+        Me.cboFeatureSelectorTabPostUsedFeature.Name = "cboFeatureSelectorTabPostUsedFeature"
         Me.cboFeatureSelectorTabPostUsedFeature.Size = New System.Drawing.Size(323, 21)
         Me.cboFeatureSelectorTabPostUsedFeature.TabIndex = 18
         Me.cboFeatureSelectorTabPostUsedFeature.Text = "Select Feature"
@@ -1566,11 +1564,11 @@ Partial Class FrmMain
         Me.txtPassbookUserTabPostUsedFeature.TabStop = False
         Me.txtPassbookUserTabPostUsedFeature.Text = "TODO: Populate with Passbook User"
         '
-        'cmbPassbookIDTabPostUsedFeature
+        'cboPassbookIDTabPostUsedFeature
         '
         Me.cboPassbookIDTabPostUsedFeature.FormattingEnabled = True
         Me.cboPassbookIDTabPostUsedFeature.Location = New System.Drawing.Point(116, 37)
-        Me.cboPassbookIDTabPostUsedFeature.Name = "cmbPassbookIDTabPostUsedFeature"
+        Me.cboPassbookIDTabPostUsedFeature.Name = "cboPassbookIDTabPostUsedFeature"
         Me.cboPassbookIDTabPostUsedFeature.Size = New System.Drawing.Size(121, 21)
         Me.cboPassbookIDTabPostUsedFeature.TabIndex = 13
         '
@@ -1679,25 +1677,6 @@ Partial Class FrmMain
         Me.mniExit.Size = New System.Drawing.Size(37, 20)
         Me.mniExit.Text = "E&xit"
         '
-        'lblChooseRole
-        '
-        Me.lblChooseRole.AutoSize = True
-        Me.lblChooseRole.Location = New System.Drawing.Point(447, 58)
-        Me.lblChooseRole.Name = "lblChooseRole"
-        Me.lblChooseRole.Size = New System.Drawing.Size(106, 13)
-        Me.lblChooseRole.TabIndex = 3
-        Me.lblChooseRole.Text = "&Select your user role:"
-        '
-        'cmbRoleSelector
-        '
-        Me.cboRoleSelector.FormattingEnabled = True
-        Me.cboRoleSelector.Items.AddRange(New Object() {"Customer", "Sales Representative", "Sales Manager", "Service Operator"})
-        Me.cboRoleSelector.Location = New System.Drawing.Point(559, 55)
-        Me.cboRoleSelector.Name = "cmbRoleSelector"
-        Me.cboRoleSelector.Size = New System.Drawing.Size(121, 21)
-        Me.cboRoleSelector.TabIndex = 0
-        Me.cboRoleSelector.Text = "Role"
-        '
         'btnExit
         '
         Me.btnExit.Location = New System.Drawing.Point(16, 596)
@@ -1725,8 +1704,6 @@ Partial Class FrmMain
         Me.ClientSize = New System.Drawing.Size(705, 631)
         Me.Controls.Add(Me.btnProcessTestData)
         Me.Controls.Add(Me.btnExit)
-        Me.Controls.Add(Me.cboRoleSelector)
-        Me.Controls.Add(Me.lblChooseRole)
         Me.Controls.Add(Me.tbcMainActivities)
         Me.Controls.Add(Me.lblCretaceousPark)
         Me.Controls.Add(Me.mnuTopMenu)
@@ -1774,12 +1751,10 @@ Partial Class FrmMain
     Friend WithEvents tabDashboard As TabPage
     Friend WithEvents mnuTopMenu As MenuStrip
     Friend WithEvents mniHelp As ToolStripMenuItem
-    Friend WithEvents lblChooseRole As Label
     Friend WithEvents tabPurchasePassbook As TabPage
     Friend WithEvents tabUpdatePassbook As TabPage
     Friend WithEvents tabDefineFeature As TabPage
     Friend WithEvents tabPostUsedFeature As TabPage
-    Friend WithEvents cboRoleSelector As ComboBox
     Friend WithEvents lblFeatureAdultPriceTabDefineFeature As Label
     Friend WithEvents lblNewFeatureUOMTabDefineFeature As Label
     Friend WithEvents lblNewFeatureNameTabDefineFeature As Label
