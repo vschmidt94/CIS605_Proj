@@ -41,18 +41,36 @@ Public Class ThemePark
     Private Const mDEFAULT_NUM_PASSBOOK_FEATURES As Integer = 0
     Private Const mDEFAULT_NUM_USED_FEATURES As Integer = 0
 
+    'How to handle arrays.  Normally these would be bigger values, keep 
+    'them small for now to allow more debugging.
+    'I understand that each array could have its own values, and 
+    'perhaps have a need to grow at different rates, but I'm more interested
+    'in forcing growth cycles & ease of debugging for now, so using a 
+    ' 'global' constant for this to apply to all arrays.
+    Private Const mDEFAULT_ARRAY_SIZE As Integer = 3
+    Private Const mDEFAULT_ARRAY_GROWTH_INCREMENT As Integer = 3
+
     '********** Module-level variables
     Private mParkName As String
+
+    'Array tracking
     Private mNumCustomers As Integer
+    Private mMaxCustomers As Integer
     Private mNumPassbooks As Integer
+    Private mMaxPassbooks As Integer
     Private mNumFeatures As Integer
+    Private mMaxFeatures As Integer
     Private mNumPassbookFeatures As Integer
+    Private mMaxPassbookFeatures As Integer
     Private mNumUsedFeatures As Integer
-    Private mNewCustomer As Customer
-    Private mNewFeature As Feature
-    Private mNewPassbook As Passbook
-    Public Property mNewPassbookFeature As PassbookFeature
-    Public Property mNewUsedFeature As UsedFeature
+    Private mMaxUsedFeatures As Integer
+
+    'Objects Arrays
+    Private mCustomers() As Customer
+    Private mFeatures() As Feature
+    Private mPassbooks() As Passbook
+    Private mPassbookFeatures() As PassbookFeature
+    Private mUsedFeatures() As UsedFeature
 
 #End Region 'Attributes
 
@@ -74,11 +92,26 @@ Public Class ThemePark
 
         MyBase.New()
         _parkName = mDEFAULT_PARK_NAME
+
+        'Initialize object arrays
+        _maxCustomers = mDEFAULT_ARRAY_SIZE
+        _maxFeatures = mDEFAULT_ARRAY_SIZE
+        _maxPassbooks = mDEFAULT_ARRAY_SIZE
+        _maxPassbookFeatures = mDEFAULT_ARRAY_SIZE
+        _maxUsedFeatures = mDEFAULT_ARRAY_SIZE
+
         _numCustomers = mDEFAULT_NUM_CUST
         _numPassbooks = mDEFAULT_NUM_PASSBOOKS
         _numPassbookFeatures = mDEFAULT_NUM_PASSBOOK_FEATURES
         _numFeatures = mDEFAULT_NUM_FEATURES
         _numUsedFeatures = mDEFAULT_NUM_USED_FEATURES
+
+        'ReDim the arrays to current Max
+        ReDim mCustomers(_maxCustomers - 1)
+        ReDim mFeatures(_maxFeatures - 1)
+        ReDim mPassbookFeatures(_maxPassbookFeatures - 1)
+        ReDim mPassbooks(_maxPassbooks - 1)
+        ReDim mUsedFeatures(_maxUsedFeatures - 1)
 
     End Sub 'New() Default Constructor
 
@@ -126,6 +159,12 @@ Public Class ThemePark
         End Set
     End Property 'numCustomers
 
+    Public ReadOnly Property maxCustomers() As Integer
+        Get
+            Return _maxCustomers
+        End Get
+    End Property 'maxCustomers
+
     Public Property numPassbooks() As Integer
         Get
             Return _numPassbooks
@@ -134,6 +173,12 @@ Public Class ThemePark
             _numPassbooks = pValue
         End Set
     End Property 'numPassbooks
+
+    Public ReadOnly Property maxPassbooks() As Integer
+        Get
+            Return _maxPassbooks
+        End Get
+    End Property 'maxPassbooks
 
     Public Property numPassbookFeatures() As Integer
         Get
@@ -144,6 +189,12 @@ Public Class ThemePark
         End Set
     End Property 'numPassbookFeatures
 
+    Public ReadOnly Property maxPassbookFeatures() As Integer
+        Get
+            Return _maxPassbookFeatures
+        End Get
+    End Property 'maxPassbooksFeatures
+
     Public Property numFeatures() As Integer
         Get
             Return _numFeatures
@@ -153,6 +204,12 @@ Public Class ThemePark
         End Set
     End Property 'numFeatures
 
+    Public ReadOnly Property maxFeatures() As Integer
+        Get
+            Return _maxFeatures
+        End Get
+    End Property 'maxFeatures
+
     Public Property numUsedFeatures() As Integer
         Get
             Return _numUsedFeatures
@@ -161,6 +218,12 @@ Public Class ThemePark
             _numUsedFeatures = pValue
         End Set
     End Property 'numUsedFeatures
+
+    Public ReadOnly Property maxUsedFeatures() As Integer
+        Get
+            Return _maxUsedFeatures
+        End Get
+    End Property 'maxUsedFeatures
 
     '********** Private Get/Set Methods
     '             - access attributes, begin name with underscore (_)
@@ -183,6 +246,15 @@ Public Class ThemePark
         End Set
     End Property '_numCustomers
 
+    Private Property _maxCustomers() As Integer
+        Get
+            Return mMaxCustomers
+        End Get
+        Set(ByVal pValue As Integer)
+            mMaxCustomers = pValue
+        End Set
+    End Property '_maxCustomers
+
     Private Property _numPassbooks() As Integer
         Get
             Return mNumPassbooks
@@ -191,6 +263,15 @@ Public Class ThemePark
             mNumPassbooks = pValue
         End Set
     End Property '_numPassbooks
+
+    Private Property _maxPassbooks() As Integer
+        Get
+            Return mMaxPassbooks
+        End Get
+        Set(ByVal pValue As Integer)
+            mMaxPassbooks = pValue
+        End Set
+    End Property '_maxPassbooks
 
     Private Property _numPassbookFeatures() As Integer
         Get
@@ -201,6 +282,15 @@ Public Class ThemePark
         End Set
     End Property '_numPassbookFeatures
 
+    Private Property _maxPassbookFeatures() As Integer
+        Get
+            Return mMaxPassbookFeatures
+        End Get
+        Set(ByVal pValue As Integer)
+            mMaxPassbookFeatures = pValue
+        End Set
+    End Property '_maxPassbookFeatures
+
     Private Property _numFeatures() As Integer
         Get
             Return mNumFeatures
@@ -209,6 +299,15 @@ Public Class ThemePark
             mNumFeatures = pValue
         End Set
     End Property '_numFeatures
+
+    Private Property _maxFeatures() As Integer
+        Get
+            Return mMaxFeatures
+        End Get
+        Set(ByVal pValue As Integer)
+            mMaxFeatures = pValue
+        End Set
+    End Property '_maxFeatures
 
     Private Property _numUsedFeatures() As Integer
         Get
@@ -219,7 +318,126 @@ Public Class ThemePark
         End Set
     End Property '_numUsedFeatures
 
+    Private Property _maxUsedFeatures() As Integer
+        Get
+            Return mMaxUsedFeatures
+        End Get
+        Set(ByVal pValue As Integer)
+            mMaxUsedFeatures = pValue
+        End Set
+    End Property '_maxUsedFeatures
 
+    ' All the _ith_ methods here - these are all private.
+
+    ''' <summary>
+    ''' Returns the customer at index pN in the customer array
+    ''' </summary>
+    ''' <param name="pN">the index of the customer to be returned</param>
+    ''' <returns></returns>
+    Private Property _ithCustomer(ByVal pN As Integer) As Customer
+        Get
+            If pN > 0 And pN < _maxCustomers Then
+                Return mCustomers(pN)
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Get
+        Set(pValue As Customer)
+            If pN > 0 And pN < _maxCustomers Then
+                mCustomers(pN) = pValue
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Set
+    End Property '_ithCustomer
+
+    ''' <summary>
+    ''' Returns the feature at index pN in the feature array
+    ''' </summary>
+    ''' <param name="pN">the index of the feature to be returned</param>
+    ''' <returns></returns>
+    Private Property _ithFeature(ByVal pN As Integer) As Feature
+        Get
+            If pN > 0 And pN < _maxFeatures Then
+                Return mFeatures(pN)
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Get
+        Set(pValue As Feature)
+            If pN > 0 And pN < _maxFeatures Then
+                mFeatures(pN) = pValue
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Set
+    End Property '_ithFeature
+
+    ''' <summary>
+    ''' Returns the passbook at index pN in the passbook feature array
+    ''' </summary>
+    ''' <param name="pN">the index of the passbook to be returned</param>
+    ''' <returns></returns>
+    Private Property _ithPassbook(ByVal pN As Integer) As Passbook
+        Get
+            If pN > 0 And pN < _maxPassbooks Then
+                Return mPassbooks(pN)
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Get
+        Set(pValue As Passbook)
+            If pN > 0 And pN < _maxPassbookFeatures Then
+                mPassbooks(pN) = pValue
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Set
+    End Property '_ithPassbook
+
+    ''' <summary>
+    ''' Returns the passbook feature at index pN in the passbook feature array
+    ''' </summary>
+    ''' <param name="pN">the index of the passbook feature to be returned</param>
+    ''' <returns></returns>
+    Private Property _ithPassbookFeature(ByVal pN As Integer) As PassbookFeature
+        Get
+            If pN > 0 And pN < _maxPassbookFeatures Then
+                Return mPassbookFeatures(pN)
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Get
+        Set(pValue As PassbookFeature)
+            If pN > 0 And pN < _maxPassbookFeatures Then
+                mPassbookFeatures(pN) = pValue
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Set
+    End Property '_ithPassbookFeature
+
+    ''' <summary>
+    ''' Returns the used feature at index pN in the used feature array
+    ''' </summary>
+    ''' <param name="pN">the index of the used feature to be returned</param>
+    ''' <returns></returns>
+    Private Property _ithUsedFeature(ByVal pN As Integer) As UsedFeature
+        Get
+            If pN > 0 And pN < _maxUsedFeatures Then
+                Return mUsedFeatures(pN)
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Get
+        Set(pValue As UsedFeature)
+            If pN > 0 And pN < _maxUsedFeatures Then
+                mUsedFeatures(pN) = pValue
+            Else
+                Throw New IndexOutOfRangeException
+            End If
+        End Set
+    End Property '_ithUsedFeature
 
 #End Region 'Get/Set Methods
 
@@ -357,8 +575,25 @@ Public Class ThemePark
                                   ByVal pCustName As String) _
         As Customer
 
+        'Declare Variable
+        Dim newCustomer As Customer
+
         ' Call the specialty constructor
-        mNewCustomer = New Customer(pCustID, pCustName)
+        newCustomer = New Customer(pCustID, pCustName)
+
+        'Check that the array is large enough for a new customer,
+        'if not, grow the array.
+        If _numCustomers >= _maxCustomers Then
+            _maxCustomers += mDEFAULT_ARRAY_GROWTH_INCREMENT
+            ReDim Preserve mCustomers(_maxCustomers - 1)
+        End If
+
+        ' Add the customer to the array in the correct index
+        Try
+            _ithCustomer(_numCustomers) = newCustomer
+        Catch ex As Exception
+            Throw New IndexOutOfRangeException
+        End Try
 
         ' Increase the customer count
         _numCustomers += 1
@@ -367,11 +602,11 @@ Public Class ThemePark
         RaiseEvent ThemePark_CustomerAdded(
             Me,
             New ThemePark_EventArgs_CustomerAdded(
-                mNewCustomer
+                newCustomer
                 )
             ) 'RaiseEvent
 
-        Return mNewCustomer
+        Return newCustomer
 
     End Function '_addCustomer()
 
