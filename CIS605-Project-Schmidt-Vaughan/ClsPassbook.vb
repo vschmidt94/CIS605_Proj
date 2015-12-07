@@ -29,6 +29,8 @@ Public Class Passbook
 
     '********** Module-level constants
 
+    Private Const mCHILD_AGE_CUTOFF As Integer = 13
+
     '********** Module-level variables
 
     Private mPassbookID As String
@@ -130,6 +132,18 @@ Public Class Passbook
         End Set
     End Property 'passbookVisitorBirthdate
 
+    Public ReadOnly Property age() As Integer
+        Get
+            Return _age
+        End Get
+    End Property 'age
+
+    Public ReadOnly Property isChild() As Boolean
+        Get
+            Return _isChild
+        End Get
+    End Property 'isChild()
+
     '********** Private Get/Set Methods
     '             - access attributes, begin name with underscore (_)
 
@@ -177,6 +191,22 @@ Public Class Passbook
             mPassbookVisitorBirthdate = pValue
         End Set
     End Property '_passbookVisitorBirthdate
+
+    Private ReadOnly Property _age() As Integer
+        Get
+            Return CInt(DateDiff(DateInterval.Year, mPassbookVisitorBirthdate, Now))
+        End Get
+    End Property '_age()
+
+    Private ReadOnly Property _isChild() As Boolean
+        Get
+            'If the person is less than the cutoff age then they are child
+            If (Me._age < mCHILD_AGE_CUTOFF) Then
+                Return True
+            End If
+            Return False
+        End Get
+    End Property '_isChild()
 
 #End Region 'Get/Set Methods
 

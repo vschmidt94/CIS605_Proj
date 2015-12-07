@@ -145,6 +145,34 @@ Public Class FrmMain
 
     End Sub '_initalizeUserInterface()
 
+    ''' <summary>
+    ''' Helper function that will clean the dashboard
+    ''' </summary>
+    Sub _cleanDashboard(ByVal pList As ListBox)
+
+        ' reset the selected features across all lists
+        If pList IsNot lstCustomersTabDashboard Then
+            lstCustomersTabDashboard.SelectedIndex = -1
+        End If
+
+        If pList IsNot lstFeaturesTabDashboard Then
+            lstFeaturesTabDashboard.SelectedIndex = -1
+        End If
+
+        If pList IsNot lstPassbookFeatureTabDashboard Then
+            lstPassbookFeatureTabDashboard.SelectedIndex = -1
+        End If
+
+        If pList IsNot lstPassbooksTabDashboard Then
+            lstPassbooksTabDashboard.SelectedIndex = -1
+        End If
+
+        If pList IsNot lstUsedFeatureTabDashboard Then
+            lstUsedFeatureTabDashboard.SelectedIndex = -1
+        End If
+
+    End Sub 'cleanDashboard()
+
 #End Region 'Behavioral Methods
 
 #Region "Event Procedures"
@@ -157,24 +185,6 @@ Public Class FrmMain
 
     '********** User-Interface Event Procedures
     '             - Initiated explicitly by user
-
-    ''' <summary>
-    ''' Changes the availability of tabs on main view based on the
-    ''' user roll selected.
-    ''' </summary>
-    ''' <param name="sender"></param>
-    ''' <param name="e"></param>
-    Private Sub cmbRoleSelector_SelectedIndexChanged(
-            sender As Object,
-            e As EventArgs
-            ) _
-
-
-        'TODO: Highlight tab pages appropriate to user role /
-        '      lock out pages not appropriate to user role.
-        '      Not explicitly required but would like to try
-        '      to do this.
-    End Sub
 
     ''' <summary>
     ''' Exits the program.
@@ -202,8 +212,6 @@ Public Class FrmMain
         Dim _custID As String
 
         'Parse the user's input from new customer tab
-        'TODO: do these try/catch blocks ever catch anything?  Maybe add some other 
-        'checks for robustness
         Try
             _custName = txtAddCustNameTabNewCustomer.Text
         Catch ex As Exception
@@ -223,23 +231,30 @@ Public Class FrmMain
         End Try
 
         'Create a new Customer
-        _customer = New Customer(_custID, _custName)
-
-        'Add 1 to the Customer count & update dashpboard
-        mThemePark.numCustomers = mThemePark.numCustomers + 1
-        txtNumCustomersTabDashboard.Text = CType(mThemePark.numCustomers, String)
+        mThemePark.addCustomer(_custID, _custName)
 
         'Confirm with message box and clear the form for more
         MessageBox.Show("New Customer Added")
         txtAddCustIDTabNewCustomer.ResetText()
         txtAddCustNameTabNewCustomer.ResetText()
 
-        'Add to the log
-        txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
-            & " - New Customer " & _custID & " added"
-
-
     End Sub 'btnAddCustomer_Click()
+
+    ''' <summary>
+    ''' Clears the text fields on button click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub btnClearTabNewCustomer_Click(
+            sender As Object,
+            e As EventArgs) _
+        Handles btnClearTabNewCustomer.Click
+
+        'Clear the fields
+        txtAddCustIDTabNewCustomer.ResetText()
+        txtAddCustNameTabNewCustomer.ResetText()
+
+    End Sub 'btnClearTabNewCustomer_Click
 
     Private Sub btnAddFeature_Click(
             sender As Object,
@@ -247,7 +262,6 @@ Public Class FrmMain
             ) _
         Handles btnAddFeatureTabDefineFeature.Click
 
-        Dim _feature As Feature
         Dim _featureName As String
         Dim _featureID As String
         Dim _featureUOM As String
@@ -283,15 +297,11 @@ Public Class FrmMain
         _featureID = txtNewFeatureIDTabDefineFeature.Text
 
         'Create New Feature
-        _feature = New Feature(_featureID,
-                               _featureName,
-                               _featureUOM,
-                               _featureAdultPrice,
-                               _featureChildPrice)
-
-        'Add 1 to the Feature Count & update dashboard
-        mThemePark.numFeatures = mThemePark.numFeatures + 1
-        txtNumFeaturesTabDashboard.Text = CType(mThemePark.numFeatures, String)
+        mThemePark.addFeature(_featureID,
+                              _featureName,
+                              _featureUOM,
+                              _featureAdultPrice,
+                              _featureChildPrice)
 
         'Confirm with message box and clear the form for more
         MessageBox.Show("New Feature Added")
@@ -301,10 +311,567 @@ Public Class FrmMain
         txtFeatureAdultPriceTabDefineFeature.ResetText()
         txtFeatureChildPriceTabDefineFeature.ResetText()
 
-        'Add to the log
-        txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
-            & " - New Feature " & _featureID & " added"
     End Sub 'btnAddFeature_Click() 
+
+    ''' <summary>
+    ''' Purchases a new passbook
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub btnBuyPassbookTabPurhchasePassbook_Click(sender As Object, e As EventArgs) Handles btnBuyPassbookTabPurhchasePassbook.Click
+
+        'Declare Variables
+        Dim _passbookID As String
+        Dim _passbookOwner As Customer
+        Dim _passbookUser As String
+        Dim _passbookPurchDate As Date
+        Dim _passbookUserBirthDate As Date
+
+        'Validate information on the form
+        If txtPassbookIDTabPurchasePassbook.Text.Length = 0 Then
+            MessageBox.Show("Passbook ID must be entered!")
+            txtPassbookIDTabPurchasePassbook.Focus()
+            Exit Sub
+        End If
+
+        If txtPassbookUserTabPurchasePassbook.Text.Length = 0 Then
+            MessageBox.Show("Passbook user must be entered!")
+            txtPassbookUserTabPurchasePassbook.Focus()
+            Exit Sub
+        End If
+
+        If cboPassbookOwnerTabPurchasePassbook.SelectedIndex < 0 Then
+            MessageBox.Show("Passbook owner must be selected!")
+            cboPassbookOwnerTabPurchasePassbook.Focus()
+            Exit Sub
+        End If
+
+        'If here, we should have at least nominally OK data on 
+        'form. Load the form data into local variables
+        _passbookID = txtPassbookIDTabPurchasePassbook.Text
+        _passbookOwner = mThemePark.ithCustomer(cboPassbookOwnerTabPurchasePassbook.SelectedIndex)
+        _passbookUser = txtPassbookUserTabPurchasePassbook.Text
+        _passbookPurchDate = dtpPassbookPurchDateTabPurchasePassbook.Value
+        _passbookUserBirthDate = dtpPassbookUserBirthdateTabPurchasePassbook.Value
+
+        'Add new passbook to themePark
+        mThemePark.addPassbook(_passbookID,
+                                _passbookOwner,
+                                _passbookPurchDate,
+                                _passbookUser,
+                                _passbookUserBirthDate)
+
+        'Confirmation message
+        MessageBox.Show("Passbook Added!")
+
+        'Clean up
+        txtPassbookIDTabPurchasePassbook.ResetText()
+        txtPassbookUserTabPurchasePassbook.ResetText()
+        cboPassbookOwnerTabPurchasePassbook.SelectedIndex = -1
+        dtpPassbookPurchDateTabPurchasePassbook.ResetText()
+        dtpPassbookUserBirthdateTabPurchasePassbook.ResetText()
+
+    End Sub 'btnBuyPassbookTabPurhchasePassbook_Click(sender As Object, e As EventArgs) Handles btnBuyPassbookTabPurhchasePassbook.Click
+
+    ''' <summary>
+    ''' Updates the selected customer text box if needed
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub lstCustomersTabDashboard_SelectedIdxChanged(sender As Object, e As EventArgs) _
+        Handles lstCustomersTabDashboard.SelectedIndexChanged
+
+        'Need to bail if the new selected index is -1
+        If lstCustomersTabDashboard.SelectedIndex = -1 Then
+            Exit Sub
+        End If
+
+        'call a helper function that cleans up the dashboard
+        _cleanDashboard(lstCustomersTabDashboard)
+
+        'display details about particular customer
+        txtDetailsTabDashboard.Text =
+            mThemePark.ithCustomer(lstCustomersTabDashboard.SelectedIndex).ToString
+
+    End Sub 'lstCustomersTabDashboard_SelectedIdxChanged()
+
+    Private Sub lstFeaturesTabDashboard_SelectedIdxChanged(sender As Object, e As EventArgs) _
+        Handles lstFeaturesTabDashboard.SelectedIndexChanged
+
+        'Need to bail if the new selected index is -1
+        If lstFeaturesTabDashboard.SelectedIndex = -1 Then
+            Exit Sub
+        End If
+
+        'call a helper function that cleans up the dashboard
+        _cleanDashboard(lstFeaturesTabDashboard)
+
+        'display details about particular customer
+        txtDetailsTabDashboard.Text =
+            mThemePark.ithFeature(lstFeaturesTabDashboard.SelectedIndex).ToString
+
+    End Sub 'lstFeaturesTabDashboard_SelectedIdxChanged()
+
+    Private Sub lstPassbooksTabDashboard_SelectedIdxChanged(sender As Object, e As EventArgs) _
+        Handles lstPassbooksTabDashboard.SelectedIndexChanged
+
+        'Need to bail if the new selected index is -1
+        If lstPassbooksTabDashboard.SelectedIndex = -1 Then
+            Exit Sub
+        End If
+
+        'call a helper function that cleans up the dashboard
+        _cleanDashboard(lstPassbooksTabDashboard)
+
+        'display details about particular customer
+        txtDetailsTabDashboard.Text =
+            mThemePark.ithPassbook(lstPassbooksTabDashboard.SelectedIndex).ToString
+
+    End Sub 'lstPassbooksTabDashboard_SelectedIdxChanged()
+
+    Private Sub lstPassbookFeatureTabDashboard_SelectedIdxChanged(sender As Object, e As EventArgs) _
+        Handles lstPassbookFeatureTabDashboard.SelectedIndexChanged
+
+        'Need to bail if the new selected index is -1
+        If lstPassbookFeatureTabDashboard.SelectedIndex = -1 Then
+            Exit Sub
+        End If
+
+        'call a helper function that cleans up the dashboard
+        _cleanDashboard(lstPassbookFeatureTabDashboard)
+
+        'display details about particular customer
+        txtDetailsTabDashboard.Text =
+            mThemePark.ithPassbookFeature(lstPassbookFeatureTabDashboard.SelectedIndex).ToString
+
+    End Sub 'lstPassbookFeatureTabDashboard_SelectedIdxChanged()
+
+    Private Sub lstUsedFeatureTabDashboard_SelectedIdxChanged(sender As Object, e As EventArgs) _
+        Handles lstUsedFeatureTabDashboard.SelectedIndexChanged
+
+        'Need to bail if the new selected index is -1
+        If lstUsedFeatureTabDashboard.SelectedIndex = -1 Then
+            Exit Sub
+        End If
+
+        'call a helper function that cleans up the dashboard
+        _cleanDashboard(lstUsedFeatureTabDashboard)
+
+        'display details about particular customer
+        txtDetailsTabDashboard.Text =
+            mThemePark.ithUsedFeature(lstUsedFeatureTabDashboard.SelectedIndex).ToString
+
+    End Sub 'lstPassbookFeatureTabDashboard_SelectedIdxChanged()
+
+    ''' <summary>
+    ''' Displays the selected customer in the text box on purchase passbook tab
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub cboPassbookOwnerTabPurchasePassbook_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboPassbookOwnerTabPurchasePassbook.SelectedIndexChanged
+
+        If cboPassbookOwnerTabPurchasePassbook.SelectedIndex < 0 Then
+            'If the selected index is -1, then just clear the form
+            txtCustDetailsTabBuyPassbook.ResetText()
+        Else
+            'Update the text in the info text box
+            txtCustDetailsTabBuyPassbook.Text =
+            mThemePark.ithCustomer(cboPassbookOwnerTabPurchasePassbook.SelectedIndex).ToString
+        End If
+
+    End Sub 'cboPassbookOwnerTabPurchasePassbook_SelectedIndexChanged()
+
+    ''' <summary>
+    ''' Populate form based on selected feature in combobox / buy feature tab
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub cboPickPassbookIDTabBuyFeature_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboPickPassbookIDTabBuyFeature.SelectedIndexChanged
+
+        'Declare variables
+        Dim selectedIdx As Integer = cboPickPassbookIDTabBuyFeature.SelectedIndex
+        Dim cost As Decimal
+
+        'Bail if not a valid index
+        If selectedIdx < 0 Then
+            Exit Sub
+        End If
+
+        'Put Passbook string info in text box
+        txtPassbookStringTabBuyFeature.Text =
+            mThemePark.ithPassbook(selectedIdx).ToString
+
+        'Populate Registered Owner and User, Age etc.
+        txtRegisteredOwnerTabBuyFeature.Text =
+            mThemePark.ithPassbook(selectedIdx).passbookOwner.custName
+        txtRegisteredUserTabBuyFeature.Text =
+            mThemePark.ithPassbook(selectedIdx).passbookVisitorName
+        txtUserAgeTabBuyFeature.Text =
+            mThemePark.ithPassbook(selectedIdx).age.ToString
+        chkIsChildTabBuyFeature.Checked =
+            mThemePark.ithPassbook(selectedIdx).isChild
+
+        'if we have already selected a feature, need to update the price
+        If cboFeatureSelectTabBuyFeature.SelectedIndex >= 0 Then
+            If chkIsChildTabBuyFeature.Checked Then
+                cost =
+                    mThemePark.ithFeature(cboFeatureSelectTabBuyFeature.SelectedIndex).featureChildPrice
+            Else
+                cost =
+                    mThemePark.ithFeature(cboFeatureSelectTabBuyFeature.SelectedIndex).featureAdultPrice
+            End If
+
+            cost = cost * numQtyTabBuyFeature.Value
+
+            txtTotalCostTabBuyFeature.Text =
+                cost.ToString("C0")
+        End If
+
+
+    End Sub 'cboPickPassbookIDTabBuyFeature_SelectedIndexChanged()
+
+    ''' <summary>
+    ''' Populate the right fields when a feature is selected from combo box
+    ''' on Buy Feature tab
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub cboFeatureSelectTabBuyFeature_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboFeatureSelectTabBuyFeature.SelectedIndexChanged
+
+        'Declare variables
+        Dim selectedIdx As Integer = cboFeatureSelectTabBuyFeature.SelectedIndex
+        Dim cost As Decimal
+
+        'If the feature index is not valid, bail out now
+        If selectedIdx < 0 Then
+            Exit Sub
+        End If
+
+        'populate fields with the information
+        If chkIsChildTabBuyFeature.Checked Then
+            txtFeaturePricePerUnitTabBuyFeature.Text =
+                mThemePark.ithFeature(selectedIdx).featureChildPrice.ToString("C2")
+            cost = mThemePark.ithFeature(selectedIdx).featureChildPrice
+        Else
+            txtFeaturePricePerUnitTabBuyFeature.Text =
+                mThemePark.ithFeature(selectedIdx).featureAdultPrice.ToString("C2")
+            cost = mThemePark.ithFeature(selectedIdx).featureAdultPrice
+        End If
+
+        txtFeatureUOMTabBuyFeature.Text =
+            mThemePark.ithFeature(selectedIdx).featureUOM
+
+        txtFeatureStringTabBuyFeature.Text =
+            mThemePark.ithFeature(selectedIdx).ToString
+
+        cost = cost * numQtyTabBuyFeature.Value
+
+        txtTotalCostTabBuyFeature.Text = cost.ToString("C0")
+
+    End Sub 'cboFeatureSelectTabBuyFeature_SelectedIndexChanged()
+
+    ''' <summary>
+    ''' Resets the buy feature tab when cancel button is pressed.
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub btnCancelTabBuyFeature_Click(sender As Object, e As EventArgs) Handles btnCancelTabBuyFeature.Click
+
+        'Clear text fields
+        txtPassbookStringTabBuyFeature.ResetText()
+        txtRegisteredOwnerTabBuyFeature.ResetText()
+        txtRegisteredUserTabBuyFeature.ResetText()
+        txtPassbookUserTabPurchasePassbook.ResetText()
+        txtFeatureStringTabBuyFeature.ResetText()
+        txtUserAgeTabBuyFeature.ResetText()
+        txtFeatureUOMTabBuyFeature.ResetText()
+        txtFeaturePricePerUnitTabBuyFeature.ResetText()
+        txtTotalCostTabBuyFeature.ResetText()
+
+
+        'Reset combo boxes, etc.
+        numQtyTabBuyFeature.Value = 1
+        cboFeatureSelectTabBuyFeature.SelectedIndex = -1
+        cboFeatureSelectTabBuyFeature.Text = "Select Feature"
+        cboPickPassbookIDTabBuyFeature.SelectedIndex = -1
+        cboPickPassbookIDTabBuyFeature.Text = "Select Passbook"
+
+    End Sub 'btnCancelTabBuyFeature_Click()
+
+    ''' <summary>
+    ''' Updates the total cost if needed on changed qty
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub numQtyTabBuyFeature_ValueChanged(
+            sender As Object,
+            e As EventArgs) _
+        Handles numQtyTabBuyFeature.ValueChanged
+
+        'Declare variables
+        Dim cost As Decimal
+
+        'Only need to update the cost if a passbook and feature are selected
+        'So, if these don't have selected indexes >= 0 just bail out,
+        'nothing to do
+        If cboPickPassbookIDTabBuyFeature.SelectedIndex < 0 Then
+            Exit Sub
+        End If
+
+        If cboFeatureSelectTabBuyFeature.SelectedIndex < 0 Then
+            Exit Sub
+        End If
+
+        'Get the right unit cost based on age
+        If chkIsChildTabBuyFeature.Checked Then
+            cost = mThemePark.ithFeature(cboFeatureSelectTabBuyFeature.SelectedIndex).featureChildPrice
+        Else
+            cost = mThemePark.ithFeature(cboFeatureSelectTabBuyFeature.SelectedIndex).featureAdultPrice
+        End If
+
+        'extend cost based on qty
+        cost = cost * numQtyTabBuyFeature.Value
+
+        'Update text
+        txtTotalCostTabBuyFeature.Text = cost.ToString("C2")
+
+    End Sub 'numQtyTabBuyFeature_ValueChanged()
+
+    ''' <summary>
+    ''' Purchases a feature for a passbook
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub btnBuyTabBuyFeature_Click(
+            sender As Object,
+            e As EventArgs) _
+        Handles btnBuyTabBuyFeature.Click
+
+        'Declare variables
+        Dim thePassbook As Passbook
+        Dim theFeature As Feature
+        Dim theQty As Decimal
+        Dim thePurchasePrice As Decimal
+        Dim theNewID As String
+
+        'Parse the form, validate we have enough stuff
+        'to properly form a new object
+
+        If cboPickPassbookIDTabBuyFeature.SelectedIndex < 0 Then
+            MessageBox.Show("Must select a passbook!")
+            cboPickPassbookIDTabBuyFeature.Focus()
+            Exit Sub
+        End If
+
+        thePassbook = mThemePark.ithPassbook(cboPickPassbookIDTabBuyFeature.SelectedIndex)
+
+        If cboFeatureSelectTabBuyFeature.SelectedIndex < 0 Then
+            MessageBox.Show("Must select a feature!")
+            cboFeatureSelectTabBuyFeature.Focus()
+            Exit Sub
+        End If
+
+        theFeature = mThemePark.ithFeature(cboFeatureSelectTabBuyFeature.SelectedIndex)
+
+        theQty = numQtyTabBuyFeature.Value
+
+        ' This is only checking for *something* in the new id field.
+        ' TODO: improve robustness
+        If txtNewPassbookFeatureIdTabBuyFeature.Text.Length < 1 Then
+            MessageBox.Show("Must have new Feature ID")
+            txtNewPassbookFeatureIdTabBuyFeature.Focus()
+            Exit Sub
+        End If
+
+        'Calculate the correct purchase price
+        If chkIsChildTabBuyFeature.Checked Then
+            thePurchasePrice = mThemePark.ithFeature(cboFeatureSelectTabBuyFeature.SelectedIndex).featureChildPrice
+        Else
+            thePurchasePrice = mThemePark.ithFeature(cboFeatureSelectTabBuyFeature.SelectedIndex).featureAdultPrice
+        End If
+        thePurchasePrice = thePurchasePrice * theQty
+
+        theNewID = txtNewPassbookFeatureIdTabBuyFeature.Text
+
+        'Add new passbook feature
+        mThemePark.addPassbookFeature(theNewID, theQty, thePurchasePrice, thePassbook, theFeature, theQty)
+
+        'Display message on success
+        MessageBox.Show("Feature Added to Passbook")
+
+    End Sub 'btnBuyTabBuyFeature_Clicked()
+
+    ''' <summary>
+    ''' Updates the form on change of selected passbook id
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub cboPassbookIDTabPostUsedFeature_SelectedIndexChanged(
+            sender As Object,
+            e As EventArgs) _
+        Handles cboPassbookIDTabPostUsedFeature.SelectedIndexChanged,
+                cboFeatureSelectorTabPostUsedFeature.SelectedIndexChanged
+
+        'Declare variables
+        Dim thePassbookFeature As PassbookFeature
+        Dim thePBFeatureID As String
+        Dim thePassbookID As String
+        Dim theFeatureID As String
+        Dim i As Integer
+
+        'If the selected passbook index is invalid, bail out now
+        If cboPassbookIDTabPostUsedFeature.SelectedIndex < 0 Then
+            Exit Sub
+        End If
+
+        'If there are no passbook features, bail out now.
+        If mThemePark.numPassbookFeatures < 1 Then
+            Exit Sub
+        End If
+
+        'Update text fields
+        txtPassbookOwnerTabPostUsedFeature.Text =
+            mThemePark.ithPassbook(cboPassbookIDTabPostUsedFeature.SelectedIndex).passbookOwner.custName
+        txtPassbookUserTabPostUsedFeature.Text =
+            mThemePark.ithPassbook(cboPassbookIDTabPostUsedFeature.SelectedIndex).passbookVisitorName
+
+        'See if there is a feature selected, if not we've updated
+        'everything we can for now so bail out.
+        If cboFeatureSelectorTabPostUsedFeature.SelectedIndex < 0 Then
+            Exit Sub
+        End If
+
+        'OK, we have enough stuff to look and see if there is
+        'a matching passbook feature.
+        'First, get the stuff we want to search for in local 
+        'variables for convenience
+        thePassbookID =
+            mThemePark.ithPassbook(cboPassbookIDTabPostUsedFeature.SelectedIndex).passbookID
+        theFeatureID =
+            mThemePark.ithFeature(cboFeatureSelectorTabPostUsedFeature.SelectedIndex).featureID
+
+        'Loop through the Passbook features to see if we have one that matches
+        For i = 0 To mThemePark.numPassbookFeatures - 1
+            If mThemePark.ithPassbookFeature(i).passbook.passbookID = thePassbookID And
+                    mThemePark.ithPassbookFeature(i).feature.featureID = theFeatureID Then
+                'We found a match
+                thePassbookFeature = mThemePark.ithPassbookFeature(i)
+                Exit For
+            End If
+        Next
+
+        'if we didn't find a match, nothing more can be done
+        If thePassbookFeature Is Nothing Then
+            MessageBox.Show("That feature does not exist in the choosen passbook")
+
+            'Clear out any text values that might be remaining
+            txtRemainingQtyTabPostUsedFeature.Text = "N/A"
+
+            'Disable the update button for now
+            btnUpdateTabPostUsedFeature.Enabled = False
+            Exit Sub
+        End If
+
+        'if here we must have something
+        'update the text fields
+        txtRemainingQtyTabPostUsedFeature.Text = thePassbookFeature.passbookFeatureQtyRemaining.ToString
+
+        'make sure the update button is enabled
+        btnUpdateTabPostUsedFeature.Enabled = True
+
+    End Sub 'cboPassbookIDTabPostUsedFeature_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboPassbookIDTabPostUsedFeature.SelectedIndexChanged)
+
+    ''' <summary>
+    ''' Adds a used feature on button click on Post Used Feature tab
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub btnUpdateTabPostUsedFeature_Click(
+            sender As Object,
+            e As EventArgs) _
+        Handles btnUpdateTabPostUsedFeature.Click
+
+        'Declare variables
+        Dim thePassbookID As String
+        Dim theFeatureID As String
+        Dim i As Integer
+        Dim thePassbookFeature As PassbookFeature
+
+        Dim theQtyRemaining As Decimal
+        Dim theQtyUsed As Decimal
+
+        'Our update passbook button should only enable for good combinations
+        'of Passbooks and Passbook Features
+        'So, if we're here we know we should have a good combination
+
+        'Make sure the feature exists in the passbook and has qty remaining
+        'First, get the stuff we want to search for in local 
+        'variables for convenience
+        thePassbookID =
+            mThemePark.ithPassbook(cboPassbookIDTabPostUsedFeature.SelectedIndex).passbookID
+        theFeatureID =
+            mThemePark.ithFeature(cboFeatureSelectorTabPostUsedFeature.SelectedIndex).featureID
+
+        'Loop through the Passbook features to find the match if we have one that matches
+        For i = 0 To mThemePark.numPassbookFeatures - 1
+            If mThemePark.ithPassbookFeature(i).passbook.passbookID = thePassbookID And
+                    mThemePark.ithPassbookFeature(i).feature.featureID = theFeatureID Then
+                'We found a match
+                thePassbookFeature = mThemePark.ithPassbookFeature(i)
+                Exit For
+            End If
+        Next
+
+        'Make sure we have a valid qty used
+        Try
+            theQtyUsed = Decimal.Parse(txtUsedQtyTabPostUsedFeature.Text)
+        Catch ex As Exception
+            MessageBox.Show("Please enter a valid decimal price (1.23)")
+            txtUsedQtyTabPostUsedFeature.SelectAll()
+            txtUsedQtyTabPostUsedFeature.Focus()
+            txtTrxLogTabLog.Text &= vbCrLf & "Invalid Qty Used Entered"
+            Exit Sub
+        End Try
+
+        theQtyRemaining = thePassbookFeature.passbookFeatureQtyRemaining
+        If theQtyRemaining <= 0 Then
+            MessageBox.Show("There is no qty remaining for this passbook feature! Nothing can be updated!")
+            Exit Sub
+        End If
+
+        'Make sure we aren't using more than we have available
+        If theQtyUsed > theQtyRemaining Then
+            MessageBox.Show("Qty Used exceeds Qty Available!")
+            txtUsedQtyTabPostUsedFeature.SelectAll()
+            txtUsedQtyTabPostUsedFeature.Focus()
+            Exit Sub
+        End If
+
+        'Make sure we have a new feature ID
+        If txtNewUsedFeatureIDTabPostUsedFeature.Text.Length < 1 Then
+            MessageBox.Show("Must enter a new used feature ID")
+            txtNewUsedFeatureIDTabPostUsedFeature.Focus()
+            Exit Sub
+        End If
+
+        'Make sure we have a location used
+        If txtLocationUsedTabPostUsedFeature.Text.Length < 3 Then
+            MessageBox.Show("Must have a decent location used string (at least 3 chars).")
+            txtLocationUsedTabPostUsedFeature.SelectAll()
+            txtLocationUsedTabPostUsedFeature.Focus()
+            Exit Sub
+        End If
+
+        'If here, good to proceed with updating records.
+        mThemePark.addUsedFeature(
+            txtNewUsedFeatureIDTabPostUsedFeature.Text,
+            thePassbookFeature,
+            dtpUsedDateTabPostUsedFeature.Value,
+            txtLocationUsedTabPostUsedFeature.Text,
+            theQtyUsed)
+
+    End Sub 'btnUpdateTabPostUsedFeature_Click(sender As Object, e As EventArgs) Handles btnUpdateTabPostUsedFeature.Click
+
 
     ''' <summary> 
     ''' Populates some test data 
@@ -459,13 +1026,6 @@ Public Class FrmMain
 
     End Sub '_FrmMain_Load()
 
-    Private Sub _tab_Index_Changed(
-            sender As Object,
-            e As EventArgs
-            ) _
-           Handles tbcMainActivities.SelectedIndexChanged
-
-    End Sub '_tab_Index_Changed()
 
     ''' <summary>
     ''' Automagically scrolls the transaction log when new entry hits it
@@ -686,9 +1246,6 @@ Public Class FrmMain
 
         'change the count on the dashboard
         txtNumPassbookFeatureTabDashboard.Text = mThemePark.numPassbookFeatures.ToString
-
-        'Add to the combo boxes
-        cboFeatureSelectorTabPostUsedFeature.Items.Add(thePassbookFeature.passbookFeatureID)
 
         'Add to the log
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _

@@ -225,6 +225,38 @@ Public Class ThemePark
         End Get
     End Property 'maxUsedFeatures
 
+    'All the ith* properties start here
+
+    Public ReadOnly Property ithCustomer(ByVal pN As Integer) As Customer
+        Get
+            Return _ithCustomer(pN)
+        End Get
+    End Property 'ithCustomer()
+
+    Public ReadOnly Property ithPassbook(ByVal pN As Integer) As Passbook
+        Get
+            Return _ithPassbook(pN)
+        End Get
+    End Property 'ithPassbook()
+
+    Public ReadOnly Property ithFeature(ByVal pN As Integer) As Feature
+        Get
+            Return _ithFeature(pN)
+        End Get
+    End Property 'ithFeature()
+
+    Public ReadOnly Property ithPassbookFeature(ByVal pN As Integer) As PassbookFeature
+        Get
+            Return _ithPassbookFeature(pN)
+        End Get
+    End Property 'ithPassbookFeature()
+
+    Public ReadOnly Property ithUsedFeature(ByVal pN As Integer) As UsedFeature
+        Get
+            Return _ithUsedFeature(pN)
+        End Get
+    End Property 'ithUsedFeature()
+
     '********** Private Get/Set Methods
     '             - access attributes, begin name with underscore (_)
 
@@ -327,7 +359,7 @@ Public Class ThemePark
         End Set
     End Property '_maxUsedFeatures
 
-    ' All the _ith_ methods here - these are all private.
+    ' All the _ith_ methods start here.
 
     ''' <summary>
     ''' Returns the customer at index pN in the customer array
@@ -336,14 +368,14 @@ Public Class ThemePark
     ''' <returns></returns>
     Private Property _ithCustomer(ByVal pN As Integer) As Customer
         Get
-            If pN > 0 And pN < _maxCustomers Then
+            If pN >= 0 And pN < _maxCustomers Then
                 Return mCustomers(pN)
             Else
                 Throw New IndexOutOfRangeException
             End If
         End Get
         Set(pValue As Customer)
-            If pN > 0 And pN < _maxCustomers Then
+            If pN >= 0 And pN < _maxCustomers Then
                 mCustomers(pN) = pValue
             Else
                 Throw New IndexOutOfRangeException
@@ -358,14 +390,14 @@ Public Class ThemePark
     ''' <returns></returns>
     Private Property _ithFeature(ByVal pN As Integer) As Feature
         Get
-            If pN > 0 And pN < _maxFeatures Then
+            If pN >= 0 And pN < _maxFeatures Then
                 Return mFeatures(pN)
             Else
                 Throw New IndexOutOfRangeException
             End If
         End Get
         Set(pValue As Feature)
-            If pN > 0 And pN < _maxFeatures Then
+            If pN >= 0 And pN < _maxFeatures Then
                 mFeatures(pN) = pValue
             Else
                 Throw New IndexOutOfRangeException
@@ -380,14 +412,14 @@ Public Class ThemePark
     ''' <returns></returns>
     Private Property _ithPassbook(ByVal pN As Integer) As Passbook
         Get
-            If pN > 0 And pN < _maxPassbooks Then
+            If pN >= 0 And pN < _maxPassbooks Then
                 Return mPassbooks(pN)
             Else
                 Throw New IndexOutOfRangeException
             End If
         End Get
         Set(pValue As Passbook)
-            If pN > 0 And pN < _maxPassbookFeatures Then
+            If pN >= 0 And pN < _maxPassbooks Then
                 mPassbooks(pN) = pValue
             Else
                 Throw New IndexOutOfRangeException
@@ -402,14 +434,14 @@ Public Class ThemePark
     ''' <returns></returns>
     Private Property _ithPassbookFeature(ByVal pN As Integer) As PassbookFeature
         Get
-            If pN > 0 And pN < _maxPassbookFeatures Then
+            If pN >= 0 And pN < _maxPassbookFeatures Then
                 Return mPassbookFeatures(pN)
             Else
                 Throw New IndexOutOfRangeException
             End If
         End Get
         Set(pValue As PassbookFeature)
-            If pN > 0 And pN < _maxPassbookFeatures Then
+            If pN >= 0 And pN < _maxPassbookFeatures Then
                 mPassbookFeatures(pN) = pValue
             Else
                 Throw New IndexOutOfRangeException
@@ -424,14 +456,14 @@ Public Class ThemePark
     ''' <returns></returns>
     Private Property _ithUsedFeature(ByVal pN As Integer) As UsedFeature
         Get
-            If pN > 0 And pN < _maxUsedFeatures Then
+            If pN >= 0 And pN < _maxUsedFeatures Then
                 Return mUsedFeatures(pN)
             Else
                 Throw New IndexOutOfRangeException
             End If
         End Get
         Set(pValue As UsedFeature)
-            If pN > 0 And pN < _maxUsedFeatures Then
+            If pN >= 0 And pN < _maxUsedFeatures Then
                 mUsedFeatures(pN) = pValue
             Else
                 Throw New IndexOutOfRangeException
@@ -620,12 +652,29 @@ Public Class ThemePark
                                  ByVal pFeatureChildPrice As Decimal) _
         As Feature
 
+        'Declare variables
+        Dim newFeature As Feature
+
         ' Call the specialty constructor
-        mNewFeature = New Feature(pFeatureID,
+        newFeature = New Feature(pFeatureID,
                                     pFeatureName,
                                     pFeatureUOM,
                                     pFeatureAdultPrice,
                                     pFeatureChildPrice)
+
+        'Check that the array is large enough for a new feature,
+        'if not, grow the array.
+        If _numFeatures >= _maxFeatures Then
+            _maxFeatures += mDEFAULT_ARRAY_GROWTH_INCREMENT
+            ReDim Preserve mFeatures(_maxFeatures - 1)
+        End If
+
+        ' Add the feature to the array in the correct index
+        Try
+            _ithFeature(_numFeatures) = newFeature
+        Catch ex As Exception
+            Throw New IndexOutOfRangeException
+        End Try
 
         ' Increase the Feature count
         _numFeatures += 1
@@ -634,11 +683,11 @@ Public Class ThemePark
         RaiseEvent ThemePark_FeatureAdded(
             Me,
             New ThemePark_EventArgs_FeatureAdded(
-                mNewFeature
+                newFeature
                 )
             ) 'RaiseEvent
 
-        Return mNewFeature
+        Return newFeature
 
     End Function '_addFeature()
 
@@ -652,12 +701,29 @@ Public Class ThemePark
                                   ByVal pPassbookVisitorBirthdate As Date) _
         As Passbook
 
+        'Declare Variables
+        Dim newPassbook As Passbook
+
         ' Call the specialty constructor
-        mNewPassbook = New Passbook(pPassbookID,
+        newPassbook = New Passbook(pPassbookID,
                                     pPassbookOwner,
                                     pPassbookDatePurch,
                                     pPassbookVisitorName,
                                     pPassbookVisitorBirthdate)
+
+        'Check that the array is large enough for a new passbook,
+        'if not, grow the array.
+        If _numPassbooks >= _maxPassbooks Then
+            _maxPassbooks += mDEFAULT_ARRAY_GROWTH_INCREMENT
+            ReDim Preserve mPassbooks(_maxPassbooks - 1)
+        End If
+
+        ' Add the Passbook to the array in the correct index
+        Try
+            _ithPassbook(_numPassbooks) = newPassbook
+        Catch ex As Exception
+            Throw New IndexOutOfRangeException
+        End Try
 
         ' Increase the Passbook count
         _numPassbooks += 1
@@ -666,11 +732,11 @@ Public Class ThemePark
         RaiseEvent ThemePark_PassbookAdded(
             Me,
             New ThemePark_EventArgs_PassbookAdded(
-                mNewPassbook
+                newPassbook
                 )
             ) 'RaiseEvent
 
-        Return mNewPassbook
+        Return newPassbook
 
     End Function '_addPassbook()
 
@@ -685,13 +751,30 @@ Public Class ThemePark
                                          ByVal pQtyRemaining As Decimal) _
         As PassbookFeature
 
+        'Declare Variables
+        Dim newPassbookFeature As PassbookFeature
+
         ' Call the specialty constructor
-        mNewPassbookFeature = New PassbookFeature(pPassbookFeatureID,
+        newPassbookFeature = New PassbookFeature(pPassbookFeatureID,
                                                   pQtyPurchased,
                                                   pPassbookFeatureAmt,
                                                   pPassbook,
                                                   pFeature,
                                                   pQtyRemaining)
+
+        'Check that the array is large enough for a new passbook feature
+        'if not, grow the array.
+        If _numPassbookFeatures >= _maxPassbookFeatures Then
+            _maxPassbookFeatures += mDEFAULT_ARRAY_GROWTH_INCREMENT
+            ReDim Preserve mPassbookFeatures(_maxPassbookFeatures - 1)
+        End If
+
+        ' Add the passbook feature to the array in the correct index
+        Try
+            _ithPassbookFeature(_numPassbookFeatures) = newPassbookFeature
+        Catch ex As Exception
+            Throw New IndexOutOfRangeException
+        End Try
 
         ' Increase the Feature count
         _numPassbookFeatures += 1
@@ -700,17 +783,17 @@ Public Class ThemePark
         RaiseEvent ThemePark_PassbookFeatureAdded(
             Me,
             New ThemePark_EventArgs_PassbookFeatureAdded(
-                mNewPassbookFeature
+                newPassbookFeature
                 )
             ) 'RaiseEvent
 
         ' Return Ref to Object
-        Return mNewPassbookFeature
+        Return newPassbookFeature
 
     End Function '_addPassbookFeature()
 
     ''' <summary>
-    ''' Creates a new UsedFeature object, increases passbookFeature count
+    ''' Creates a new UsedFeature object, increases usedFeature count
     ''' </summary>
     Private Function _addUsedFeature(ByVal pUsedFeatureID As String,
                                      ByVal pUsedPassbookFeature As PassbookFeature,
@@ -719,12 +802,29 @@ Public Class ThemePark
                                      ByVal pQtyUsed As Decimal) _
         As UsedFeature
 
+        'Declare variables
+        Dim newUsedFeature As UsedFeature
+
         ' Call the specialty constructor
-        mNewUsedFeature = New UsedFeature(pUsedFeatureID,
+        newUsedFeature = New UsedFeature(pUsedFeatureID,
                                           pUsedPassbookFeature,
                                           pUsedDate,
                                           pUsedLocation,
                                           pQtyUsed)
+
+        'Check that the array is large enough for a new used feature,
+        'if not, grow the array.
+        If _numUsedFeatures >= _maxUsedFeatures Then
+            _maxUsedFeatures += mDEFAULT_ARRAY_GROWTH_INCREMENT
+            ReDim Preserve mUsedFeatures(_maxUsedFeatures - 1)
+        End If
+
+        ' Add the used feature to the array in the correct index
+        Try
+            _ithUsedFeature(_numUsedFeatures) = newUsedFeature
+        Catch ex As Exception
+            Throw New IndexOutOfRangeException
+        End Try
 
         ' Increase the Feature count
         _numUsedFeatures += 1
@@ -733,11 +833,11 @@ Public Class ThemePark
         RaiseEvent ThemePark_UsedFeatureAdded(
             Me,
             New ThemePark_EventArgs_UsedFeatureAdded(
-                mNewUsedFeature
+                newUsedFeature
                 )
             ) 'RaiseEvent
 
-        Return mNewUsedFeature
+        Return newUsedFeature
 
     End Function '_addUsedFeature()
 
@@ -749,11 +849,16 @@ Public Class ThemePark
 
         Dim tmpString As String
         tmpString = "( THEMEPARK: ParkName=" & mParkName _
-            & ", NumCustomers=" & mNumCustomers.ToString _
-            & ", NumPassbooks=" & mNumPassbooks.ToString _
-            & ", NumFeatures=" & mNumFeatures.ToString _
-            & ", NumPassbookFeatures=" & mNumPassbookFeatures.ToString _
-            & ", NumUsedFeatures=" & mNumUsedFeatures.ToString _
+            & ", numCustomers=" & mNumCustomers.ToString _
+            & "/ maxCustomers=" & mMaxCustomers.ToString _
+            & ", numPassbooks=" & mNumPassbooks.ToString _
+            & "/ maxPassbooks=" & mMaxPassbooks.ToString _
+            & ", numFeatures=" & mNumFeatures.ToString _
+            & "/ maxFeatures=" & mMaxFeatures.ToString _
+            & ", numPassbookFeatures=" & mNumPassbookFeatures.ToString _
+            & "/ maxPassbookFeatures=" & mMaxPassbookFeatures.ToString _
+            & ", numUsedFeatures=" & mNumUsedFeatures.ToString _
+            & "/ maxUsedFeatures=" & mMaxUsedFeatures.ToString _
             & " )"
 
         Return tmpString

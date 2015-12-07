@@ -118,6 +118,7 @@ Public Class Customer
             mCustName = pValue
         End Set
     End Property
+
 #End Region 'Get/Set Methods
 
 #Region "Behavioral Methods"
