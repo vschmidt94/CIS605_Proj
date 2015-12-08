@@ -36,7 +36,6 @@ Public Class PassbookFeature
     Private mPassbook As Passbook
     Private mFeature As Feature
     Private mPassbookFeatureQtyRemaining As Decimal
-
 #End Region 'Attributes
 
 #Region "Constructors"
@@ -76,7 +75,7 @@ Public Class PassbookFeature
         _passbookFeatureAmt = pPassbookFeatureAmt
         _passbook = pPassbook
         _feature = pFeature
-        _passbookFeatureQtyRemaining = pQtyRemaining
+        _passbookFeatureQtyRemaining = pQtyPurchased
 
     End Sub 'New() specialty constructor
 
@@ -197,11 +196,11 @@ Public Class PassbookFeature
         End Set
     End Property '_passbook()
 
-    Private Property _passbookFeatureQtyRemaining() As Decimal
+    Private Property _passbookFeatureQtyRemaining As Decimal
         Get
             Return mPassbookFeatureQtyRemaining
         End Get
-        Set(ByVal pValue As Decimal)
+        Set(pValue As Decimal)
             mPassbookFeatureQtyRemaining = pValue
         End Set
     End Property '_passbookFeatureQtyRemaining()

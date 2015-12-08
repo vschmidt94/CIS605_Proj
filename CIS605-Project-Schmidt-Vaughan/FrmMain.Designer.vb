@@ -108,23 +108,30 @@ Partial Class FrmMain
         Me.lblPurchFeaturesTabBuyFeature = New System.Windows.Forms.Label()
         Me.picLogoTabBuyFeature = New System.Windows.Forms.PictureBox()
         Me.tabUpdatePassbook = New System.Windows.Forms.TabPage()
+        Me.lblLocUsedTabUpdatePassbook = New System.Windows.Forms.Label()
+        Me.lstLocUsedTabUpdatePassbook = New System.Windows.Forms.ListBox()
+        Me.lblNewQtyRemaining = New System.Windows.Forms.Label()
+        Me.txtNewQtyRemainingTabUpdatePassbook = New System.Windows.Forms.TextBox()
+        Me.txtFeatureRemainNameTabUpdatePassbook = New System.Windows.Forms.Label()
+        Me.lstRemainFeatNameTabUpdatePassbook = New System.Windows.Forms.ListBox()
+        Me.lblQtyUsedTabUpdatePassbook = New System.Windows.Forms.Label()
+        Me.lblUsedFeatNameTabUpdatePassbook = New System.Windows.Forms.Label()
+        Me.txtUsedFeatIDTabUpdatePassbook = New System.Windows.Forms.Label()
+        Me.lstUsedFeatNameTabUpdatePassbook = New System.Windows.Forms.ListBox()
+        Me.lstQtyUsedTabUpdatePassbook = New System.Windows.Forms.ListBox()
+        Me.lstUsedFeatTabUpdatePassbook = New System.Windows.Forms.ListBox()
+        Me.lblQtyRemainingTabUpdatePassbook = New System.Windows.Forms.Label()
+        Me.lstQtyRemainingTabUpdatePassbook = New System.Windows.Forms.ListBox()
+        Me.lblFeatureRemainingTabUpdatePassbook = New System.Windows.Forms.Label()
+        Me.lstFeatureUpdateTabUpdatePassbook = New System.Windows.Forms.ListBox()
         Me.chkUserIsChildTabUpdatePassbook = New System.Windows.Forms.CheckBox()
         Me.txtAgeBoxTabUpdatePassbook = New System.Windows.Forms.TextBox()
         Me.lblAgeTabUpdatePassbook = New System.Windows.Forms.Label()
         Me.lblAdjustmentCostTabUpdatePassbook = New System.Windows.Forms.Label()
         Me.txtCostChangeTabUpdatePassbook = New System.Windows.Forms.TextBox()
         Me.btnAcceptTabUpdatePassbook = New System.Windows.Forms.Button()
-        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.colUsedFeatureName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colQtyUsed = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colUsedDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.lblUsedFeaturesTabUpdatePassbook = New System.Windows.Forms.Label()
         Me.lblAdjustRemainingFeaturesTabUpdatePassbook = New System.Windows.Forms.Label()
-        Me.dtaRemainingFeatures = New System.Windows.Forms.DataGridView()
-        Me.colFeature = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colQtyRemaining = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colNewQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colExpiration = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.txtRegisteredUserTabUpdatePassbook = New System.Windows.Forms.TextBox()
         Me.txtRegisteredOwnerTabUpdatePassbook = New System.Windows.Forms.TextBox()
         Me.lblUserTabUpdatePassbook = New System.Windows.Forms.Label()
@@ -148,6 +155,9 @@ Partial Class FrmMain
         Me.lblAddNewFeatureIDTabDefineFeature = New System.Windows.Forms.Label()
         Me.lblDefineFeatureTabDefineFeature = New System.Windows.Forms.Label()
         Me.tabPostUsedFeature = New System.Windows.Forms.TabPage()
+        Me.dtpUsedDateTabPostUsedFeature = New System.Windows.Forms.DateTimePicker()
+        Me.lblDateUsedTabPostUsedFeature = New System.Windows.Forms.Label()
+        Me.txtLocationUsedTabPostUsedFeature = New System.Windows.Forms.TextBox()
         Me.lblLocationUsedTabPostUsedFeature = New System.Windows.Forms.Label()
         Me.txtNewUsedFeatureIDTabPostUsedFeature = New System.Windows.Forms.TextBox()
         Me.lblNewUsedFeatureIDTabPostUsedFeature = New System.Windows.Forms.Label()
@@ -176,9 +186,6 @@ Partial Class FrmMain
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnProcessTestData = New System.Windows.Forms.Button()
-        Me.txtLocationUsedTabPostUsedFeature = New System.Windows.Forms.TextBox()
-        Me.lblDateUsedTabPostUsedFeature = New System.Windows.Forms.Label()
-        Me.dtpUsedDateTabPostUsedFeature = New System.Windows.Forms.DateTimePicker()
         Me.tbcMainActivities.SuspendLayout()
         Me.tabDashboard.SuspendLayout()
         CType(Me.picDashLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -190,8 +197,6 @@ Partial Class FrmMain
         CType(Me.numQtyTabBuyFeature, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picLogoTabBuyFeature, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabUpdatePassbook.SuspendLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtaRemainingFeatures, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picLogoTabUpdatePassbook, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabDefineFeature.SuspendLayout()
         CType(Me.picLogoTabDefineFeature, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1091,16 +1096,30 @@ Partial Class FrmMain
         '
         'tabUpdatePassbook
         '
+        Me.tabUpdatePassbook.Controls.Add(Me.lblLocUsedTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lstLocUsedTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lblNewQtyRemaining)
+        Me.tabUpdatePassbook.Controls.Add(Me.txtNewQtyRemainingTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.txtFeatureRemainNameTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lstRemainFeatNameTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lblQtyUsedTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lblUsedFeatNameTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.txtUsedFeatIDTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lstUsedFeatNameTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lstQtyUsedTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lstUsedFeatTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lblQtyRemainingTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lstQtyRemainingTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lblFeatureRemainingTabUpdatePassbook)
+        Me.tabUpdatePassbook.Controls.Add(Me.lstFeatureUpdateTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.chkUserIsChildTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.txtAgeBoxTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.lblAgeTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.lblAdjustmentCostTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.txtCostChangeTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.btnAcceptTabUpdatePassbook)
-        Me.tabUpdatePassbook.Controls.Add(Me.DataGridView1)
         Me.tabUpdatePassbook.Controls.Add(Me.lblUsedFeaturesTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.lblAdjustRemainingFeaturesTabUpdatePassbook)
-        Me.tabUpdatePassbook.Controls.Add(Me.dtaRemainingFeatures)
         Me.tabUpdatePassbook.Controls.Add(Me.txtRegisteredUserTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.txtRegisteredOwnerTabUpdatePassbook)
         Me.tabUpdatePassbook.Controls.Add(Me.lblUserTabUpdatePassbook)
@@ -1116,6 +1135,150 @@ Partial Class FrmMain
         Me.tabUpdatePassbook.TabIndex = 3
         Me.tabUpdatePassbook.Text = "Update Passbook"
         Me.tabUpdatePassbook.UseVisualStyleBackColor = True
+        '
+        'lblLocUsedTabUpdatePassbook
+        '
+        Me.lblLocUsedTabUpdatePassbook.AutoSize = True
+        Me.lblLocUsedTabUpdatePassbook.Location = New System.Drawing.Point(362, 318)
+        Me.lblLocUsedTabUpdatePassbook.Name = "lblLocUsedTabUpdatePassbook"
+        Me.lblLocUsedTabUpdatePassbook.Size = New System.Drawing.Size(48, 13)
+        Me.lblLocUsedTabUpdatePassbook.TabIndex = 42
+        Me.lblLocUsedTabUpdatePassbook.Text = "Location"
+        '
+        'lstLocUsedTabUpdatePassbook
+        '
+        Me.lstLocUsedTabUpdatePassbook.Enabled = False
+        Me.lstLocUsedTabUpdatePassbook.FormattingEnabled = True
+        Me.lstLocUsedTabUpdatePassbook.Location = New System.Drawing.Point(356, 338)
+        Me.lstLocUsedTabUpdatePassbook.Name = "lstLocUsedTabUpdatePassbook"
+        Me.lstLocUsedTabUpdatePassbook.Size = New System.Drawing.Size(102, 134)
+        Me.lstLocUsedTabUpdatePassbook.TabIndex = 41
+        '
+        'lblNewQtyRemaining
+        '
+        Me.lblNewQtyRemaining.AutoSize = True
+        Me.lblNewQtyRemaining.Location = New System.Drawing.Point(459, 135)
+        Me.lblNewQtyRemaining.Name = "lblNewQtyRemaining"
+        Me.lblNewQtyRemaining.Size = New System.Drawing.Size(129, 13)
+        Me.lblNewQtyRemaining.TabIndex = 40
+        Me.lblNewQtyRemaining.Text = "Enter New Qty Remaining"
+        '
+        'txtNewQtyRemainingTabUpdatePassbook
+        '
+        Me.txtNewQtyRemainingTabUpdatePassbook.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtNewQtyRemainingTabUpdatePassbook.Location = New System.Drawing.Point(459, 155)
+        Me.txtNewQtyRemainingTabUpdatePassbook.Name = "txtNewQtyRemainingTabUpdatePassbook"
+        Me.txtNewQtyRemainingTabUpdatePassbook.Size = New System.Drawing.Size(100, 29)
+        Me.txtNewQtyRemainingTabUpdatePassbook.TabIndex = 39
+        Me.txtNewQtyRemainingTabUpdatePassbook.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ToolTip1.SetToolTip(Me.txtNewQtyRemainingTabUpdatePassbook, "Total price of the feature adjustment")
+        '
+        'txtFeatureRemainNameTabUpdatePassbook
+        '
+        Me.txtFeatureRemainNameTabUpdatePassbook.AutoSize = True
+        Me.txtFeatureRemainNameTabUpdatePassbook.Location = New System.Drawing.Point(114, 136)
+        Me.txtFeatureRemainNameTabUpdatePassbook.Name = "txtFeatureRemainNameTabUpdatePassbook"
+        Me.txtFeatureRemainNameTabUpdatePassbook.Size = New System.Drawing.Size(35, 13)
+        Me.txtFeatureRemainNameTabUpdatePassbook.TabIndex = 38
+        Me.txtFeatureRemainNameTabUpdatePassbook.Text = "Name"
+        '
+        'lstRemainFeatNameTabUpdatePassbook
+        '
+        Me.lstRemainFeatNameTabUpdatePassbook.Enabled = False
+        Me.lstRemainFeatNameTabUpdatePassbook.FormattingEnabled = True
+        Me.lstRemainFeatNameTabUpdatePassbook.Location = New System.Drawing.Point(116, 155)
+        Me.lstRemainFeatNameTabUpdatePassbook.Name = "lstRemainFeatNameTabUpdatePassbook"
+        Me.lstRemainFeatNameTabUpdatePassbook.Size = New System.Drawing.Size(149, 134)
+        Me.lstRemainFeatNameTabUpdatePassbook.TabIndex = 37
+        '
+        'lblQtyUsedTabUpdatePassbook
+        '
+        Me.lblQtyUsedTabUpdatePassbook.AutoSize = True
+        Me.lblQtyUsedTabUpdatePassbook.Location = New System.Drawing.Point(271, 318)
+        Me.lblQtyUsedTabUpdatePassbook.Name = "lblQtyUsedTabUpdatePassbook"
+        Me.lblQtyUsedTabUpdatePassbook.Size = New System.Drawing.Size(51, 13)
+        Me.lblQtyUsedTabUpdatePassbook.TabIndex = 36
+        Me.lblQtyUsedTabUpdatePassbook.Text = "Qty Used"
+        '
+        'lblUsedFeatNameTabUpdatePassbook
+        '
+        Me.lblUsedFeatNameTabUpdatePassbook.AutoSize = True
+        Me.lblUsedFeatNameTabUpdatePassbook.Location = New System.Drawing.Point(119, 318)
+        Me.lblUsedFeatNameTabUpdatePassbook.Name = "lblUsedFeatNameTabUpdatePassbook"
+        Me.lblUsedFeatNameTabUpdatePassbook.Size = New System.Drawing.Size(35, 13)
+        Me.lblUsedFeatNameTabUpdatePassbook.TabIndex = 35
+        Me.lblUsedFeatNameTabUpdatePassbook.Text = "Name"
+        '
+        'txtUsedFeatIDTabUpdatePassbook
+        '
+        Me.txtUsedFeatIDTabUpdatePassbook.AutoSize = True
+        Me.txtUsedFeatIDTabUpdatePassbook.Location = New System.Drawing.Point(32, 319)
+        Me.txtUsedFeatIDTabUpdatePassbook.Name = "txtUsedFeatIDTabUpdatePassbook"
+        Me.txtUsedFeatIDTabUpdatePassbook.Size = New System.Drawing.Size(71, 13)
+        Me.txtUsedFeatIDTabUpdatePassbook.TabIndex = 34
+        Me.txtUsedFeatIDTabUpdatePassbook.Text = "Used Feature"
+        '
+        'lstUsedFeatNameTabUpdatePassbook
+        '
+        Me.lstUsedFeatNameTabUpdatePassbook.Enabled = False
+        Me.lstUsedFeatNameTabUpdatePassbook.FormattingEnabled = True
+        Me.lstUsedFeatNameTabUpdatePassbook.Location = New System.Drawing.Point(119, 338)
+        Me.lstUsedFeatNameTabUpdatePassbook.Name = "lstUsedFeatNameTabUpdatePassbook"
+        Me.lstUsedFeatNameTabUpdatePassbook.Size = New System.Drawing.Size(146, 134)
+        Me.lstUsedFeatNameTabUpdatePassbook.TabIndex = 33
+        '
+        'lstQtyUsedTabUpdatePassbook
+        '
+        Me.lstQtyUsedTabUpdatePassbook.Enabled = False
+        Me.lstQtyUsedTabUpdatePassbook.FormattingEnabled = True
+        Me.lstQtyUsedTabUpdatePassbook.Location = New System.Drawing.Point(271, 338)
+        Me.lstQtyUsedTabUpdatePassbook.Name = "lstQtyUsedTabUpdatePassbook"
+        Me.lstQtyUsedTabUpdatePassbook.Size = New System.Drawing.Size(79, 134)
+        Me.lstQtyUsedTabUpdatePassbook.TabIndex = 32
+        '
+        'lstUsedFeatTabUpdatePassbook
+        '
+        Me.lstUsedFeatTabUpdatePassbook.Enabled = False
+        Me.lstUsedFeatTabUpdatePassbook.FormattingEnabled = True
+        Me.lstUsedFeatTabUpdatePassbook.Location = New System.Drawing.Point(32, 338)
+        Me.lstUsedFeatTabUpdatePassbook.Name = "lstUsedFeatTabUpdatePassbook"
+        Me.lstUsedFeatTabUpdatePassbook.Size = New System.Drawing.Size(77, 134)
+        Me.lstUsedFeatTabUpdatePassbook.TabIndex = 31
+        '
+        'lblQtyRemainingTabUpdatePassbook
+        '
+        Me.lblQtyRemainingTabUpdatePassbook.AutoSize = True
+        Me.lblQtyRemainingTabUpdatePassbook.Location = New System.Drawing.Point(268, 139)
+        Me.lblQtyRemainingTabUpdatePassbook.Name = "lblQtyRemainingTabUpdatePassbook"
+        Me.lblQtyRemainingTabUpdatePassbook.Size = New System.Drawing.Size(76, 13)
+        Me.lblQtyRemainingTabUpdatePassbook.TabIndex = 29
+        Me.lblQtyRemainingTabUpdatePassbook.Text = "Qty Remaining"
+        '
+        'lstQtyRemainingTabUpdatePassbook
+        '
+        Me.lstQtyRemainingTabUpdatePassbook.Enabled = False
+        Me.lstQtyRemainingTabUpdatePassbook.FormattingEnabled = True
+        Me.lstQtyRemainingTabUpdatePassbook.Location = New System.Drawing.Point(271, 155)
+        Me.lstQtyRemainingTabUpdatePassbook.Name = "lstQtyRemainingTabUpdatePassbook"
+        Me.lstQtyRemainingTabUpdatePassbook.Size = New System.Drawing.Size(79, 134)
+        Me.lstQtyRemainingTabUpdatePassbook.TabIndex = 28
+        '
+        'lblFeatureRemainingTabUpdatePassbook
+        '
+        Me.lblFeatureRemainingTabUpdatePassbook.AutoSize = True
+        Me.lblFeatureRemainingTabUpdatePassbook.Location = New System.Drawing.Point(29, 136)
+        Me.lblFeatureRemainingTabUpdatePassbook.Name = "lblFeatureRemainingTabUpdatePassbook"
+        Me.lblFeatureRemainingTabUpdatePassbook.Size = New System.Drawing.Size(43, 13)
+        Me.lblFeatureRemainingTabUpdatePassbook.TabIndex = 27
+        Me.lblFeatureRemainingTabUpdatePassbook.Text = "Feature"
+        '
+        'lstFeatureUpdateTabUpdatePassbook
+        '
+        Me.lstFeatureUpdateTabUpdatePassbook.FormattingEnabled = True
+        Me.lstFeatureUpdateTabUpdatePassbook.Location = New System.Drawing.Point(29, 155)
+        Me.lstFeatureUpdateTabUpdatePassbook.Name = "lstFeatureUpdateTabUpdatePassbook"
+        Me.lstFeatureUpdateTabUpdatePassbook.Size = New System.Drawing.Size(80, 134)
+        Me.lstFeatureUpdateTabUpdatePassbook.TabIndex = 26
         '
         'chkUserIsChildTabUpdatePassbook
         '
@@ -1149,7 +1312,7 @@ Partial Class FrmMain
         'lblAdjustmentCostTabUpdatePassbook
         '
         Me.lblAdjustmentCostTabUpdatePassbook.AutoSize = True
-        Me.lblAdjustmentCostTabUpdatePassbook.Location = New System.Drawing.Point(499, 136)
+        Me.lblAdjustmentCostTabUpdatePassbook.Location = New System.Drawing.Point(464, 220)
         Me.lblAdjustmentCostTabUpdatePassbook.Name = "lblAdjustmentCostTabUpdatePassbook"
         Me.lblAdjustmentCostTabUpdatePassbook.Size = New System.Drawing.Size(95, 13)
         Me.lblAdjustmentCostTabUpdatePassbook.TabIndex = 22
@@ -1158,7 +1321,7 @@ Partial Class FrmMain
         'txtCostChangeTabUpdatePassbook
         '
         Me.txtCostChangeTabUpdatePassbook.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCostChangeTabUpdatePassbook.Location = New System.Drawing.Point(499, 155)
+        Me.txtCostChangeTabUpdatePassbook.Location = New System.Drawing.Point(464, 239)
         Me.txtCostChangeTabUpdatePassbook.Name = "txtCostChangeTabUpdatePassbook"
         Me.txtCostChangeTabUpdatePassbook.ReadOnly = True
         Me.txtCostChangeTabUpdatePassbook.Size = New System.Drawing.Size(100, 29)
@@ -1169,45 +1332,18 @@ Partial Class FrmMain
         '
         'btnAcceptTabUpdatePassbook
         '
-        Me.btnAcceptTabUpdatePassbook.Location = New System.Drawing.Point(499, 190)
+        Me.btnAcceptTabUpdatePassbook.Location = New System.Drawing.Point(464, 274)
         Me.btnAcceptTabUpdatePassbook.Name = "btnAcceptTabUpdatePassbook"
         Me.btnAcceptTabUpdatePassbook.Size = New System.Drawing.Size(100, 23)
         Me.btnAcceptTabUpdatePassbook.TabIndex = 3
         Me.btnAcceptTabUpdatePassbook.Text = "Accept Change"
         Me.btnAcceptTabUpdatePassbook.UseVisualStyleBackColor = True
         '
-        'DataGridView1
-        '
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colUsedFeatureName, Me.colQtyUsed, Me.colUsedDate})
-        Me.DataGridView1.Location = New System.Drawing.Point(29, 331)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(429, 145)
-        Me.DataGridView1.TabIndex = 19
-        '
-        'colUsedFeatureName
-        '
-        Me.colUsedFeatureName.HeaderText = "Feature"
-        Me.colUsedFeatureName.Name = "colUsedFeatureName"
-        Me.colUsedFeatureName.ReadOnly = True
-        '
-        'colQtyUsed
-        '
-        Me.colQtyUsed.HeaderText = "Qty Used"
-        Me.colQtyUsed.Name = "colQtyUsed"
-        Me.colQtyUsed.ReadOnly = True
-        '
-        'colUsedDate
-        '
-        Me.colUsedDate.HeaderText = "Date Used"
-        Me.colUsedDate.Name = "colUsedDate"
-        Me.colUsedDate.ReadOnly = True
-        '
         'lblUsedFeaturesTabUpdatePassbook
         '
         Me.lblUsedFeaturesTabUpdatePassbook.AutoSize = True
         Me.lblUsedFeaturesTabUpdatePassbook.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUsedFeaturesTabUpdatePassbook.Location = New System.Drawing.Point(12, 315)
+        Me.lblUsedFeaturesTabUpdatePassbook.Location = New System.Drawing.Point(12, 298)
         Me.lblUsedFeaturesTabUpdatePassbook.Name = "lblUsedFeaturesTabUpdatePassbook"
         Me.lblUsedFeaturesTabUpdatePassbook.Size = New System.Drawing.Size(89, 13)
         Me.lblUsedFeaturesTabUpdatePassbook.TabIndex = 18
@@ -1223,42 +1359,6 @@ Partial Class FrmMain
         Me.lblAdjustRemainingFeaturesTabUpdatePassbook.TabIndex = 17
         Me.lblAdjustRemainingFeaturesTabUpdatePassbook.Text = "Adjust Remaining Features"
         '
-        'dtaRemainingFeatures
-        '
-        Me.dtaRemainingFeatures.AllowUserToDeleteRows = False
-        Me.dtaRemainingFeatures.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
-        Me.dtaRemainingFeatures.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dtaRemainingFeatures.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colFeature, Me.colQtyRemaining, Me.colNewQty, Me.colExpiration})
-        Me.dtaRemainingFeatures.Location = New System.Drawing.Point(28, 136)
-        Me.dtaRemainingFeatures.Name = "dtaRemainingFeatures"
-        Me.dtaRemainingFeatures.Size = New System.Drawing.Size(430, 166)
-        Me.dtaRemainingFeatures.TabIndex = 2
-        '
-        'colFeature
-        '
-        Me.colFeature.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.colFeature.HeaderText = "Feature"
-        Me.colFeature.Name = "colFeature"
-        Me.colFeature.ReadOnly = True
-        Me.colFeature.Width = 68
-        '
-        'colQtyRemaining
-        '
-        Me.colQtyRemaining.HeaderText = "Qty"
-        Me.colQtyRemaining.Name = "colQtyRemaining"
-        Me.colQtyRemaining.ReadOnly = True
-        '
-        'colNewQty
-        '
-        Me.colNewQty.HeaderText = "New Qty"
-        Me.colNewQty.Name = "colNewQty"
-        Me.colNewQty.ReadOnly = True
-        '
-        'colExpiration
-        '
-        Me.colExpiration.HeaderText = "Expire Date"
-        Me.colExpiration.Name = "colExpiration"
-        '
         'txtRegisteredUserTabUpdatePassbook
         '
         Me.txtRegisteredUserTabUpdatePassbook.Location = New System.Drawing.Point(153, 77)
@@ -1266,7 +1366,6 @@ Partial Class FrmMain
         Me.txtRegisteredUserTabUpdatePassbook.ReadOnly = True
         Me.txtRegisteredUserTabUpdatePassbook.Size = New System.Drawing.Size(311, 20)
         Me.txtRegisteredUserTabUpdatePassbook.TabIndex = 15
-        Me.txtRegisteredUserTabUpdatePassbook.Text = "TODO: Populate with Registered User"
         Me.ToolTip1.SetToolTip(Me.txtRegisteredUserTabUpdatePassbook, "The registered User for the Passbook")
         '
         'txtRegisteredOwnerTabUpdatePassbook
@@ -1276,7 +1375,6 @@ Partial Class FrmMain
         Me.txtRegisteredOwnerTabUpdatePassbook.ReadOnly = True
         Me.txtRegisteredOwnerTabUpdatePassbook.Size = New System.Drawing.Size(311, 20)
         Me.txtRegisteredOwnerTabUpdatePassbook.TabIndex = 14
-        Me.txtRegisteredOwnerTabUpdatePassbook.Text = "TODO: Populate with Registered Owner"
         Me.ToolTip1.SetToolTip(Me.txtRegisteredOwnerTabUpdatePassbook, "The owner of the Passbook")
         '
         'lblUserTabUpdatePassbook
@@ -1508,6 +1606,30 @@ Partial Class FrmMain
         Me.tabPostUsedFeature.TabIndex = 5
         Me.tabPostUsedFeature.Text = "Post Used Feature"
         Me.tabPostUsedFeature.UseVisualStyleBackColor = True
+        '
+        'dtpUsedDateTabPostUsedFeature
+        '
+        Me.dtpUsedDateTabPostUsedFeature.Location = New System.Drawing.Point(131, 376)
+        Me.dtpUsedDateTabPostUsedFeature.Name = "dtpUsedDateTabPostUsedFeature"
+        Me.dtpUsedDateTabPostUsedFeature.Size = New System.Drawing.Size(200, 20)
+        Me.dtpUsedDateTabPostUsedFeature.TabIndex = 29
+        '
+        'lblDateUsedTabPostUsedFeature
+        '
+        Me.lblDateUsedTabPostUsedFeature.AutoSize = True
+        Me.lblDateUsedTabPostUsedFeature.Location = New System.Drawing.Point(67, 381)
+        Me.lblDateUsedTabPostUsedFeature.Name = "lblDateUsedTabPostUsedFeature"
+        Me.lblDateUsedTabPostUsedFeature.Size = New System.Drawing.Size(58, 13)
+        Me.lblDateUsedTabPostUsedFeature.TabIndex = 28
+        Me.lblDateUsedTabPostUsedFeature.Text = "Date Used"
+        '
+        'txtLocationUsedTabPostUsedFeature
+        '
+        Me.txtLocationUsedTabPostUsedFeature.Location = New System.Drawing.Point(131, 349)
+        Me.txtLocationUsedTabPostUsedFeature.Name = "txtLocationUsedTabPostUsedFeature"
+        Me.txtLocationUsedTabPostUsedFeature.Size = New System.Drawing.Size(255, 20)
+        Me.txtLocationUsedTabPostUsedFeature.TabIndex = 27
+        Me.ToolTip1.SetToolTip(Me.txtLocationUsedTabPostUsedFeature, "Enter location used")
         '
         'lblLocationUsedTabPostUsedFeature
         '
@@ -1765,30 +1887,6 @@ Partial Class FrmMain
         Me.ToolTip1.SetToolTip(Me.btnProcessTestData, "For testing only. This button will launch a hard-coded test suite. ")
         Me.btnProcessTestData.UseVisualStyleBackColor = True
         '
-        'txtLocationUsedTabPostUsedFeature
-        '
-        Me.txtLocationUsedTabPostUsedFeature.Location = New System.Drawing.Point(131, 349)
-        Me.txtLocationUsedTabPostUsedFeature.Name = "txtLocationUsedTabPostUsedFeature"
-        Me.txtLocationUsedTabPostUsedFeature.Size = New System.Drawing.Size(255, 20)
-        Me.txtLocationUsedTabPostUsedFeature.TabIndex = 27
-        Me.ToolTip1.SetToolTip(Me.txtLocationUsedTabPostUsedFeature, "Enter location used")
-        '
-        'lblDateUsedTabPostUsedFeature
-        '
-        Me.lblDateUsedTabPostUsedFeature.AutoSize = True
-        Me.lblDateUsedTabPostUsedFeature.Location = New System.Drawing.Point(67, 381)
-        Me.lblDateUsedTabPostUsedFeature.Name = "lblDateUsedTabPostUsedFeature"
-        Me.lblDateUsedTabPostUsedFeature.Size = New System.Drawing.Size(58, 13)
-        Me.lblDateUsedTabPostUsedFeature.TabIndex = 28
-        Me.lblDateUsedTabPostUsedFeature.Text = "Date Used"
-        '
-        'dtpUsedDateTabPostUsedFeature
-        '
-        Me.dtpUsedDateTabPostUsedFeature.Location = New System.Drawing.Point(131, 376)
-        Me.dtpUsedDateTabPostUsedFeature.Name = "dtpUsedDateTabPostUsedFeature"
-        Me.dtpUsedDateTabPostUsedFeature.Size = New System.Drawing.Size(200, 20)
-        Me.dtpUsedDateTabPostUsedFeature.TabIndex = 29
-        '
         'FrmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1818,8 +1916,6 @@ Partial Class FrmMain
         CType(Me.picLogoTabBuyFeature, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabUpdatePassbook.ResumeLayout(False)
         Me.tabUpdatePassbook.PerformLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtaRemainingFeatures, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picLogoTabUpdatePassbook, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabDefineFeature.ResumeLayout(False)
         Me.tabDefineFeature.PerformLayout()
@@ -1912,7 +2008,6 @@ Partial Class FrmMain
     Friend WithEvents lblPurchFeaturesTabBuyFeature As Label
     Friend WithEvents picLogoTabBuyFeature As PictureBox
     Friend WithEvents img1TabPostUsedFeature As PictureBox
-    Friend WithEvents dtaRemainingFeatures As DataGridView
     Friend WithEvents txtRegisteredUserTabUpdatePassbook As TextBox
     Friend WithEvents txtRegisteredOwnerTabUpdatePassbook As TextBox
     Friend WithEvents lblUserTabUpdatePassbook As Label
@@ -1922,20 +2017,12 @@ Partial Class FrmMain
     Friend WithEvents lblUpdatePassbookTabUpdatePassbook As Label
     Friend WithEvents txtCostChangeTabUpdatePassbook As TextBox
     Friend WithEvents btnAcceptTabUpdatePassbook As Button
-    Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents colUsedFeatureName As DataGridViewTextBoxColumn
-    Friend WithEvents colQtyUsed As DataGridViewTextBoxColumn
-    Friend WithEvents colUsedDate As DataGridViewTextBoxColumn
     Friend WithEvents lblUsedFeaturesTabUpdatePassbook As Label
     Friend WithEvents lblAdjustRemainingFeaturesTabUpdatePassbook As Label
-    Friend WithEvents colFeature As DataGridViewTextBoxColumn
-    Friend WithEvents colQtyRemaining As DataGridViewTextBoxColumn
-    Friend WithEvents colNewQty As DataGridViewTextBoxColumn
     Friend WithEvents chkUserIsChildTabUpdatePassbook As CheckBox
     Friend WithEvents txtAgeBoxTabUpdatePassbook As TextBox
     Friend WithEvents lblAgeTabUpdatePassbook As Label
     Friend WithEvents lblAdjustmentCostTabUpdatePassbook As Label
-    Friend WithEvents colExpiration As DataGridViewTextBoxColumn
     Friend WithEvents btnAddFeatureTabDefineFeature As Button
     Friend WithEvents txtUsedQtyTabPostUsedFeature As TextBox
     Friend WithEvents txtRemainingQtyTabPostUsedFeature As TextBox
@@ -1993,4 +2080,20 @@ Partial Class FrmMain
     Friend WithEvents txtLocationUsedTabPostUsedFeature As TextBox
     Friend WithEvents dtpUsedDateTabPostUsedFeature As DateTimePicker
     Friend WithEvents lblDateUsedTabPostUsedFeature As Label
+    Friend WithEvents lblQtyRemainingTabUpdatePassbook As Label
+    Friend WithEvents lstQtyRemainingTabUpdatePassbook As ListBox
+    Friend WithEvents lblFeatureRemainingTabUpdatePassbook As Label
+    Friend WithEvents lstFeatureUpdateTabUpdatePassbook As ListBox
+    Friend WithEvents lblQtyUsedTabUpdatePassbook As Label
+    Friend WithEvents lblUsedFeatNameTabUpdatePassbook As Label
+    Friend WithEvents txtUsedFeatIDTabUpdatePassbook As Label
+    Friend WithEvents lstUsedFeatNameTabUpdatePassbook As ListBox
+    Friend WithEvents lstQtyUsedTabUpdatePassbook As ListBox
+    Friend WithEvents lstUsedFeatTabUpdatePassbook As ListBox
+    Friend WithEvents txtFeatureRemainNameTabUpdatePassbook As Label
+    Friend WithEvents lstRemainFeatNameTabUpdatePassbook As ListBox
+    Friend WithEvents lblNewQtyRemaining As Label
+    Friend WithEvents txtNewQtyRemainingTabUpdatePassbook As TextBox
+    Friend WithEvents lblLocUsedTabUpdatePassbook As Label
+    Friend WithEvents lstLocUsedTabUpdatePassbook As ListBox
 End Class

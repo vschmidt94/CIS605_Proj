@@ -249,6 +249,8 @@ Public Class Passbook
             & ", PassbookDatePurch=" & mPassbookDatePurch.ToString _
             & ", PassbookVisitorName=" & mPassbookVisitorName _
             & ", NumPassbookFeatures=" & mPassbookVisitorBirthdate.ToString _
+            & ", VisitorAge=" & _age.ToString _
+            & ", VisitorIsChild=" & _isChild.ToString _
             & " )"
 
         Return tmpString

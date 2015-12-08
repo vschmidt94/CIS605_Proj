@@ -826,8 +826,12 @@ Public Class ThemePark
             Throw New IndexOutOfRangeException
         End Try
 
-        ' Increase the Feature count
+        ' Increase the Used Feature count
         _numUsedFeatures += 1
+
+        ' Need to decrease the Feature qty in matching Passbook
+        pUsedPassbookFeature.passbookFeatureQtyRemaining =
+            pUsedPassbookFeature.passbookFeatureQtyRemaining - pQtyUsed
 
         ' Raise event
         RaiseEvent ThemePark_UsedFeatureAdded(

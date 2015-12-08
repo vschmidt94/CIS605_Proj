@@ -127,7 +127,7 @@ Public Class UsedFeature
         End Set
     End Property 'usedLocation()
 
-    Private Property usedQty() As Decimal
+    Public Property usedQty() As Decimal
         Get
             Return _usedQty
         End Get

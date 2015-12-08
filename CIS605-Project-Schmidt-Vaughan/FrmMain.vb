@@ -318,7 +318,10 @@ Public Class FrmMain
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub btnBuyPassbookTabPurhchasePassbook_Click(sender As Object, e As EventArgs) Handles btnBuyPassbookTabPurhchasePassbook.Click
+    Private Sub btnBuyPassbookTabPurhchasePassbook_Click(
+            sender As Object,
+            e As EventArgs) _
+        Handles btnBuyPassbookTabPurhchasePassbook.Click
 
         'Declare Variables
         Dim _passbookID As String
@@ -371,14 +374,16 @@ Public Class FrmMain
         dtpPassbookPurchDateTabPurchasePassbook.ResetText()
         dtpPassbookUserBirthdateTabPurchasePassbook.ResetText()
 
-    End Sub 'btnBuyPassbookTabPurhchasePassbook_Click(sender As Object, e As EventArgs) Handles btnBuyPassbookTabPurhchasePassbook.Click
+    End Sub 'btnBuyPassbookTabPurchasePassbook_Click(sender As Object, e As EventArgs) Handles btnBuyPassbookTabPurhchasePassbook.Click
 
     ''' <summary>
     ''' Updates the selected customer text box if needed
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub lstCustomersTabDashboard_SelectedIdxChanged(sender As Object, e As EventArgs) _
+    Private Sub lstCustomersTabDashboard_SelectedIdxChanged(
+                sender As Object,
+                e As EventArgs) _
         Handles lstCustomersTabDashboard.SelectedIndexChanged
 
         'Need to bail if the new selected index is -1
@@ -826,14 +831,14 @@ Public Class FrmMain
         Try
             theQtyUsed = Decimal.Parse(txtUsedQtyTabPostUsedFeature.Text)
         Catch ex As Exception
-            MessageBox.Show("Please enter a valid decimal price (1.23)")
+            MessageBox.Show("Please enter a valid decimal value (example: 1.23)")
             txtUsedQtyTabPostUsedFeature.SelectAll()
             txtUsedQtyTabPostUsedFeature.Focus()
             txtTrxLogTabLog.Text &= vbCrLf & "Invalid Qty Used Entered"
             Exit Sub
         End Try
 
-        theQtyRemaining = thePassbookFeature.passbookFeatureQtyRemaining
+        theQtyRemaining = thePassbookFeature.passbookFeatureQtyRemaining()
         If theQtyRemaining <= 0 Then
             MessageBox.Show("There is no qty remaining for this passbook feature! Nothing can be updated!")
             Exit Sub
@@ -870,8 +875,116 @@ Public Class FrmMain
             txtLocationUsedTabPostUsedFeature.Text,
             theQtyUsed)
 
+        'Display success message
+        MessageBox.Show("Successfully added used feature!")
+
+        'Update the form to show new qty remaining
+        txtRemainingQtyTabPostUsedFeature.Text = thePassbookFeature.passbookFeatureQtyRemaining.ToString
+
+        'Clear out the old entry
+        txtUsedQtyTabPostUsedFeature.ResetText()
+
     End Sub 'btnUpdateTabPostUsedFeature_Click(sender As Object, e As EventArgs) Handles btnUpdateTabPostUsedFeature.Click
 
+    Private Sub cboPassbookTabUpdatePassbook_SelectedIndexChanged(
+            sender As Object,
+            e As EventArgs) _
+        Handles cboPassbookTabUpdatePassbook.SelectedIndexChanged
+
+        'Declare variables
+        Dim thePassbook As Passbook
+        Dim thePassbookFeature As PassbookFeature
+        Dim theFeature As Feature
+        Dim theUsedFeature As UsedFeature
+        Dim i As Integer
+        Dim j As Integer
+
+        txtNewQtyRemainingTabUpdatePassbook.ResetText()
+
+        'Need to bail if the new selected index is -1
+        If cboPassbookTabUpdatePassbook.SelectedIndex = -1 Then
+            Exit Sub
+        End If
+
+        'Update the text boxes
+        thePassbook = mThemePark.ithPassbook(cboPassbookTabUpdatePassbook.SelectedIndex)
+        txtRegisteredOwnerTabUpdatePassbook.Text = thePassbook.passbookOwner.custName
+        txtRegisteredUserTabUpdatePassbook.Text = thePassbook.passbookVisitorName
+
+        txtAgeBoxTabUpdatePassbook.Text = thePassbook.age.ToString
+        chkUserIsChildTabUpdatePassbook.Checked = thePassbook.isChild
+
+        'Loop Through the passbook features and populate the list if it was in this passbook
+        lstRemainFeatNameTabUpdatePassbook.Items.Clear()
+        lstQtyRemainingTabUpdatePassbook.Items.Clear()
+        lstFeatureUpdateTabUpdatePassbook.Items.Clear()
+        For i = 0 To mThemePark.numPassbookFeatures - 1
+            thePassbookFeature = mThemePark.ithPassbookFeature(i)
+            If thePassbookFeature.passbook.passbookID = thePassbook.passbookID Then
+                'we have a match
+                lstFeatureUpdateTabUpdatePassbook.Items.Add(thePassbookFeature.passbookFeatureID)
+                lstQtyRemainingTabUpdatePassbook.Items.Add(thePassbookFeature.passbookFeatureQtyRemaining.ToString("N2"))
+                'Loop throught the features to get the name
+                For j = 0 To mThemePark.numFeatures - 1
+                    theFeature = mThemePark.ithFeature(j)
+                    If thePassbookFeature.feature.featureID = theFeature.featureID Then
+                        lstRemainFeatNameTabUpdatePassbook.Items.Add(theFeature.featureName)
+                    End If
+                Next
+            End If
+        Next
+
+        'Loop through the used feature and populate that list if it was from the passbook
+        lstUsedFeatNameTabUpdatePassbook.Items.Clear()
+        lstUsedFeatTabUpdatePassbook.Items.Clear()
+        lstQtyUsedTabUpdatePassbook.Items.Clear()
+        lstLocUsedTabUpdatePassbook.Items.Clear()
+        For i = 0 To mThemePark.numUsedFeatures - 1
+            theUsedFeature = mThemePark.ithUsedFeature(i)
+            If theUsedFeature.usedPassbookFeature.passbook.passbookID = thePassbook.passbookID Then
+                'we have a match
+                lstUsedFeatTabUpdatePassbook.Items.Add(theUsedFeature.usedFeatureID)
+                lstQtyUsedTabUpdatePassbook.Items.Add(theUsedFeature.usedQty.ToString("N2"))
+                lstLocUsedTabUpdatePassbook.Items.Add(theUsedFeature.usedLocation)
+                'Loop through the features to get the name
+                For j = 0 To mThemePark.numFeatures - 1
+                    theFeature = mThemePark.ithFeature(j)
+                    If theUsedFeature.usedPassbookFeature.feature.featureID = theFeature.featureID Then
+                        lstUsedFeatNameTabUpdatePassbook.Items.Add(theFeature.featureName)
+                    End If
+                Next
+            End If
+        Next
+
+    End Sub 'cboPassbookTabUpdatePassbook_SelectedIndexChanged(sender As Object, e As EventArgs)
+
+    ''' <summary>
+    ''' Keeps the items in sync on list list boxes on update passbook tab
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub lstFeatureUpdateTabUpdatePassbook_SelectedIndexChanged(
+            sender As Object,
+            e As EventArgs) _
+        Handles lstFeatureUpdateTabUpdatePassbook.SelectedIndexChanged
+
+        'Declare Variables
+        Dim i As Integer
+
+        'Bail if index was changed to -1
+        If lstFeatureUpdateTabUpdatePassbook.SelectedIndex = -1 Then
+            txtNewQtyRemainingTabUpdatePassbook.ResetText()
+            Exit Sub
+        End If
+
+        'Sync the other list boxes
+        lstRemainFeatNameTabUpdatePassbook.SelectedIndex = lstFeatureUpdateTabUpdatePassbook.SelectedIndex
+        lstQtyRemainingTabUpdatePassbook.SelectedIndex = lstFeatureUpdateTabUpdatePassbook.SelectedIndex
+
+        'Update the revised qty txt box with current qty
+        txtNewQtyRemainingTabUpdatePassbook.Text = lstQtyRemainingTabUpdatePassbook.SelectedItem.ToString
+
+    End Sub 'lstFeatureUpdateTabUpdatePassbook_SelectedIndexChanged()
 
     ''' <summary> 
     ''' Populates some test data 
@@ -1170,6 +1283,10 @@ Public Class FrmMain
             & theUsedFeature.ToString _
             & vbCrLf
 
+        'Update the Count
+        txtNumUsedFeatureTabDashboard.Text = mThemePark.numUsedFeatures.ToString
+
+
     End Sub '_usedFeatureAdded()
 
     ''' <summary>
@@ -1254,6 +1371,7 @@ Public Class FrmMain
             & vbCrLf
 
     End Sub '_passbookFeatureAdded()
+
 
 
 
