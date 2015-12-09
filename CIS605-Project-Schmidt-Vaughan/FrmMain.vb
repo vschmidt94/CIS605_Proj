@@ -19,6 +19,7 @@
 #Region "Option / Imports"
 Option Explicit On      'Must declare variables before using them
 Option Strict On        'Must perform explicit data type conversions
+Imports System.IO
 #End Region 'Option / Imports
 
 Public Class FrmMain
@@ -230,6 +231,14 @@ Public Class FrmMain
             Exit Sub
         End Try
 
+        'Look to see if customer ID already exists. Duplicate customers not allowed
+        If mThemePark.findCustomer(_custID) >= 0 Then
+            MessageBox.Show("Customer ID already exists!")
+            txtAddCustIDTabNewCustomer.SelectAll()
+            txtAddCustIDTabNewCustomer.Focus()
+            Exit Sub
+        End If
+
         'Create a new Customer
         mThemePark.addCustomer(_custID, _custName)
 
@@ -296,6 +305,16 @@ Public Class FrmMain
         _featureUOM = txtFeatureUOMTabDefineFeature.Text
         _featureID = txtNewFeatureIDTabDefineFeature.Text
 
+
+        'Look to see if Feature ID already exists. Duplicate features not allowed
+        If mThemePark.findFeature(_featureID) >= 0 Then
+            MessageBox.Show("Feature ID already exists!")
+            txtNewFeatureIDTabDefineFeature.SelectAll()
+            txtNewFeatureIDTabDefineFeature.Focus()
+            Exit Sub
+        End If
+
+
         'Create New Feature
         mThemePark.addFeature(_featureID,
                               _featureName,
@@ -349,9 +368,17 @@ Public Class FrmMain
             Exit Sub
         End If
 
+        'Check if Passbook already exists
+        _passbookID = txtPassbookIDTabPurchasePassbook.Text
+        If mThemePark.findPassbook(_passbookID) >= 0 Then
+            MessageBox.Show("Passbook ID Already Exists!")
+            txtPassbookIDTabPurchasePassbook.SelectAll()
+            txtPassbookIDTabPurchasePassbook.Focus()
+            Exit Sub
+        End If
+
         'If here, we should have at least nominally OK data on 
         'form. Load the form data into local variables
-        _passbookID = txtPassbookIDTabPurchasePassbook.Text
         _passbookOwner = mThemePark.ithCustomer(cboPassbookOwnerTabPurchasePassbook.SelectedIndex)
         _passbookUser = txtPassbookUserTabPurchasePassbook.Text
         _passbookPurchDate = dtpPassbookPurchDateTabPurchasePassbook.Value
@@ -698,6 +725,14 @@ Public Class FrmMain
 
         theNewID = txtNewPassbookFeatureIdTabBuyFeature.Text
 
+        'Ensure we don't have a duplicate ID
+        If mThemePark.findPassbookFeature(theNewID) >= 0 Then
+            MessageBox.Show("Passbook Feature ID already exists!")
+            txtNewPassbookFeatureIdTabBuyFeature.SelectAll()
+            txtNewPassbookFeatureIdTabBuyFeature.Focus()
+            Exit Sub
+        End If
+
         'Add new passbook feature
         mThemePark.addPassbookFeature(theNewID, theQty, thePurchasePrice, thePassbook, theFeature, theQty)
 
@@ -985,6 +1020,179 @@ Public Class FrmMain
         txtNewQtyRemainingTabUpdatePassbook.Text = lstQtyRemainingTabUpdatePassbook.SelectedItem.ToString
 
     End Sub 'lstFeatureUpdateTabUpdatePassbook_SelectedIndexChanged()
+
+    ''' <summary>
+    ''' Updates the anticipated cost of the change to passbook on update passbook tab
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub txtNewQtyRemainingTabUpdatePassbook_TextChanged(
+            sender As Object,
+            e As EventArgs) _
+        Handles txtNewQtyRemainingTabUpdatePassbook.TextChanged
+
+        Dim theChangeCost As Decimal
+        Dim theNewQtyRemaining As Decimal
+        Dim theFeatureID As String
+
+
+        Try
+            theNewQtyRemaining = Decimal.Parse(txtNewQtyRemainingTabUpdatePassbook.Text)
+        Catch ex As Exception
+            MessageBox.Show("Please enter a valid decimal quantity (example: 1.23)")
+            txtNewQtyRemainingTabUpdatePassbook.SelectAll()
+            txtNewQtyRemainingTabUpdatePassbook.Focus()
+            txtTrxLogTabLog.Text &= vbCrLf & "Invalid New Qty Remaining Value Entered"
+            Exit Sub
+        End Try
+
+        If lstFeatureUpdateTabUpdatePassbook.SelectedIndex = -1 Then
+            MessageBox.Show("Must select a feature to be changed!")
+            Exit Sub
+        End If
+
+        theFeatureID = lstFeatureUpdateTabUpdatePassbook.SelectedItem.ToString
+
+
+
+    End Sub 'txtNewQtyRemainingTabUpdatePassbook_TextChanged()
+
+    Private Sub btnReadFile_Click(sender As Object, e As EventArgs) _
+        Handles btnReadFile.Click
+
+        Dim inputFile = New StreamReader("Data-in-single.txt")
+        Dim outputFile = New StreamWriter("Data-out-single.txt")
+        Dim idx As Integer
+        Dim line As String
+        Dim field() As String
+        Dim fieldIdx As Integer
+        Dim objectName As String
+        Dim objectAction As String
+        Dim objectTrxDate As String
+        Dim objectTrxTime As String
+        Dim customerID As String
+        Dim customerName As String
+        Dim featureID As String
+        Dim featureName As String
+        Dim featureUOM As String
+        Dim featureAdultPrice As Decimal
+        Dim featureChildPrice As Decimal
+        Dim passbookID As String
+        Dim passbookOwner As String
+        Dim passbookOwnerRef As Customer
+        Dim passbookVisitorName As String
+        Dim passbookPurchDate As Date
+        Dim passbookVisitorBDay As Date
+
+        'Read the file
+        Do While Not inputFile.EndOfStream
+            line = inputFile.ReadLine
+            If line.Length < 1 Then
+                Continue Do
+            End If
+
+            If line.Chars(0) = "#" Then
+                Continue Do
+            End If
+
+            field = Split(line, ";")
+            objectTrxDate = Trim(field(0))
+            objectTrxTime = Trim(field(1))
+            objectName = Trim(field(2))
+            objectAction = Trim(field(3))
+
+            ' Dump the line to the transaction log
+            txtTrxLogTabLog.Text &= vbCrLf _
+                & "DISK FILE RECORD:" _
+                & vbCrLf _
+                & " - Record: Line=" & line
+            For fieldIdx = 0 To field.Length - 1
+                txtTrxLogTabLog.Text &=
+                    vbCrLf &
+                    "  >>> field " & fieldIdx.ToString & "='" & Trim(field(fieldIdx)) & "'"
+            Next fieldIdx
+
+            'Check if we have customer data
+            If objectName = "CUSTOMER" Then
+                customerID = Trim(field(4))
+                customerName = Trim(field(5))
+                If objectAction = "CREATE" Then
+                    'See if Customer ID already exists
+                    If mThemePark.findCustomer(customerID) = -1 Then
+                        mThemePark.addCustomer(customerID, customerName)
+                    Else
+                        txtTrxLogTabLog.Text &= vbCrLf _
+                            & "!! DUPLICATE FEATURE NOT ADDED !!" _
+                            & vbCrLf
+                    End If
+                    Continue Do
+                End If
+            End If 'customer data
+
+            'check if we have feature data
+            If objectName = "FEATURE" Then
+                featureID = Trim(field(4))
+                featureName = Trim(field(5))
+                featureUOM = Trim(field(6))
+                featureAdultPrice = Decimal.Parse(Trim(field(7)))
+                featureChildPrice = Decimal.Parse(Trim(field(8)))
+                If objectAction = "CREATE" Then
+                    'See if Feature ID already exists
+                    If mThemePark.findFeature(featureID) = -1 Then
+                        mThemePark.addFeature(featureID,
+                                          featureName,
+                                          featureUOM,
+                                          featureAdultPrice,
+                                          featureChildPrice)
+                    Else
+                        txtTrxLogTabLog.Text &= vbCrLf _
+                            & "!! DUPLICATE FEATURE - NOT ADDED !!" _
+                            & vbCrLf
+                    End If
+                End If
+                Continue Do
+            End If 'featureData
+
+            'check if we have passbook data
+            If objectName = "PASSBOOK" Then
+                passbookID = Trim(field(4))
+                passbookOwner = Trim(field(5))
+                passbookPurchDate = Date.Parse(Trim(field(6)))
+                passbookVisitorName = Trim(field(7))
+                passbookVisitorBDay = Date.Parse(Trim(field(8)))
+                'Get the customer reference
+                idx = mThemePark.findCustomer(passbookOwner)
+                If idx < 0 Then
+                    'We can't get customer reference, something is wrong
+                    'Give up in a blaze of glory.
+                    txtTrxLogTabLog.Text &= vbCrLf _
+                            & "!! PASSBOOK OWNER NOT FOUND !!" _
+                            & vbCrLf
+                    Continue Do
+                End If
+                passbookOwnerRef = mThemePark.ithCustomer(idx)
+
+                'See if passbook ID already exists
+                If mThemePark.findPassbook(passbookID) = -1 Then
+                    mThemePark.addPassbook(
+                        passbookID,
+                        passbookOwnerRef,
+                        passbookPurchDate,
+                        passbookVisitorName,
+                        passbookVisitorBDay)
+                Else
+                    txtTrxLogTabLog.Text &= vbCrLf _
+                            & "!! DUPLICATE FEATURE - NOT ADDED !!" _
+                            & vbCrLf
+                End If
+
+            End If 'passbook data
+
+        Loop
+
+        inputFile.Close()
+    End Sub 'btnReadFile_Click
+
 
     ''' <summary> 
     ''' Populates some test data 
@@ -1371,6 +1579,9 @@ Public Class FrmMain
             & vbCrLf
 
     End Sub '_passbookFeatureAdded()
+
+
+
 
 
 

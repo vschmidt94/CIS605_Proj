@@ -511,6 +511,18 @@ Public Class ThemePark
     End Function 'addCustomer()
 
     ''' <summary>
+    ''' Returns index number of customer based on ID, -1 if it does not exist in arrays
+    ''' </summary>
+    ''' <param name="pCustID"></param>
+    ''' <returns></returns>
+    Public Function findCustomer(ByVal pCustID As String) _
+        As Integer
+
+        'Call the private function to do the work
+        Return (_findCustomer(pCustID))
+    End Function 'findCustomer()
+
+    ''' <summary>
     ''' Creates a new feature object, increases feature count
     ''' </summary>
     Public Function addFeature(ByVal pFeatureID As String,
@@ -524,6 +536,18 @@ Public Class ThemePark
         Return (_addFeature(pFeatureID, pFeatureName, pFeatureUOM, pFeatureAdultPrice, pFeatureChildPrice))
 
     End Function 'addFeature()
+
+    ''' <summary>
+    ''' Returns index number of feature based on ID, -1 if it does not exist in arrays
+    ''' </summary>
+    ''' <param name="pFeatureID"></param>
+    ''' <returns></returns>
+    Public Function findFeature(ByVal pFeatureID As String) _
+        As Integer
+
+        'Call the private function to do the work
+        Return (_findFeature(pFeatureID))
+    End Function 'findFeature()
 
     ''' <summary>
     ''' Creates a new Passbook object, increases passbook count
@@ -543,6 +567,18 @@ Public Class ThemePark
                              pPassbookVisitorBirthdate))
 
     End Function 'addPassbook()
+
+    ''' <summary>
+    ''' Returns index number of passbook based on ID, -1 if it does not exist in arrays
+    ''' </summary>
+    ''' <param name="pPassbookID"></param>
+    ''' <returns></returns>
+    Public Function findPassbook(ByVal pPassbookID As String) _
+        As Integer
+
+        'Call the private function to do the work
+        Return (_findPassbook(pPassbookID))
+    End Function 'findPassbook()
 
     ''' <summary>
     ''' Creates a new PassbookFeature object, increases passbookFeature count
@@ -566,6 +602,19 @@ Public Class ThemePark
     End Function 'addPassbookFeature()
 
     ''' <summary>
+    ''' Returns index number of passbook feature based on ID, -1 if it does not exist in arrays
+    ''' </summary>
+    ''' <param name="pPassbookFeatureID"></param>
+    ''' <returns></returns>
+    Public Function findPassbookFeature(ByVal pPassbookFeatureID As String) _
+        As Integer
+
+        'Call the private function to do the work
+        Return (_findPassbookFeature(pPassbookFeatureID))
+    End Function 'findPassbookFeature()
+
+
+    ''' <summary>
     ''' Creates a new PassbookUsedFeature object, increases passbookFeature count
     ''' </summary>
     Public Function addUsedFeature(ByVal pUsedFeatureID As String,
@@ -584,6 +633,20 @@ Public Class ThemePark
 
     End Function 'addUsedFeature()
 
+
+    ''' <summary>
+    ''' Returns index number of used passbook feature based on ID, -1 if it does not exist in arrays
+    ''' </summary>
+    ''' <param name="pUsedPassbookFeatureID"></param>
+    ''' <returns></returns>
+    Public Function findUsedPassbookFeature(ByVal pUsedPassbookFeatureID As String) _
+        As Integer
+
+        'Call the private function to do the work
+        Return (_findUsedPassbookFeature(pUsedPassbookFeatureID))
+    End Function 'findUsedPassbookFeature()
+
+
     ''' <summary>
     ''' Updates a new PassbookFeature object, increases passbookFeature count
     ''' </summary>
@@ -600,6 +663,33 @@ Public Class ThemePark
     End Function 'updatePassbookFeature()
 
     '********** Private Non-Shared Behavioral Methods
+
+    ''' <summary>
+    ''' Returns the index number of the customer with the specific cusstomer ID
+    ''' Returns -1 if not found
+    ''' </summary>
+    ''' <param name="pCustID"></param>
+    ''' <returns></returns>
+    Private Function _findCustomer(ByVal pCustID As String) _
+        As Integer
+
+        'Declare variables
+        Dim i As Integer = 0
+
+        'Loop through existing customers and see if we have a match
+
+        For i = 0 To _numCustomers - 1
+            If ithCustomer(i).custID = pCustID Then
+                Return i
+            End If
+        Next
+
+        ' if nothing found, return -1
+        Return -1
+
+    End Function '_findCustomer
+
+
     ''' <summary>
     ''' Creates a new customer object, increases customer count
     ''' </summary>
@@ -641,6 +731,34 @@ Public Class ThemePark
         Return newCustomer
 
     End Function '_addCustomer()
+
+
+
+    ''' <summary>
+    ''' Returns the index number of the feature with the specific feature ID
+    ''' Returns -1 if not found
+    ''' </summary>
+    ''' <param name="pFeatureID"></param>
+    ''' <returns></returns>
+    Private Function _findFeature(ByVal pFeatureID As String) _
+        As Integer
+
+        'Declare variables
+        Dim i As Integer = 0
+
+        'Loop through existing features and see if we have a match
+
+        For i = 0 To _numFeatures - 1
+            If ithFeature(i).featureID = pFeatureID Then
+                Return i
+            End If
+        Next
+
+        ' if nothing found, return -1
+        Return -1
+
+    End Function '_findFeature
+
 
     ''' <summary>
     ''' Creates a new feature object, increases feature count
@@ -691,6 +809,32 @@ Public Class ThemePark
 
     End Function '_addFeature()
 
+
+    ''' <summary>
+    ''' Returns the index number of the passbook with the specific passbook ID
+    ''' Returns -1 if not found
+    ''' </summary>
+    ''' <param name="pPassbookID"></param>
+    ''' <returns></returns>
+    Private Function _findPassbook(ByVal pPassbookID As String) _
+        As Integer
+
+        'Declare variables
+        Dim i As Integer = 0
+
+        'Loop through existing Passbooks and see if we have a match
+
+        For i = 0 To _numPassbooks - 1
+            If ithPassbook(i).passbookID = pPassbookID Then
+                Return i
+            End If
+        Next
+
+        ' if nothing found, return -1
+        Return -1
+
+    End Function '_findPassbook
+
     ''' <summary>
     ''' Creates a new Passbook object, increases passbook count
     ''' </summary>
@@ -739,6 +883,33 @@ Public Class ThemePark
         Return newPassbook
 
     End Function '_addPassbook()
+
+
+    ''' <summary>
+    ''' Returns the index number of the passbook feature with the specific passbook feature ID
+    ''' Returns -1 if not found
+    ''' </summary>
+    ''' <param name="pPassbookFeatureID"></param>
+    ''' <returns></returns>
+    Private Function _findPassbookFeature(ByVal pPassbookFeatureID As String) _
+        As Integer
+
+        'Declare variables
+        Dim i As Integer = 0
+
+        'Loop through existing Passbooks and see if we have a match
+
+        For i = 0 To _numPassbookFeatures - 1
+            If ithPassbookFeature(i).passbookFeatureID = pPassbookFeatureID Then
+                Return i
+            End If
+        Next
+
+        ' if nothing found, return -1
+        Return -1
+
+    End Function '_findPassbook
+
 
     ''' <summary>
     ''' Creates a new PassbookFeature object, increases passbookFeature count
@@ -791,6 +962,33 @@ Public Class ThemePark
         Return newPassbookFeature
 
     End Function '_addPassbookFeature()
+
+
+    ''' <summary>
+    ''' Returns the index number of the used passbook feature with the specific used passbook feature ID
+    ''' Returns -1 if not found
+    ''' </summary>
+    ''' <param name="pUsedPassbookFeatureID"></param>
+    ''' <returns></returns>
+    Private Function _findUsedPassbookFeature(ByVal pUsedPassbookFeatureID As String) _
+        As Integer
+
+        'Declare variables
+        Dim i As Integer = 0
+
+        'Loop through existing Used Passbook Features and see if we have a match
+
+        For i = 0 To _numUsedFeatures - 1
+            If ithUsedFeature(i).usedFeatureID = pUsedPassbookFeatureID Then
+                Return i
+            End If
+        Next
+
+        ' if nothing found, return -1
+        Return -1
+
+    End Function '_findUsedPassbookFeature
+
 
     ''' <summary>
     ''' Creates a new UsedFeature object, increases usedFeature count

@@ -26,6 +26,8 @@ Partial Class FrmMain
         Me.lblCretaceousPark = New System.Windows.Forms.Label()
         Me.tbcMainActivities = New System.Windows.Forms.TabControl()
         Me.tabDashboard = New System.Windows.Forms.TabPage()
+        Me.lblAvgUnusedBal = New System.Windows.Forms.Label()
+        Me.lblMetrics = New System.Windows.Forms.Label()
         Me.lstUsedFeatureTabDashboard = New System.Windows.Forms.ListBox()
         Me.lblUsedFeatureCountTabDashboard = New System.Windows.Forms.Label()
         Me.txtNumUsedFeatureTabDashboard = New System.Windows.Forms.TextBox()
@@ -186,6 +188,21 @@ Partial Class FrmMain
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnProcessTestData = New System.Windows.Forms.Button()
+        Me.btnReadFile = New System.Windows.Forms.Button()
+        Me.btnWriteFile = New System.Windows.Forms.Button()
+        Me.lblSumUnusedFeature = New System.Windows.Forms.Label()
+        Me.lblAvgPBPerCust = New System.Windows.Forms.Label()
+        Me.lblAvgAge = New System.Windows.Forms.Label()
+        Me.lblPercentUsed = New System.Windows.Forms.Label()
+        Me.lblPopularFeat = New System.Windows.Forms.Label()
+        Me.lblBDaysThisMo = New System.Windows.Forms.Label()
+        Me.txtUnusedPBBalTabDashboard = New System.Windows.Forms.TextBox()
+        Me.txtUnusedPBFTabDashboard = New System.Windows.Forms.TextBox()
+        Me.txtAvgNumPBTabDashboard = New System.Windows.Forms.TextBox()
+        Me.txtTopFeatureTabDashboad = New System.Windows.Forms.TextBox()
+        Me.txtPercentFtrUseTabDashboard = New System.Windows.Forms.TextBox()
+        Me.txtAvgAgeTabDashboard = New System.Windows.Forms.TextBox()
+        Me.txtBirthdaysTabDashboard = New System.Windows.Forms.TextBox()
         Me.tbcMainActivities.SuspendLayout()
         Me.tabDashboard.SuspendLayout()
         CType(Me.picDashLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -237,6 +254,21 @@ Partial Class FrmMain
         '
         'tabDashboard
         '
+        Me.tabDashboard.Controls.Add(Me.txtBirthdaysTabDashboard)
+        Me.tabDashboard.Controls.Add(Me.txtAvgAgeTabDashboard)
+        Me.tabDashboard.Controls.Add(Me.txtPercentFtrUseTabDashboard)
+        Me.tabDashboard.Controls.Add(Me.txtTopFeatureTabDashboad)
+        Me.tabDashboard.Controls.Add(Me.txtAvgNumPBTabDashboard)
+        Me.tabDashboard.Controls.Add(Me.txtUnusedPBFTabDashboard)
+        Me.tabDashboard.Controls.Add(Me.txtUnusedPBBalTabDashboard)
+        Me.tabDashboard.Controls.Add(Me.lblBDaysThisMo)
+        Me.tabDashboard.Controls.Add(Me.lblAvgAge)
+        Me.tabDashboard.Controls.Add(Me.lblPercentUsed)
+        Me.tabDashboard.Controls.Add(Me.lblPopularFeat)
+        Me.tabDashboard.Controls.Add(Me.lblAvgPBPerCust)
+        Me.tabDashboard.Controls.Add(Me.lblSumUnusedFeature)
+        Me.tabDashboard.Controls.Add(Me.lblAvgUnusedBal)
+        Me.tabDashboard.Controls.Add(Me.lblMetrics)
         Me.tabDashboard.Controls.Add(Me.lstUsedFeatureTabDashboard)
         Me.tabDashboard.Controls.Add(Me.lblUsedFeatureCountTabDashboard)
         Me.tabDashboard.Controls.Add(Me.txtNumUsedFeatureTabDashboard)
@@ -270,6 +302,24 @@ Partial Class FrmMain
         Me.tabDashboard.Text = "Dashboard"
         Me.ToolTip1.SetToolTip(Me.tabDashboard, "The Dashboard displays key indicators and transaction logs")
         Me.tabDashboard.UseVisualStyleBackColor = True
+        '
+        'lblAvgUnusedBal
+        '
+        Me.lblAvgUnusedBal.AutoSize = True
+        Me.lblAvgUnusedBal.Location = New System.Drawing.Point(32, 417)
+        Me.lblAvgUnusedBal.Name = "lblAvgUnusedBal"
+        Me.lblAvgUnusedBal.Size = New System.Drawing.Size(104, 13)
+        Me.lblAvgUnusedBal.TabIndex = 32
+        Me.lblAvgUnusedBal.Text = "Avg Unused PB Bal:"
+        '
+        'lblMetrics
+        '
+        Me.lblMetrics.AutoSize = True
+        Me.lblMetrics.Location = New System.Drawing.Point(11, 395)
+        Me.lblMetrics.Name = "lblMetrics"
+        Me.lblMetrics.Size = New System.Drawing.Size(41, 13)
+        Me.lblMetrics.TabIndex = 31
+        Me.lblMetrics.Text = "Metrics"
         '
         'lstUsedFeatureTabDashboard
         '
@@ -394,11 +444,11 @@ Partial Class FrmMain
         '
         'txtDetailsTabDashboard
         '
-        Me.txtDetailsTabDashboard.Location = New System.Drawing.Point(15, 336)
+        Me.txtDetailsTabDashboard.Location = New System.Drawing.Point(14, 336)
         Me.txtDetailsTabDashboard.Multiline = True
         Me.txtDetailsTabDashboard.Name = "txtDetailsTabDashboard"
         Me.txtDetailsTabDashboard.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtDetailsTabDashboard.Size = New System.Drawing.Size(443, 140)
+        Me.txtDetailsTabDashboard.Size = New System.Drawing.Size(443, 52)
         Me.txtDetailsTabDashboard.TabIndex = 16
         Me.txtDetailsTabDashboard.WordWrap = False
         '
@@ -1887,11 +1937,141 @@ Partial Class FrmMain
         Me.ToolTip1.SetToolTip(Me.btnProcessTestData, "For testing only. This button will launch a hard-coded test suite. ")
         Me.btnProcessTestData.UseVisualStyleBackColor = True
         '
+        'btnReadFile
+        '
+        Me.btnReadFile.Location = New System.Drawing.Point(102, 596)
+        Me.btnReadFile.Name = "btnReadFile"
+        Me.btnReadFile.Size = New System.Drawing.Size(113, 23)
+        Me.btnReadFile.TabIndex = 5
+        Me.btnReadFile.Text = "Read Data File"
+        Me.btnReadFile.UseVisualStyleBackColor = True
+        '
+        'btnWriteFile
+        '
+        Me.btnWriteFile.Location = New System.Drawing.Point(221, 596)
+        Me.btnWriteFile.Name = "btnWriteFile"
+        Me.btnWriteFile.Size = New System.Drawing.Size(129, 23)
+        Me.btnWriteFile.TabIndex = 6
+        Me.btnWriteFile.Text = "Write Data File"
+        Me.btnWriteFile.UseVisualStyleBackColor = True
+        '
+        'lblSumUnusedFeature
+        '
+        Me.lblSumUnusedFeature.AutoSize = True
+        Me.lblSumUnusedFeature.Location = New System.Drawing.Point(42, 440)
+        Me.lblSumUnusedFeature.Name = "lblSumUnusedFeature"
+        Me.lblSumUnusedFeature.Size = New System.Drawing.Size(94, 13)
+        Me.lblSumUnusedFeature.TabIndex = 33
+        Me.lblSumUnusedFeature.Text = "Sum Unused PBF:"
+        '
+        'lblAvgPBPerCust
+        '
+        Me.lblAvgPBPerCust.AutoSize = True
+        Me.lblAvgPBPerCust.Location = New System.Drawing.Point(23, 463)
+        Me.lblAvgPBPerCust.Name = "lblAvgPBPerCust"
+        Me.lblAvgPBPerCust.Size = New System.Drawing.Size(113, 13)
+        Me.lblAvgPBPerCust.TabIndex = 34
+        Me.lblAvgPBPerCust.Text = "Avg Num PB per Cust:"
+        '
+        'lblAvgAge
+        '
+        Me.lblAvgAge.AutoSize = True
+        Me.lblAvgAge.Location = New System.Drawing.Point(228, 463)
+        Me.lblAvgAge.Name = "lblAvgAge"
+        Me.lblAvgAge.Size = New System.Drawing.Size(51, 13)
+        Me.lblAvgAge.TabIndex = 37
+        Me.lblAvgAge.Text = "Avg Age:"
+        '
+        'lblPercentUsed
+        '
+        Me.lblPercentUsed.AutoSize = True
+        Me.lblPercentUsed.Location = New System.Drawing.Point(194, 440)
+        Me.lblPercentUsed.Name = "lblPercentUsed"
+        Me.lblPercentUsed.Size = New System.Drawing.Size(85, 13)
+        Me.lblPercentUsed.TabIndex = 36
+        Me.lblPercentUsed.Text = "% Feature Used:"
+        '
+        'lblPopularFeat
+        '
+        Me.lblPopularFeat.AutoSize = True
+        Me.lblPopularFeat.Location = New System.Drawing.Point(211, 417)
+        Me.lblPopularFeat.Name = "lblPopularFeat"
+        Me.lblPopularFeat.Size = New System.Drawing.Size(68, 13)
+        Me.lblPopularFeat.TabIndex = 35
+        Me.lblPopularFeat.Text = "Top Feature:"
+        '
+        'lblBDaysThisMo
+        '
+        Me.lblBDaysThisMo.AutoSize = True
+        Me.lblBDaysThisMo.Location = New System.Drawing.Point(360, 417)
+        Me.lblBDaysThisMo.Name = "lblBDaysThisMo"
+        Me.lblBDaysThisMo.Size = New System.Drawing.Size(106, 13)
+        Me.lblBDaysThisMo.TabIndex = 38
+        Me.lblBDaysThisMo.Text = "Birthdays This Month"
+        '
+        'txtUnusedPBBalTabDashboard
+        '
+        Me.txtUnusedPBBalTabDashboard.Location = New System.Drawing.Point(138, 414)
+        Me.txtUnusedPBBalTabDashboard.Name = "txtUnusedPBBalTabDashboard"
+        Me.txtUnusedPBBalTabDashboard.ReadOnly = True
+        Me.txtUnusedPBBalTabDashboard.Size = New System.Drawing.Size(52, 20)
+        Me.txtUnusedPBBalTabDashboard.TabIndex = 39
+        '
+        'txtUnusedPBFTabDashboard
+        '
+        Me.txtUnusedPBFTabDashboard.Location = New System.Drawing.Point(138, 437)
+        Me.txtUnusedPBFTabDashboard.Name = "txtUnusedPBFTabDashboard"
+        Me.txtUnusedPBFTabDashboard.ReadOnly = True
+        Me.txtUnusedPBFTabDashboard.Size = New System.Drawing.Size(52, 20)
+        Me.txtUnusedPBFTabDashboard.TabIndex = 40
+        '
+        'txtAvgNumPBTabDashboard
+        '
+        Me.txtAvgNumPBTabDashboard.Location = New System.Drawing.Point(138, 460)
+        Me.txtAvgNumPBTabDashboard.Name = "txtAvgNumPBTabDashboard"
+        Me.txtAvgNumPBTabDashboard.ReadOnly = True
+        Me.txtAvgNumPBTabDashboard.Size = New System.Drawing.Size(52, 20)
+        Me.txtAvgNumPBTabDashboard.TabIndex = 41
+        '
+        'txtTopFeatureTabDashboad
+        '
+        Me.txtTopFeatureTabDashboad.Location = New System.Drawing.Point(290, 414)
+        Me.txtTopFeatureTabDashboad.Name = "txtTopFeatureTabDashboad"
+        Me.txtTopFeatureTabDashboad.ReadOnly = True
+        Me.txtTopFeatureTabDashboad.Size = New System.Drawing.Size(52, 20)
+        Me.txtTopFeatureTabDashboad.TabIndex = 42
+        '
+        'txtPercentFtrUseTabDashboard
+        '
+        Me.txtPercentFtrUseTabDashboard.Location = New System.Drawing.Point(290, 437)
+        Me.txtPercentFtrUseTabDashboard.Name = "txtPercentFtrUseTabDashboard"
+        Me.txtPercentFtrUseTabDashboard.ReadOnly = True
+        Me.txtPercentFtrUseTabDashboard.Size = New System.Drawing.Size(52, 20)
+        Me.txtPercentFtrUseTabDashboard.TabIndex = 43
+        '
+        'txtAvgAgeTabDashboard
+        '
+        Me.txtAvgAgeTabDashboard.Location = New System.Drawing.Point(290, 460)
+        Me.txtAvgAgeTabDashboard.Name = "txtAvgAgeTabDashboard"
+        Me.txtAvgAgeTabDashboard.ReadOnly = True
+        Me.txtAvgAgeTabDashboard.Size = New System.Drawing.Size(52, 20)
+        Me.txtAvgAgeTabDashboard.TabIndex = 44
+        '
+        'txtBirthdaysTabDashboard
+        '
+        Me.txtBirthdaysTabDashboard.Location = New System.Drawing.Point(385, 440)
+        Me.txtBirthdaysTabDashboard.Name = "txtBirthdaysTabDashboard"
+        Me.txtBirthdaysTabDashboard.ReadOnly = True
+        Me.txtBirthdaysTabDashboard.Size = New System.Drawing.Size(52, 20)
+        Me.txtBirthdaysTabDashboard.TabIndex = 45
+        '
         'FrmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(705, 631)
+        Me.Controls.Add(Me.btnWriteFile)
+        Me.Controls.Add(Me.btnReadFile)
         Me.Controls.Add(Me.btnProcessTestData)
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.tbcMainActivities)
@@ -2096,4 +2276,21 @@ Partial Class FrmMain
     Friend WithEvents txtNewQtyRemainingTabUpdatePassbook As TextBox
     Friend WithEvents lblLocUsedTabUpdatePassbook As Label
     Friend WithEvents lstLocUsedTabUpdatePassbook As ListBox
+    Friend WithEvents lblMetrics As Label
+    Friend WithEvents btnReadFile As Button
+    Friend WithEvents btnWriteFile As Button
+    Friend WithEvents lblAvgUnusedBal As Label
+    Friend WithEvents txtBirthdaysTabDashboard As TextBox
+    Friend WithEvents txtAvgAgeTabDashboard As TextBox
+    Friend WithEvents txtPercentFtrUseTabDashboard As TextBox
+    Friend WithEvents txtTopFeatureTabDashboad As TextBox
+    Friend WithEvents txtAvgNumPBTabDashboard As TextBox
+    Friend WithEvents txtUnusedPBFTabDashboard As TextBox
+    Friend WithEvents txtUnusedPBBalTabDashboard As TextBox
+    Friend WithEvents lblBDaysThisMo As Label
+    Friend WithEvents lblAvgAge As Label
+    Friend WithEvents lblPercentUsed As Label
+    Friend WithEvents lblPopularFeat As Label
+    Friend WithEvents lblAvgPBPerCust As Label
+    Friend WithEvents lblSumUnusedFeature As Label
 End Class
