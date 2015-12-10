@@ -662,6 +662,74 @@ Public Class ThemePark
 
     End Function 'updatePassbookFeature()
 
+    ''' <summary>
+    ''' Calculates the top feature in the park based on occurances
+    ''' </summary>
+    ''' <returns>String representation of top feature</returns>
+    Public Function calcTopFeature() _
+        As String
+
+        'Return the results of the private function
+        Return _calcTopFeature()
+
+    End Function 'calcTopFeature
+
+    ''' <summary>
+    ''' Calculates the number of vistors with birthdays today
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function calcBirthdaysInMonth() As Integer
+        'Return the results of private function
+        Return _calcBirthdaysInMonth()
+    End Function 'calcBirthdaysInMonth()
+
+    ''' <summary>
+    ''' Returns the average age of passbook visitors
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function calcAvgAge() As Integer
+        'Return the results of the private function
+        Return _calcAvgAge()
+    End Function 'calcAvgAge()
+
+    ''' <summary>
+    ''' Returns the average number of passbooks per customer
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function calcAvgPBperCust() As Double
+        'Return the results of the private function
+        Return _calcAvgPBperCust()
+    End Function 'calcAvgPBperCust()
+
+
+    ''' <summary>
+    ''' Returns the sum of the unused passbook features in dollars
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function calcSumUnusedPBF() As Double
+        'Return the results of the private function
+        Return _calcSumUnusedPBF()
+    End Function 'calcSumUnusedPBF()
+
+
+    ''' <summary>
+    ''' Returns the sum of the average unused feature balance per passbook
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function calcAvgUnusedPBFBal() As Double
+        'Return the results of the private function
+        Return _calcAvgUnusedPBFBal()
+    End Function 'calcAvgUnusedPBFBal()
+
+    ''' <summary>
+    ''' Returns the ratio of features used / features purchased (dollar ratio)
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function calcPercentFeatUse() As Double
+        'Return the results of the private function
+        Return _calcPercentFeatUse()
+    End Function 'calcPercentFeatUse()
+
     '********** Private Non-Shared Behavioral Methods
 
     ''' <summary>
@@ -1070,7 +1138,7 @@ Public Class ThemePark
     ''' <summary>
     ''' Updates a new PassbookFeature object, increases passbookFeature count
     ''' </summary>
-    Public Function _updatePassbookFeature(ByVal pPassbookFeature As PassbookFeature,
+    Private Function _updatePassbookFeature(ByVal pPassbookFeature As PassbookFeature,
                                            ByVal pUpdatedDate As Date,
                                            ByVal pUpdatedQty As Decimal) _
         As PassbookFeature
@@ -1090,6 +1158,193 @@ Public Class ThemePark
         Return (pPassbookFeature)
 
     End Function 'updatePassbookFeature()
+
+    ''' <summary>
+    ''' Calculates the most popular feature based on occurances
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function _calcTopFeature() _
+        As String
+
+        Dim CurrentTopFeature As Feature
+        Dim countTopFeature As Integer = 0
+        Dim countTempFeature As Integer
+        Dim i As Integer
+
+        CurrentTopFeature = Nothing
+
+        'Initialize
+        countTopFeature = 0
+
+        For i = 0 To mNumFeatures - 1
+            countTempFeature = 0
+            For j = 0 To mNumPassbookFeatures - 1
+                'loop through existing passbook features and count occurances
+                If ithPassbookFeature(j).passbookFeatureID = ithFeature(i).featureID Then
+                    countTempFeature += 1
+                End If
+            Next
+
+            'Now loop through the used features, and count occurence there
+            For j = 0 To mNumUsedFeatures - 1
+                If ithUsedFeature(j).usedPassbookFeature.feature.featureID = ithFeature(i).featureID Then
+                    countTempFeature += 1
+                End If
+            Next
+
+            'If the current count is more than the saved count, update the feature name
+            'and count
+            If countTempFeature > countTopFeature Then
+                CurrentTopFeature = ithFeature(i)
+                countTopFeature = countTempFeature
+            End If
+
+        Next i
+
+        If countTopFeature = 0 Then
+            Return "n.a"
+        End If
+
+        Return CurrentTopFeature.featureID
+
+    End Function '_calcTopFeature()
+
+    ''' <summary>
+    ''' Calculates the number of birthdays today
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function _calcBirthdaysInMonth() As Integer
+
+        Dim numBirthdays As Integer
+        Dim curPassbook As Passbook
+        Dim i As Integer
+
+        'We have to have a passbook in the first place
+        If mNumPassbooks = 0 Then
+            Return 0
+        End If
+
+        numBirthdays = 0
+        For i = 0 To mNumPassbooks - 1
+            curPassbook = ithPassbook(i)
+            If Month(curPassbook.passbookVisitorBirthdate) = Month(Now) Then
+                numBirthdays += 1
+            End If
+        Next i
+    End Function '_calcBirthdaysInMonth()
+
+    ''' <summary>
+    ''' Calculates Average Passbook Vistor Age
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function _calcAvgAge() As Integer
+
+        Dim totalAge As Integer = 0
+        Dim i As Integer
+
+        'Protect against divide by zero
+        If mNumPassbooks = 0 Then
+            Return 0
+        End If
+
+        For i = 0 To mNumPassbooks - 1
+            totalAge = totalAge + ithPassbook(i).age
+        Next
+
+        Return (CInt(totalAge / mNumPassbooks))
+    End Function '_calcAvgAge()
+
+    ''' <summary>
+    ''' Calculates the average number of passbooks per customer
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function _calcAvgPBperCust() As Double
+        'Protect against divide by zero
+        If mNumCustomers = 0 Then
+            Return 0.0
+        End If
+
+        Return (mNumPassbooks / mNumCustomers)
+    End Function '_calcAvgPBperCust()
+
+    ''' <summary>
+    ''' Calculates the sum, in dollars of unused passbook features
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function _calcSumUnusedPBF() As Double
+
+        Dim dollarTotal As Double = 0
+        Dim currentPBF As PassbookFeature
+        Dim i As Integer
+
+        If mNumPassbookFeatures = 0 Then
+            Return dollarTotal
+        End If
+
+        For i = 0 To mNumPassbookFeatures - 1
+            currentPBF = ithPassbookFeature(i)
+            If currentPBF.passbook.isChild Then
+                dollarTotal += currentPBF.passbookFeatureQtyRemaining * currentPBF.feature.featureChildPrice
+            Else
+                dollarTotal += currentPBF.passbookFeatureQtyRemaining * currentPBF.feature.featureAdultPrice
+            End If
+        Next
+
+        Return dollarTotal
+
+    End Function '_calcSumUnusedPBF()
+
+    ''' <summary>
+    ''' Returns the average unused passbook feature balance per passbook
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function _calcAvgUnusedPBFBal() As Double
+
+        Dim totalUnusedFeatureBal As Double = 0
+
+        'Protect against divide by zero
+        If mNumPassbooks = 0 Then
+            Return 0
+        End If
+
+        Return (_calcSumUnusedPBF() / mNumPassbooks)
+    End Function '_calcAvgUnusedPBFBal() 
+
+    ''' <summary>
+    ''' Returns the ratio of total dollars used / total dollars purchased
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function _calcPercentFeatUse() As Double
+
+        Dim totalDollarsPurchased As Double = 0
+        Dim totalDollarsUsed As Double = 0
+        Dim thePassbookFeature As PassbookFeature
+        Dim theUsedFeature As UsedFeature
+        Dim i As Integer
+
+        'Calculate total dollars purchased
+        For i = 0 To mNumPassbookFeatures - 1
+            thePassbookFeature = ithPassbookFeature(i)
+            totalDollarsPurchased += thePassbookFeature.passbookFeatureAmt
+        Next i
+
+        'Calculate the total dollars used
+        For i = 0 To mNumUsedFeatures - 1
+            theUsedFeature = ithUsedFeature(i)
+            If theUsedFeature.usedPassbookFeature.passbook.isChild Then
+                totalDollarsUsed += theUsedFeature.usedQty * theUsedFeature.usedPassbookFeature.feature.featureChildPrice
+            Else
+                totalDollarsUsed += theUsedFeature.usedQty * theUsedFeature.usedPassbookFeature.feature.featureAdultPrice
+            End If
+        Next
+
+        'Check for divide by zero
+        If totalDollarsPurchased = 0 Then
+            Return 0
+        End If
+
+        Return 100 * (totalDollarsUsed / totalDollarsPurchased)
+    End Function '_calcPercentFeatureUse()
 
 #End Region 'Behavioral Methods
 

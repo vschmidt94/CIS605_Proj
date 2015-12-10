@@ -136,6 +136,15 @@ Public Class FrmMain
         cboPassbookIDTabPostUsedFeature.Items.Clear()
         cboPassbookTabUpdatePassbook.Items.Clear()
 
+        'Zero the metrics
+        txtAvgAgeTabDashboard.Text = "0"
+        txtAvgNumPBTabDashboard.Text = "0"
+        txtAvgUnusedPBBalTabDashboard.Text = "0"
+        txtBirthdaysTabDashboard.Text = "0"
+        txtTopFeatureTabDashboad.Text = "n.a"
+        txtPercentFtrUseTabDashboard.Text = "n.a"
+        txtUnusedPBFTabDashboard.Text = "0"
+
         'Log the initialization
         txtTrxLogTabLog.Text &= vbCrLf & CType(TimeValue(CType(Now, String)), String) _
             & " - User Interface Intialized" _
@@ -607,7 +616,10 @@ Public Class FrmMain
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub btnCancelTabBuyFeature_Click(sender As Object, e As EventArgs) Handles btnCancelTabBuyFeature.Click
+    Private Sub btnCancelTabBuyFeature_Click(
+            sender As Object,
+            e As EventArgs) _
+        Handles btnCancelTabBuyFeature.Click
 
         'Clear text fields
         txtPassbookStringTabBuyFeature.ResetText()
@@ -754,6 +766,7 @@ Public Class FrmMain
 
         'Declare variables
         Dim thePassbookFeature As PassbookFeature
+        Dim thePassbook As Passbook
         Dim thePBFeatureID As String
         Dim thePassbookID As String
         Dim theFeatureID As String
@@ -1034,6 +1047,13 @@ Public Class FrmMain
         Dim theChangeCost As Decimal
         Dim theNewQtyRemaining As Decimal
         Dim theFeatureID As String
+        Dim thePassbookFeature As PassbookFeature
+        Dim thePassbook As Passbook
+
+        If lstFeatureUpdateTabUpdatePassbook.SelectedIndex = -1 Then
+            MessageBox.Show("Please Choose a feature to update")
+            Exit Sub
+        End If
 
 
         Try
@@ -1051,11 +1071,99 @@ Public Class FrmMain
             Exit Sub
         End If
 
+        If cboPassbookTabUpdatePassbook.SelectedIndex = -1 Then
+            Exit Sub
+        End If
+
+        thePassbook = mThemePark.ithPassbook(cboPassbookTabUpdatePassbook.SelectedIndex)
+
         theFeatureID = lstFeatureUpdateTabUpdatePassbook.SelectedItem.ToString
 
+        For i = 0 To mThemePark.numPassbookFeatures - 1
+            thePassbookFeature = mThemePark.ithPassbookFeature(i)
+            If thePassbookFeature.passbookFeatureID = theFeatureID Then
+                'We have a match, stop looking
+                Exit For
+            End If
+        Next
 
+        'Find that feature in the passbook features list for this passbook
+        theChangeCost = (theNewQtyRemaining - thePassbookFeature.passbookFeatureQtyRemaining)
+        If thePassbook.isChild Then
+            theChangeCost *= thePassbookFeature.feature.featureChildPrice
+        Else
+            theChangeCost *= thePassbookFeature.feature.featureAdultPrice
+        End If
+
+        txtCostChangeTabUpdatePassbook.Text = theChangeCost.ToString("C2")
 
     End Sub 'txtNewQtyRemainingTabUpdatePassbook_TextChanged()
+
+    ''' <summary>
+    ''' Updates a passbook feature
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub btnAcceptTabUpdatePassbook_Click(
+            sender As Object,
+            e As EventArgs) _
+        Handles btnAcceptTabUpdatePassbook.Click
+
+        'Declare variables
+        Dim newQtyRemaining As Decimal
+        Dim thePassbook As Passbook
+        Dim theFeatureID As String
+        Dim thePassbookFeature As PassbookFeature
+        Dim theDifference As Decimal
+
+        'Make sure we are reasonably valid to do this
+        If (cboPassbookTabUpdatePassbook.SelectedIndex = -1) Then
+            MessageBox.Show("Must select a passbook")
+            Exit Sub
+        End If
+
+        If (lstFeatureUpdateTabUpdatePassbook.SelectedIndex = -1) Then
+            MessageBox.Show("Must select a passbook feature")
+            Exit Sub
+        End If
+
+        thePassbook = mThemePark.ithPassbook(cboPassbookTabUpdatePassbook.SelectedIndex)
+
+        theFeatureID = lstFeatureUpdateTabUpdatePassbook.SelectedItem.ToString
+
+        For i = 0 To mThemePark.numPassbookFeatures - 1
+            thePassbookFeature = mThemePark.ithPassbookFeature(i)
+            If thePassbookFeature.passbookFeatureID = theFeatureID Then
+                'We have a match, stop looking
+                Exit For
+            End If
+        Next
+        Try
+            newQtyRemaining = Decimal.Parse(txtNewQtyRemainingTabUpdatePassbook.Text)
+        Catch ex As Exception
+            MessageBox.Show("Must have a valid qty!")
+            txtNewQtyRemainingTabUpdatePassbook.SelectAll()
+            txtNewQtyRemainingTabUpdatePassbook.Focus()
+            Exit Sub
+        End Try
+
+        If newQtyRemaining = thePassbookFeature.passbookFeatureQtyRemaining Then
+            MessageBox.Show("There is no difference in the new qty remaining")
+            txtNewQtyRemainingTabUpdatePassbook.SelectAll()
+            txtNewQtyRemainingTabUpdatePassbook.Focus()
+            Exit Sub
+        End If
+
+        theDifference = newQtyRemaining - thePassbookFeature.passbookFeatureQtyRemaining
+        'If Here we can update the qty
+        thePassbookFeature.passbookFeatureQtyRemaining = newQtyRemaining
+        If thePassbookFeature.passbook.isChild Then
+            thePassbookFeature.passbookFeatureAmt += theDifference * thePassbookFeature.feature.featureChildPrice
+        Else
+            thePassbookFeature.passbookFeatureAmt += theDifference * thePassbookFeature.feature.featureAdultPrice
+        End If
+
+    End Sub 'btnAcceptTabUpdatePassbook_Click(
 
     Private Sub btnReadFile_Click(sender As Object, e As EventArgs) _
         Handles btnReadFile.Click
@@ -1364,6 +1472,37 @@ Public Class FrmMain
 
     End Sub '_txtTrxLogTabChanged()
 
+    ''' <summary>
+    ''' Catches all primary business logic events in order to refresh dashboards metrics.
+    ''' 
+    ''' NOTE: I'm certain this is not the most efficient way to do this, as it results in
+    ''' a lot of needless computation depending on what the event is.
+    ''' However, due to time crunch - I am going brute force here.
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub _recalculateMetric_OnEvent(
+            ByVal sender As Object,
+            ByVal e As EventArgs
+            ) _
+        Handles mThemePark.ThemePark_CustomerAdded,
+                mThemePark.ThemePark_FeatureAdded,
+                mThemePark.ThemePark_PassbookAdded,
+                mThemePark.ThemePark_PassbookFeatureAdded,
+                mThemePark.ThemePark_PassbookFeatureUpdated,
+                mThemePark.ThemePark_UsedFeatureAdded
+
+        txtBirthdaysTabDashboard.Text = mThemePark.calcBirthdaysInMonth().ToString
+        txtTopFeatureTabDashboad.Text = mThemePark.calcTopFeature()
+        txtAvgAgeTabDashboard.Text = mThemePark.calcAvgAge.ToString
+        txtAvgNumPBTabDashboard.Text = mThemePark.calcAvgPBperCust.ToString("N2")
+        txtUnusedPBFTabDashboard.Text = mThemePark.calcSumUnusedPBF().ToString("C2")
+        txtAvgUnusedPBBalTabDashboard.Text = mThemePark.calcAvgUnusedPBFBal().ToString("C2")
+        txtPercentFtrUseTabDashboard.Text = mThemePark.calcPercentFeatUse().ToString("N1")
+        txtPercentFtrUseTabDashboard.Text &= " %"
+
+    End Sub
+
 
     '********** Business Logic Event Procedures
     '             - Initiated as a result of business logic
@@ -1579,6 +1718,8 @@ Public Class FrmMain
             & vbCrLf
 
     End Sub '_passbookFeatureAdded()
+
+
 
 
 

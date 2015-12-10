@@ -194,7 +194,12 @@ Public Class Passbook
 
     Private ReadOnly Property _age() As Integer
         Get
-            Return CInt(DateDiff(DateInterval.Year, mPassbookVisitorBirthdate, Now))
+            Dim numDays As Integer
+            Dim Age As Integer
+
+            numDays = CInt(DateDiff(DateInterval.Day, mPassbookVisitorBirthdate, Now))
+            Age = CInt(numDays \ 365)
+            Return Age
         End Get
     End Property '_age()
 
